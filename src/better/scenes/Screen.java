@@ -5,6 +5,7 @@
  */
 package better.scenes;
 
+import better.core.GameObject;
 import better.ui.UIControl;
 import java.awt.Graphics2D;
 import java.util.HashMap;
@@ -15,9 +16,11 @@ import java.util.HashMap;
  */
 public abstract class Screen {
     protected HashMap<String, UIControl> uiControls;
+    protected HashMap<String, GameObject> objects;
     
     public Screen() {
         uiControls = new HashMap<>(); 
+        objects = new HashMap<>();
     }
     
     public abstract void init();

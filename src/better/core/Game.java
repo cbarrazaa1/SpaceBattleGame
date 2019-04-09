@@ -3,8 +3,8 @@ package better.core;
 import better.assets.Assets;
 import better.input.MouseManager;
 import better.input.KeyManager;
+import better.scenes.MainMenuScreen;
 import better.scenes.Screen;
-import better.scenes.TestScreen;
 import better.ui.OnClickListener;
 import better.ui.UIButton;
 import better.ui.UILabel;
@@ -98,7 +98,7 @@ public class Game implements Runnable {
         Assets.init();
         
         // set initial screen
-        currentScreen = TestScreen.getInstance();
+        currentScreen = MainMenuScreen.getInstance();
         getCurrentScreen().init();
         screenTimer = new Timer(0.03d);
         isChangingScreen = false;
@@ -154,7 +154,7 @@ public class Game implements Runnable {
         } else {
             // clear screen
             Graphics2D g = (Graphics2D)bs.getDrawGraphics();
-            getDisplay().clear(g, new Color(0.392f, 0.584f, 0.9299f, 1.0f));
+            getDisplay().clear(g, new Color(13f / 255.0f, 0f, 83f / 255f, 1.0f));
             
             // render current screen
             getCurrentScreen().render(g);

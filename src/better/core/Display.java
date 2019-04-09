@@ -109,6 +109,7 @@ public class Display {
         canvas.setMaximumSize(new Dimension(getWidth(), getHeight()));
         canvas.setFocusable(false);
 
+        
         // add the canvas to the window
         window.add(canvas);
         window.pack();
