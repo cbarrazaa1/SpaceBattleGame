@@ -37,16 +37,16 @@ public class Player extends GameObject {
 
     @Override
     public void render(Graphics2D g) {
-        AffineTransform orig = g.getTransform();
-        g.translate(getX(), getY());
-        g.rotate(theta, getWidth() / 2, getHeight() / 2);
-        g.drawImage(Assets.mainPlayer, 0, 0, (int)(getWidth()), (int)(getHeight()), null);
-        g.setTransform(orig);
-        
         // render every shot
         for (int i = 0; i < shots.size(); i++){
             shots.get(i).render(g);
         }
+        
+        AffineTransform orig = g.getTransform();
+        g.translate(getX(), getY());
+        g.rotate(theta, getWidth() / 2, getHeight() / 2);
+        g.drawImage(Assets.mainPlayer, 0, 0, (int)(getWidth()), (int)(getHeight()), null);
+        g.setTransform(orig);        
     }
 
     @Override
