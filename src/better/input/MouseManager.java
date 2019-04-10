@@ -17,8 +17,8 @@ public class MouseManager implements MouseListener, MouseMotionListener {
     /**
      * The mouse coordinates in the screen.
      */
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     
     /**
      * Arrays that hold the state of all possible buttons.
@@ -37,28 +37,28 @@ public class MouseManager implements MouseListener, MouseMotionListener {
     /**
      * @return the x coordinate
      */
-    public int getX() {
+    public double getX() {
         return x;
     }
 
     /**
      * @param x the new x coordinate
      */
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
     /**
      * @return the y coordinate
      */
-    public int getY() {
+    public double getY() {
         return y;
     }
 
     /**
      * @param y the new y coordinate
      */
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
     

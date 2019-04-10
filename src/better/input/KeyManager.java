@@ -36,6 +36,8 @@ public class KeyManager implements KeyListener {
         // add keys that will be used by the game
         keysInUse.add(KeyEvent.VK_LEFT);
         keysInUse.add(KeyEvent.VK_RIGHT);
+        keysInUse.add(KeyEvent.VK_UP);
+        keysInUse.add(KeyEvent.VK_DOWN);
         keysInUse.add(KeyEvent.VK_P);
         keysInUse.add(KeyEvent.VK_R);
         keysInUse.add(KeyEvent.VK_C);
