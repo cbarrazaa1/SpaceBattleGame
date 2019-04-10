@@ -5,7 +5,7 @@ import better.input.MouseManager;
 import better.input.KeyManager;
 import better.scenes.MainMenuScreen;
 import better.scenes.Screen;
-import better.ui.OnClickListener;
+import better.game.OnClickListener;
 import better.ui.UIButton;
 import better.ui.UILabel;
 import java.awt.AlphaComposite;

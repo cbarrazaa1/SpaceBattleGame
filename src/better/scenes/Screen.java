@@ -5,7 +5,7 @@
  */
 package better.scenes;
 
-import better.core.GameObject;
+import better.game.GameObject;
 import better.ui.UIControl;
 import java.awt.Graphics2D;
 import java.util.HashMap;

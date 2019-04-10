@@ -6,7 +6,6 @@
 package better.game;
 
 import better.core.Game;
-import better.core.GameObject;
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Graphics2D;
@@ -26,6 +25,7 @@ public class SelectablePlanet extends GameObject {
         super(x, y, width, height);
         this.normalImg = normalImg;
         this.shadowImg = shadowImg;
+        locked = true;
     }
     
     public void setNormalImg(BufferedImage normalImg) {
@@ -57,11 +57,21 @@ public class SelectablePlanet extends GameObject {
 
     @Override
     public void update() {
-        if(Game.getMouseManager().intersects((int)getX(), (int)getY(), (int)getWidth(), (int)getHeight())) {
-            if(Game.getMouseManager().isButtonReleased(MouseEvent.BUTTON1)) {
-                setLocked(!isLocked());
-            }
-        }
+        super.update();
     }
-    
+
+    @Override
+    public void onClick() { }
+
+    @Override
+    public void mouseEnter() { }
+
+    @Override
+    public void mouseLeave() { }
+
+    @Override
+    public void mouseDown() { }
+
+    @Override
+    public void mouseUp() { }  
 }

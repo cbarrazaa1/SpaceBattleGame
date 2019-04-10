@@ -7,7 +7,7 @@ package better.scenes;
 
 import better.assets.Assets;
 import better.core.Game;
-import better.core.Player;
+import better.game.Player;
 import better.ui.UIButton;
 import better.ui.UIControl;
 import better.ui.UILabel;
@@ -20,9 +20,7 @@ import java.util.Map;
  * @author Cesar Barraza
  */
 public class MainMenuScreen extends Screen {
-    private static MainMenuScreen instance;
-    private Player player;
-    
+    private static MainMenuScreen instance;    
     public static MainMenuScreen getInstance() {
         if(instance == null) {
             instance = new MainMenuScreen();
@@ -48,9 +46,6 @@ public class MainMenuScreen extends Screen {
             System.exit(0);
         });
         
-        // player initialized //// TEST
-        player = new Player(100, 100, 100, 100);
-        
         uiControls.put("lblTitle", lblTitle);
         uiControls.put("btnNewGame", btnNewGame);
         uiControls.put("btnLoadGame", btnLoadGame);
@@ -63,9 +58,7 @@ public class MainMenuScreen extends Screen {
     public void render(Graphics2D g) {
         // render background
         g.drawImage(Assets.mainMenuBackground, 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
-        // render player ////// TEST
-        player.render(g);
-        ///////////////////
+
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
             String key = entry.getKey();
             UIControl val = entry.getValue();
@@ -83,9 +76,6 @@ public class MainMenuScreen extends Screen {
 
     @Override
     public void update() {
-        /////// PLAYER TEST
-        player.update();
-        //////////
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
             entry.getValue().update();
         }
