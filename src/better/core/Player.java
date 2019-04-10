@@ -7,6 +7,10 @@ package better.core;
 
 import java.awt.Graphics2D;
 import better.assets.Assets;
+import static java.awt.event.KeyEvent.VK_DOWN;
+import static java.awt.event.KeyEvent.VK_LEFT;
+import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_UP;
 import java.awt.geom.AffineTransform;
 /**
  *
@@ -33,14 +37,26 @@ public class Player extends GameObject{
 
     @Override
     public void update() {
-        double deltaX = (y+getHeight()/2)-Game.getMouseManager().getX();
-        double deltaY = (x+getWidth()/2)-Game.getMouseManager().getY();
+        double deltaX = Game.getMouseManager().getX()-(x+getHeight()/2);
+        double deltaY = Game.getMouseManager().getY()-(y+getWidth()/2);
         theta = Math.atan2(deltaY, deltaX);
-        theta -= Math.PI/2;
+        theta += Math.PI/2;
         
-        //System.out.println("theta: " + theta);
-        //System.out.println("x: " + Game.getMouseManager().getX());
-        //System.out.println("y: " + Game.getMouseManager().getY());
+        if (Game.getKeyManager().isKeyDown(VK_UP)){
+            setY(getY()-3);
+        }
+        if (Game.getKeyManager().isKeyDown(VK_DOWN)){
+            setY(getY()+3);
+        }
+        if (Game.getKeyManager().isKeyDown(VK_LEFT)){
+            setX(getX()-3);
+        }
+        if (Game.getKeyManager().isKeyDown(VK_RIGHT)){
+            setX(getX()+3);
+        }
+        System.out.println("theta: " + theta*(180/Math.PI));
+        System.out.println("x: " + deltaX);
+        System.out.println("y: " + deltaY);
     }
     
 }
