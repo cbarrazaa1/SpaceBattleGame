@@ -33,7 +33,7 @@ public class Player extends GameObject {
         AffineTransform orig = g.getTransform();
         g.translate(getX(), getY());
         g.rotate(theta, getWidth() / 2, getHeight() / 2);
-        g.drawImage(Assets.mainPlayer, 0, 0, 100, 100, null);
+        g.drawImage(Assets.mainPlayer, 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         g.setTransform(orig);
     }
 
