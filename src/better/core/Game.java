@@ -36,7 +36,7 @@ public class Game implements Runnable {
     private static Screen nextScreen; // determines screen that will appear after fading
     private float fadeAlpha; // determines how much of the fade is visible
     private static float fadeDelta; // determines how fast the screen fades
-    
+
     /**
      * Initializes the game object with the desired display properties.
      *
