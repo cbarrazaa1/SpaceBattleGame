@@ -14,6 +14,7 @@ import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_LEFT;
 import static java.awt.event.KeyEvent.VK_RIGHT;
 import static java.awt.event.KeyEvent.VK_UP;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 /**
@@ -74,7 +75,7 @@ public class Player extends GameObject {
         }
         
         // this controls the shots of the player
-        if (Game.getKeyManager().isKeyDown(KeyEvent.VK_SPACE) && !isShooting()){
+        if (Game.getMouseManager().isButtonDown(MouseEvent.BUTTON1)&& !isShooting()){
             shots.add(new PlayerShot(getX()+getWidth()/2, getY()+getHeight()/2, 10, 10, theta));
             setShooting(true);
             setShotTimer(20);
