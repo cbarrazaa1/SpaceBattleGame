@@ -38,6 +38,7 @@ public class Assets {
     public static BufferedImage neptuneBlack;
     public static BufferedImage sunBlack;
     public static BufferedImage mainPlayer;
+    public static BufferedImage playerShot1;
     
     /**
      * Audio that will be used by the game.
@@ -71,5 +72,6 @@ public class Assets {
         neptuneBlack = ImageLoader.loadImage("/images/neptuneblack.png");
         sunBlack = ImageLoader.loadImage("/images/sunblack.png");
         mainPlayer = ImageLoader.loadImage("/images/SpaceShipv1.png");
+        playerShot1 = ImageLoader.loadImage("/images/BulletGoodv1.png");
     }
 }
