@@ -32,9 +32,15 @@ public class MainMenuScreen extends Screen {
     @Override
     public void init() {
         UIButton btnNewGame = new UIButton(302, 160, 205, 56, Assets.images.get("NewGameButton"));
+        btnNewGame.setOnClickListener(() -> {
+            Game.setCurrentScreen(ChoosePalScreen.getInstance());
+        });
         UIButton btnLoadGame = new UIButton(302, 232, 205, 56, Assets.images.get("LoadGameButton"));
         UIButton btnOptions = new UIButton(302, 304, 205, 56, Assets.images.get("OptionsButton"));
         UIButton btnExit = new UIButton(302, 386, 205, 56, Assets.images.get("ExitButton"));
+        btnExit.setOnClickListener(() -> {
+            System.exit(0);
+        });
 
         uiControls.put("btnNewGame", btnNewGame);
         uiControls.put("btnLoadGame", btnLoadGame);

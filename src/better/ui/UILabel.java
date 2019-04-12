@@ -14,7 +14,7 @@ import java.awt.Graphics2D;
  * @author Cesar Barraza
  */
 public class UILabel extends UIControl {
-    public static Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 16);
+    public static Font DEFAULT_FONT = new Font("Rockwell", Font.PLAIN, 16);
     
     private String text;
     private Font font;
