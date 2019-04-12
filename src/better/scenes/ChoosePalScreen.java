@@ -30,29 +30,11 @@ public class ChoosePalScreen extends Screen {
     
     @Override
     public void init() {
-        int w = Game.getDisplay().getWidth();
-        int h = Game.getDisplay().getHeight();
-        UILabel lblTitle = new UILabel(0, 30, "CHOOSE YOUR PAL", Color.WHITE, UILabel.DEFAULT_FONT);
-        lblTitle.setFontSize(60);
-        
-        UIButton btnNext = new UIButton((w - 300) - 20, (h - 70) - 20, 300, 70, Color.BLACK, "Confirm");
-        btnNext.setOnClickListener(() -> {
-            Game.setCurrentScreen(LevelSelectScreen.getInstance());
-        });
-        UIButton btnBack = new UIButton(20, (h - 70) - 20, 300, 70, Color.BLACK, "Go Back");
-        btnBack.setOnClickListener(() -> {
-            Game.setCurrentScreen(MainMenuScreen.getInstance());
-        });
-        uiControls.put("lblTitle", lblTitle);
-        uiControls.put("btnNext", btnNext);
-        uiControls.put("btnBack", btnBack);
+
     }
 
     @Override
     public void render(Graphics2D g) {
-        // render background
-        g.drawImage(Assets.mainMenuBackground, 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
-        
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
             String key = entry.getKey();
             UIControl val = entry.getValue();

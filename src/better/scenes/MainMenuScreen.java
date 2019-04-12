@@ -31,45 +31,26 @@ public class MainMenuScreen extends Screen {
     
     @Override
     public void init() {
-        int w = Game.getDisplay().getWidth();
-        UILabel lblTitle = new UILabel(0, 50, "SPACEMANIA", Color.WHITE, UILabel.DEFAULT_FONT);
-        lblTitle.setFontSize(70);
-        
-        UIButton btnNewGame = new UIButton((w / 2) - (350 / 2), 160, 350, 70, Color.BLUE, "New Game");
-        btnNewGame.setOnClickListener(() -> {
-            Game.setCurrentScreen(ChoosePalScreen.getInstance());
-        });
-        UIButton btnLoadGame = new UIButton((w / 2) - (350 / 2), 260, 350, 70, Color.BLUE, "Load Game");
-        UIButton btnOptions = new UIButton((w / 2) - (350 / 2), 360, 350, 70, Color.WHITE, "Options");
-        UIButton btnExitGame = new UIButton((w / 2) - (350 / 2), 460, 350, 70, Color.RED, "Exit");
-        btnExitGame.setOnClickListener(() -> {
-            System.exit(0);
-        });
-        
-        uiControls.put("lblTitle", lblTitle);
+        UIButton btnNewGame = new UIButton(302, 160, 205, 56, Assets.images.get("NewGameButton"));
+        UIButton btnLoadGame = new UIButton(302, 232, 205, 56, Assets.images.get("LoadGameButton"));
+        UIButton btnOptions = new UIButton(302, 304, 205, 56, Assets.images.get("OptionsButton"));
+        UIButton btnExit = new UIButton(302, 386, 205, 56, Assets.images.get("ExitButton"));
+
         uiControls.put("btnNewGame", btnNewGame);
         uiControls.put("btnLoadGame", btnLoadGame);
         uiControls.put("btnOptions", btnOptions);
-        uiControls.put("btnExitGame", btnExitGame);
-        
+        uiControls.put("btnExitGame", btnExit);
     }
 
     @Override
     public void render(Graphics2D g) {
-        // render background
-        g.drawImage(Assets.mainMenuBackground, 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
-
+        g.drawImage(Assets.images.get("MenuBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
+        
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
             String key = entry.getKey();
             UIControl val = entry.getValue();
-            int w = Game.getDisplay().getWidth();
             
             val.render(g);
-            
-            if(key.equals("lblTitle")) {
-                UILabel lbl = (UILabel)val;
-                lbl.setX((w / 2) - (lbl.getWidth() / 2));
-            }
         }
         
     }
