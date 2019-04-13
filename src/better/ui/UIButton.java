@@ -54,6 +54,9 @@ public class UIButton extends UIControl {
                 break;
         }
         
+        if(!isEnabled()) {
+            toRender = clickImg;
+        }
         g.drawImage(toRender, (int)getX(), (int)getY(), (int)getWidth(), (int)getHeight(), null);
     }
 

@@ -33,11 +33,13 @@ public class LevelSelectScreen extends Screen {
     
     @Override
     public void init() {
-        
+        //UIButton btnPlayLevel = new UIButton(48, 90, );
     }
 
     @Override
     public void render(Graphics2D g) {
+        g.drawImage(Assets.images.get("LevelSelectBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
+        
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
             String key = entry.getKey();
             UIControl val = entry.getValue();

@@ -80,6 +80,7 @@ public class ChoosePalScreen extends Screen {
         });
         
         UIButton btnConfirm = new UIButton(578, 503, 205, 56, Assets.images.get("PalScreenConfirm"));
+        btnConfirm.setEnabled(false);
         btnConfirm.setOnClickListener(() -> {
             Game.setCurrentScreen(LevelSelectScreen.getInstance());
         });
@@ -101,6 +102,7 @@ public class ChoosePalScreen extends Screen {
             UILabel lbl = (UILabel)uiControls.get("lblSelectedPal");
             lbl.setText("YOTH");
             lbl.setColor(Color.RED);
+            btnConfirm.setEnabled(true);
         });
         
         SelectablePal lakPal = new SelectablePal(332, 167, 135, 162, Assets.images.get("LakSelected"));
@@ -111,6 +113,7 @@ public class ChoosePalScreen extends Screen {
             UILabel lbl = (UILabel)uiControls.get("lblSelectedPal");
             lbl.setText("LAK");
             lbl.setColor(new Color(145f / 255f, 237f / 255f, 108f / 255f, 1f));
+            btnConfirm.setEnabled(true);
         });
         
         SelectablePal adaPal = new SelectablePal(583, 192, 126, 137, Assets.images.get("AdaSelected"));
@@ -121,6 +124,7 @@ public class ChoosePalScreen extends Screen {
             UILabel lbl = (UILabel)uiControls.get("lblSelectedPal");
             lbl.setText("ADA");
             lbl.setColor(Color.WHITE);
+            btnConfirm.setEnabled(true);
         });
         
         objects.put("yothPal", yothPal);
