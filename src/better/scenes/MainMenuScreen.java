@@ -7,12 +7,14 @@ package better.scenes;
 
 import better.assets.Assets;
 import better.core.Game;
+import better.game.EnemyOne;
 import better.game.Player;
 import better.ui.UIButton;
 import better.ui.UIControl;
 import better.ui.UILabel;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -20,7 +22,12 @@ import java.util.Map;
  * @author Cesar Barraza
  */
 public class MainMenuScreen extends Screen {
-    private static MainMenuScreen instance;    
+    private static MainMenuScreen instance;
+    
+    /// TEST /////
+    private Player player;
+    private ArrayList<EnemyOne> enemies;
+    
     public static MainMenuScreen getInstance() {
         if(instance == null) {
             instance = new MainMenuScreen();
@@ -31,6 +38,14 @@ public class MainMenuScreen extends Screen {
     
     @Override
     public void init() {
+        //TEST ///// creating a player
+        player = new Player(Game.getDisplay().getWidth()/2, Game.getDisplay().getHeight()/2, 75, 75);
+        enemies = new ArrayList<EnemyOne>();
+        
+        for (int i = 0; i < 3; i++){
+            enemies.add(new EnemyOne(700, (Game.getDisplay().getHeight()*i)/3+50, 50, 50, player));
+        }
+        ////////////
         UIButton btnNewGame = new UIButton(302, 160, 205, 56, Assets.images.get("NewGameButton"));
         btnNewGame.setOnClickListener(() -> {
             Game.setCurrentScreen(ChoosePalScreen.getInstance());
@@ -58,7 +73,11 @@ public class MainMenuScreen extends Screen {
             
             val.render(g);
         }
-        
+        //TEST// rendering player
+        player.render(g);
+        for (int i = 0; i < 3; i++){
+            enemies.get(i).render(g);
+        }
     }
 
     @Override
@@ -66,5 +85,11 @@ public class MainMenuScreen extends Screen {
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
             entry.getValue().update();
         }
+        //TEST// update player
+        player.update();
+        for(int i = 0; i < 3; i++){
+            enemies.get(i).update();
+        }
     }
+
 }
