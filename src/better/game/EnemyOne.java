@@ -6,6 +6,7 @@
 package better.game;
 
 import better.assets.Assets;
+import better.core.Game;
 import better.scenes.MainMenuScreen;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -18,13 +19,21 @@ import java.util.ArrayList;
 public class EnemyOne extends GameObject{
     private double theta;
     private int shootTimer;
+    private int moveTimer;
     private ArrayList<EnemyShot> shot;
+    private Player player;
+    private int xSpeed;
+    private int ySpeed;
     
-    public EnemyOne(float x, float y, float width, float height) {
+    public EnemyOne(float x, float y, float width, float height, Player player) {
         super(x, y, width, height);
+        this.player = player;
         theta = -Math.PI/2;
         shootTimer = (int)(Math.random()*200);
+        moveTimer = 0;
         shot = new ArrayList<EnemyShot>();
+        xSpeed = 0;
+        ySpeed = 0;
     }
 
     @Override
@@ -42,14 +51,47 @@ public class EnemyOne extends GameObject{
 
     @Override
     public void update(){
+        // checks when its time for the next shot
         if (shootTimer <= 0){
             shot.add(new EnemyShot(getX()+getWidth()/2, getY()+getHeight()/2, 10, 10, theta));
             shootTimer = (int)(Math.random()*200);
         }
         shootTimer--;
         
+        // checks when its time for the next change in movement
+        if (moveTimer <= 0){
+            xSpeed = (int)(Math.random()*7)-3;
+            ySpeed = (int)(Math.random()*7)-3;
+            moveTimer = (int)(Math.random()*500);
+        }
+        moveTimer--;
+        // moves the object
+        setX(getX()+xSpeed);
+        setY(getY()+ySpeed);
+        
         for (int i = 0; i < shot.size(); i++){
             shot.get(i).update();
+        }
+        // delta X and Y are calculated
+        double deltaX = player.getX() - ( x + getHeight() / 2);
+        double deltaY = player.getY() - ( y + getWidth() / 2);
+        
+        // theta is calculated
+        theta = Math.atan2(deltaY, deltaX);
+        theta += Math.PI / 2;
+        
+        //check for out of bounds collision
+        if (getX() >= Game.getDisplay().getWidth() - width){
+            xSpeed *= -1;
+        }
+        else if (getX() <= 0){
+            xSpeed *= -1;
+        }
+        if (getY() >= Game.getDisplay().getHeight() - height){
+            ySpeed *= -1;
+        }
+        else if (getY() <= 0){
+            ySpeed *= -1;
         }
         
     }
