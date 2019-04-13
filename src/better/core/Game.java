@@ -6,6 +6,7 @@ import better.input.KeyManager;
 import better.scenes.MainMenuScreen;
 import better.scenes.Screen;
 import better.game.OnClickListener;
+import better.game.Player;
 import better.ui.UIButton;
 import better.ui.UILabel;
 import java.awt.AlphaComposite;
@@ -50,7 +51,6 @@ public class Game implements Runnable {
         mouseManager = new MouseManager();
         init(title, width, height);
     }
-
     /**
      * @return the keyManager
      */
