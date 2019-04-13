@@ -94,8 +94,14 @@ public class LevelSelectScreen extends Screen {
     
     @Override
     public void init() {
+        int w = Game.getDisplay().getWidth();
+        
         // UI
         UIButton btnPlayLevel = new UIButton(48, 90, 205, 56, Assets.images.get("LevelSelectPlay"));
+        btnPlayLevel.setOnClickListener(() -> {
+            Game.setCurrentScreen(LevelScreen.getInstance());
+        });
+        
         UIButton btnHighscores = new UIButton(48, 154, 205, 56, Assets.images.get("LevelSelectHighscores"));
         UIButton btnCustomize = new UIButton(132, 294, 160, 46, Assets.images.get("LevelSelectCustomize"));
         UIButton btnShop = new UIButton(132, 349, 160, 46, Assets.images.get("LevelSelectShop"));
@@ -144,8 +150,10 @@ public class LevelSelectScreen extends Screen {
         SelectablePlanet neptune = new SelectablePlanet(397, 433, 52, 49, Assets.images.get("neptune"));
         neptune.setState(PlanetState.SELECTED);
         
-        StatusBar armorBar = new StatusBar(175, 421, 6, 11, Assets.images.get("ArmorBar"), 50, 100, 0.67f);
-        StatusBar energyBar = new StatusBar(175, 453, 6, 11, Assets.images.get("EnergyBar"), 8, 50, 1.34f);
+        StatusBar armorBar = new StatusBar(175, 421, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
+        StatusBar energyBar = new StatusBar(175, 453, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f);
+        armorBar.setX(120 + (92 - armorBar.getWidth() / 2));
+        energyBar.setX(120 + (92 - energyBar.getWidth() / 2));
         
         objects.put("sun", sun);
         objects.put("mercury", mercury);
@@ -208,7 +216,7 @@ public class LevelSelectScreen extends Screen {
                 lbl.setX(59 + (30 - lbl.getWidth() / 2));
             }
             
-            // center  bar
+            // center bar labels
             if(key.equals("lblArmor") || key.equals("lblEnergy")) {
                 UILabel lbl = (UILabel)val;
                 lbl.calculateDimensions(g);

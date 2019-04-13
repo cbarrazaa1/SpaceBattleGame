@@ -8,6 +8,7 @@ package better.game;
 import better.core.Game;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -88,5 +89,12 @@ public abstract class GameObject implements OnClickListener, MouseEventListener 
                 mouseCollided = false;
             }
         }
+    }
+    
+    public Rectangle2D.Float getRect() {
+        return new Rectangle2D.Float(x, y, width, height);
+    }
+    public boolean intersects(GameObject obj) {
+        return getRect().intersects(obj.getRect());
     }
 }

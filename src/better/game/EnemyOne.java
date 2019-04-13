@@ -71,6 +71,9 @@ public class EnemyOne extends GameObject{
         
         for (int i = 0; i < shot.size(); i++){
             shot.get(i).update();
+            if(shot.get(i).intersects(player)) {
+                shot.remove(i);
+            }
         }
         // delta X and Y are calculated
         double deltaX = player.getX() - ( x + getHeight() / 2);
