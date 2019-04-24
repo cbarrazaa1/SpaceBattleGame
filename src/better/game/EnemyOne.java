@@ -85,8 +85,8 @@ public class EnemyOne extends GameObject{
         }
         
         // delta X and Y are calculated
-        double deltaX = player.getX() - ( x + getHeight() / 2);
-        double deltaY = player.getY() - ( y + getWidth() / 2);
+        double deltaX = (player.getX()+player.getWidth()/2) - ( x + getHeight() / 2);
+        double deltaY = (player.getY()+player.getHeight()/2) - ( y + getWidth() / 2);
         
         // theta is calculated
         theta = Math.atan2(deltaY, deltaX);
