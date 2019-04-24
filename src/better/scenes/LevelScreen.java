@@ -33,9 +33,9 @@ public class LevelScreen extends Screen {
     public void init() {
         Player player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 75, 75);
         objects.put("player", player);
-        for(int i = 0; i < 3; i++){
+        /*for(int i = 0; i < 3; i++){
             objects.put("enemyOne#" + i, new EnemyOne(700, (Game.getDisplay().getHeight() * i) / 3 + 50, 50, 50, player));
-        }
+        }*/
         
         StatusBar armorBar = new StatusBar(59, 571, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
         StatusBar energyBar = new StatusBar(59, 581, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f); 
@@ -56,9 +56,19 @@ public class LevelScreen extends Screen {
             entry.getValue().render(g);
         }
     }
-
+    //// TEST
+    int i = 0;
+    int timer = 0;
     @Override
     public void update() {
+        //// TEST
+        if (timer >= 100){
+            objects.put("enemyOne#" + i, new EnemyOne(50, 50, (Player)objects.get("player")));
+            i++;
+            timer = 0;
+        }
+        timer++;
+        ////
         for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
             entry.getValue().update();
         }
