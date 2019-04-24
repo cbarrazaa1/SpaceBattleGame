@@ -132,7 +132,7 @@ public class EnemyOne extends GameObject{
             ySpeed *= -1;
         }
     }
-    int TestTimer = 100;
+    
     @Override
     public void update(){
         int WIDTH = Game.getDisplay().getWidth();
@@ -197,14 +197,6 @@ public class EnemyOne extends GameObject{
         theta = Math.atan2(deltaY, deltaX);
         theta += Math.PI / 2;
         
-        
-        
-        
-        
-        if (TestTimer <= 0){
-            spawning = false;
-        }
-        TestTimer--;
             
     }
     
