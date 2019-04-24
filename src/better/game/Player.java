@@ -127,6 +127,10 @@ public class Player extends GameObject {
         this.shooting = shooting;
     }
 
+    public ArrayList<PlayerShot> getShot(){
+        return shots;
+    }
+    
     @Override
     public void onClick() { }
 

@@ -69,12 +69,21 @@ public class EnemyOne extends GameObject{
         setX(getX()+xSpeed);
         setY(getY()+ySpeed);
         
+        // checks if the shot intersected the player
         for (int i = 0; i < shot.size(); i++){
             shot.get(i).update();
             if(shot.get(i).intersects(player)) {
                 shot.remove(i);
             }
         }
+        
+        // checks if the shot intersected the player
+        for (int i = 0; i < player.getShot().size(); i++){
+            if(player.getShot().get(i).intersects(this)) {
+                player.getShot().remove(i);
+            }
+        }
+        
         // delta X and Y are calculated
         double deltaX = player.getX() - ( x + getHeight() / 2);
         double deltaY = player.getY() - ( y + getWidth() / 2);
