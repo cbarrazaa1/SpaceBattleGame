@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_LEFT;
 import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_SPACE;
 import static java.awt.event.KeyEvent.VK_UP;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -25,8 +26,12 @@ import java.util.ArrayList;
 public class Player extends GameObject {
     private double theta;
     private boolean shooting; // to check if the player has just shot
+    private boolean dashing;
     private int shotTimer; 
+    private int dashTimer;
     private ArrayList<PlayerShot> shots; // list for the player shots
+    private int speed;
+    
     
     public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -34,6 +39,7 @@ public class Player extends GameObject {
         shots = new ArrayList<PlayerShot>();
         this.shooting = false;
         this.shotTimer = 0;
+        speed = 3;
     }
 
     @Override
@@ -49,7 +55,7 @@ public class Player extends GameObject {
         g.drawImage(Assets.images.get("SpaceShipv1"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         g.setTransform(orig);        
     }
-
+    
     @Override
     public void update() {
         // delta X and Y are calculated
@@ -62,16 +68,16 @@ public class Player extends GameObject {
         
         // this controls the movement of the player
         if (Game.getKeyManager().isKeyDown(KeyEvent.VK_W)){
-            setY(getY() - 3);
+            setY(getY() - getSpeed());
         }
         if (Game.getKeyManager().isKeyDown(KeyEvent.VK_S)){
-            setY(getY() + 3);
+            setY(getY() + getSpeed());
         }
         if (Game.getKeyManager().isKeyDown(KeyEvent.VK_A)){
-            setX(getX() - 3);
+            setX(getX() - getSpeed());
         }
         if (Game.getKeyManager().isKeyDown(KeyEvent.VK_D)){
-            setX(getX() + 3);
+            setX(getX() + getSpeed());
         }
         
         // this controls the shots of the player
@@ -88,8 +94,53 @@ public class Player extends GameObject {
         for (int i = 0; i < shots.size(); i++){
             shots.get(i).update();
         }
+        
+        // dash mecanic version 1
+        if (Game.getKeyManager().isKeyPressed(VK_SPACE) && !dashing && readyToDash()){
+            speed = 25;
+            setDashTimer(5);
+        }
+        if(readyToDash()){
+            speed = 3;
+        }
         // actualizes shot timer
         actShotTimer();
+        actDashTimer();
+    }
+    public int getSpeed(){
+        return speed;
+    }
+    
+    public void setSpeed(int speed){
+        this.speed = speed;
+    }
+    
+    public boolean isDashing(){
+        return dashing;
+    }
+    
+    public void setDashing(boolean dashing){
+        this.dashing = dashing;
+    }
+    /**
+     * 
+     * @return if the shot timer is less than 1 it returns true, else, false
+     */
+    public boolean readyToDash(){
+        return dashTimer <= 0;
+    }
+    /**
+     * actualizes the timer
+     */
+    public void actDashTimer(){
+        dashTimer--;
+    }
+    /**
+     * Setter for the dashTimer
+     * @param dash 
+     */
+    public void setDashTimer(int dash){
+        dashTimer = dash;
     }
     /**
      * 
