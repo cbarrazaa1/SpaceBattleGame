@@ -25,6 +25,8 @@ public class EnemyOne extends GameObject{
     private int xSpeed;
     private int ySpeed;
     private boolean spawning;
+    private int health;
+    private boolean alive;
     
     public EnemyOne(float width, float height, Player player) {
         super(0, 0, width, height);
@@ -37,6 +39,8 @@ public class EnemyOne extends GameObject{
         ySpeed = 0;
         spawning = true;
         spawnEnemy();
+        health = 20;
+        alive = true;
     }
 
     @Override
@@ -113,7 +117,8 @@ public class EnemyOne extends GameObject{
                 break;
                 
         }
-        System.out.println("X: " + getX() + " Y: " + getY() + "cuadrant: " + cuadrant);
+        
+        //System.out.println("X: " + getX() + " Y: " + getY() + "cuadrant: " + cuadrant);
         
     }
     
@@ -180,13 +185,19 @@ public class EnemyOne extends GameObject{
                     shot.remove(i);
                 }
             }
+            
 
-            // checks if the shot intersected the player
+            // checks if the player shot intersected the enemy
             for (int i = 0; i < player.getShot().size(); i++){
                 if(player.getShot().get(i).intersects(this)) {
                     player.getShot().remove(i);
+                    setHealth(getHealth()-10); // reduce enemy health when shot
                 }
             }
+        }
+        // checks if enemy has lost all of its health
+        if (getHealth() <= 0){ 
+            setAlive(false);
         }
         
         // delta X and Y are calculated
@@ -198,6 +209,22 @@ public class EnemyOne extends GameObject{
         theta += Math.PI / 2;
         
             
+    }
+    
+    public int getHealth(){
+        return health;
+    }
+    
+    public void setHealth(int health){
+        this.health = health;
+    }
+    
+    public boolean isAlive(){
+        return alive;
+    }
+    
+    public void setAlive(boolean alive){
+        this.alive = alive;
     }
     
     @Override

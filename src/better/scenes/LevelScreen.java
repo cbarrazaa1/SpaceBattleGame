@@ -57,21 +57,41 @@ public class LevelScreen extends Screen {
         }
     }
     //// TEST
-    int i = 0;
+    int n = 0;
     int timer = 0;
     @Override
     public void update() {
         //// TEST
         if (timer >= 100){
-            objects.put("enemyOne#" + i, new EnemyOne(50, 50, (Player)objects.get("player")));
-            i++;
+            objects.put("enemyOne#" + n, new EnemyOne(50, 50, (Player)objects.get("player")));
+            n++;
             timer = 0;
         }
         timer++;
         ////
         for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
+            /*GameObject go = entry.getValue();
+            if (go instanceof EnemyOne){
+                EnemyOne enemy = (EnemyOne)go;
+                if (!enemy.isAlive()){
+                    
+                }
+            }*/
+            
             entry.getValue().update();
         }
+        /// TEST for erasing enemys
+        for (int i = 0; i < n; i++){
+            if (objects.containsKey("enemyOne#" + i)){
+                GameObject gO = objects.get("enemyOne#"+ i);
+                EnemyOne enemy = (EnemyOne)gO;
+                if (!enemy.isAlive()){
+                    objects.remove("enemyOne#"+i);
+                    //System.out.println("dead "+i);
+                }
+            }
+        }
+        ////
     }
     
 }
