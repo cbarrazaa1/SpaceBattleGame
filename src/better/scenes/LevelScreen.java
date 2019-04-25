@@ -59,6 +59,7 @@ public class LevelScreen extends Screen {
     //// TEST
     int n = 0;
     int timer = 0;
+    ////
     @Override
     public void update() {
         //// TEST
@@ -80,18 +81,17 @@ public class LevelScreen extends Screen {
             
             entry.getValue().update();
         }
-        /// TEST for erasing enemys
+        // for erasing dead enemys from the objects map
         for (int i = 0; i < n; i++){
             if (objects.containsKey("enemyOne#" + i)){
                 GameObject gO = objects.get("enemyOne#"+ i);
                 EnemyOne enemy = (EnemyOne)gO;
                 if (!enemy.isAlive()){
                     objects.remove("enemyOne#"+i);
-                    //System.out.println("dead "+i);
                 }
             }
         }
-        ////
+        
     }
     
 }
