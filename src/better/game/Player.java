@@ -123,6 +123,9 @@ public class Player extends GameObject {
                 // adding energy when not dashing
                 setEnergy(getEnergy() + 1);
                 energyTimer.restart();
+                if (getEnergy() >= 50){
+                    setEnergy(50);
+                }
             }
             energyTimer.update();
         }

@@ -71,6 +71,10 @@ public class LevelScreen extends Screen {
         timer++;
         ////
         
+        StatusBar energyBar = (StatusBar)objects.get("energyBar");
+        Player player = (Player)objects.get("player");
+        energyBar.setValue(player.getEnergy());
+        
         for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
             /*GameObject go = entry.getValue();
             if (go instanceof EnemyOne){
