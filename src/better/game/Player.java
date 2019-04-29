@@ -99,9 +99,11 @@ public class Player extends GameObject {
         if (Game.getKeyManager().isKeyPressed(VK_SPACE) && !dashing && readyToDash()){
             speed = 25;
             setDashTimer(5);
+            setDashing(true);
         }
         if(readyToDash()){
             speed = 3;
+            setDashing(false);
         }
         // actualizes shot timer
         actShotTimer();

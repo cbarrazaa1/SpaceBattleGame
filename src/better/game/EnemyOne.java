@@ -181,7 +181,7 @@ public class EnemyOne extends GameObject{
             // checks if the shot intersected the player
             for (int i = 0; i < shot.size(); i++){
                 shot.get(i).update();
-                if(shot.get(i).intersects(player)) {
+                if(shot.get(i).intersects(player) && !player.isDashing()) {
                     shot.remove(i);
                 }
             }
