@@ -32,6 +32,9 @@ public class Player extends GameObject {
     private ArrayList<PlayerShot> shots; // list for the player shots
     private int speed;
     
+    private int energy; // energy for dashes or abilities
+    private int health; // health of the player
+    
     
     public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -41,6 +44,8 @@ public class Player extends GameObject {
         this.shotTimer = 0;
         this.speed = 3;
         this.dashing = false;
+        this.health = 100;
+        this.energy = 600;
     }
 
     @Override
@@ -55,7 +60,7 @@ public class Player extends GameObject {
         if (!isDashing()){
             g.drawImage(Assets.images.get("SpaceShipv1"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         }else{
-            // TEST LOL
+            // TEST LOL // Should be a dashing image
             g.drawImage(Assets.images.get("LevelSelectYoth"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         }
         g.setTransform(orig);    
@@ -101,31 +106,47 @@ public class Player extends GameObject {
         }
         
         // dash mecanic version 1
-        if (Game.getKeyManager().isKeyPressed(VK_SPACE) && !dashing && readyToDash()){
+        if (Game.getKeyManager().isKeyPressed(VK_SPACE) && !dashing && readyToDash() && getEnergy() >= 100){
             speed = 25;
             setDashTimer(5);
             setDashing(true);
+            setEnergy(getEnergy() - 100);
         }
         if(readyToDash()){
             speed = 3;
             setDashing(false);
+            // adding energy when not dashing
+            setEnergy(getEnergy() + 1);
         }
         // actualizes shot timer
         actShotTimer();
         actDashTimer();
     }
+    /**
+     * Returns the player speed
+     * @return speed
+     */
     public int getSpeed(){
         return speed;
     }
-    
+    /**
+     * sets the player speed
+     * @param speed 
+     */
     public void setSpeed(int speed){
         this.speed = speed;
     }
-    
+    /**
+     * checks if dashing
+     * @return dashing
+     */
     public boolean isDashing(){
         return dashing;
     }
-    
+    /**
+     * set if dashing
+     * @param dashing 
+     */
     public void setDashing(boolean dashing){
         this.dashing = dashing;
     }
@@ -184,9 +205,44 @@ public class Player extends GameObject {
     public void setShooting(boolean shooting){
         this.shooting = shooting;
     }
-
+    /**
+     * returns the shot array list
+     * @return shots
+     */
     public ArrayList<PlayerShot> getShot(){
         return shots;
+    }
+    
+    /**
+     * sets player health
+     * @param health 
+     */
+    public void setHealth(int health){
+        this.health = health;
+    }
+    
+    /**
+     * returns player health
+     * @return health
+     */
+    public int getHealth(){
+        return health;
+    }
+    
+    /**
+     * sets player energy
+     * @param energy 
+     */
+    public void setEnergy(int energy){
+        this.energy = energy;
+    }
+    
+    /**
+     * returns the player energy
+     * @return energy
+     */
+    public int getEnergy(){
+        return energy;
     }
     
     @Override
