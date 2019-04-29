@@ -39,7 +39,8 @@ public class Player extends GameObject {
         shots = new ArrayList<PlayerShot>();
         this.shooting = false;
         this.shotTimer = 0;
-        speed = 3;
+        this.speed = 3;
+        this.dashing = false;
     }
 
     @Override
@@ -48,12 +49,11 @@ public class Player extends GameObject {
         for (int i = 0; i < shots.size(); i++){
             shots.get(i).render(g);
         }
-        
         AffineTransform orig = g.getTransform();
         g.translate(getX(), getY());
         g.rotate(theta, getWidth() / 2, getHeight() / 2);
         g.drawImage(Assets.images.get("SpaceShipv1"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
-        g.setTransform(orig);        
+        g.setTransform(orig);    
     }
     
     @Override
