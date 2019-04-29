@@ -9,6 +9,7 @@ import better.game.GameObject;
 import java.awt.Graphics2D;
 import better.assets.Assets;
 import better.core.Game;
+import better.core.Timer;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_LEFT;
@@ -35,6 +36,8 @@ public class Player extends GameObject {
     private int energy; // energy for dashes or abilities
     private int health; // health of the player
     
+    private Timer energyTimer; // timer for energy regeneration
+    
     
     public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -45,7 +48,8 @@ public class Player extends GameObject {
         this.speed = 3;
         this.dashing = false;
         this.health = 100;
-        this.energy = 600;
+        this.energy = 50;
+        energyTimer = new Timer(0.1);
     }
 
     @Override
@@ -106,19 +110,24 @@ public class Player extends GameObject {
         }
         
         // dash mecanic version 1
-        if (Game.getKeyManager().isKeyPressed(VK_SPACE) && !dashing && readyToDash() && getEnergy() >= 100){
+        if (Game.getKeyManager().isKeyPressed(VK_SPACE) && !dashing && readyToDash() && getEnergy() >= 15){
             speed = 25;
             setDashTimer(5);
             setDashing(true);
-            setEnergy(getEnergy() - 100);
+            setEnergy(getEnergy() - 15);
         }
         if(readyToDash()){
             speed = 3;
             setDashing(false);
-            // adding energy when not dashing
-            setEnergy(getEnergy() + 1);
+            if (energyTimer.isActivated()){
+                // adding energy when not dashing
+                setEnergy(getEnergy() + 1);
+                energyTimer.restart();
+            }
+            energyTimer.update();
         }
         // actualizes shot timer
+        
         actShotTimer();
         actDashTimer();
     }

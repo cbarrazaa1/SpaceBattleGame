@@ -70,6 +70,7 @@ public class LevelScreen extends Screen {
         }
         timer++;
         ////
+        
         for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
             /*GameObject go = entry.getValue();
             if (go instanceof EnemyOne){
@@ -78,6 +79,7 @@ public class LevelScreen extends Screen {
                     
                 }
             }*/
+            
             
             entry.getValue().update();
         }
