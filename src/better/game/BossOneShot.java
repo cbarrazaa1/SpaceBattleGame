@@ -14,11 +14,11 @@ import java.awt.geom.AffineTransform;
  *
  * @author rogel
  */
-public class EnemyShot extends GameObject {
+public class BossOneShot extends GameObject {
 
     private double theta;
     
-    public EnemyShot(float x, float y, float width, float height, double theta) {
+    public BossOneShot(float x, float y, float width, float height, double theta) {
         super(x, y, width, height);
         this.theta = theta;
     }
