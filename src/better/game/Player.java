@@ -28,8 +28,8 @@ public class Player extends GameObject {
     private double theta;
     private boolean shooting; // to check if the player has just shot
     private boolean dashing;
-    private int shotTimer; 
-    private int dashTimer;
+    private Timer shotTimer; 
+    private Timer dashTimer;
     private ArrayList<PlayerShot> shots; // list for the player shots
     private int speed;
     
@@ -44,12 +44,13 @@ public class Player extends GameObject {
         //theta = 0;
         shots = new ArrayList<PlayerShot>();
         this.shooting = false;
-        this.shotTimer = 0;
         this.speed = 3;
         this.dashing = false;
         this.health = 100;
         this.energy = 50;
         energyTimer = new Timer(0.1);
+        shotTimer = new Timer(0.2);
+        dashTimer = new Timer(0.1);
     }
 
     @Override
@@ -98,10 +99,10 @@ public class Player extends GameObject {
         if (Game.getMouseManager().isButtonDown(MouseEvent.BUTTON1)&& !isShooting()){
             shots.add(new PlayerShot(getX()+getWidth()/2, getY()+getHeight()/2, 10, 10, theta));
             setShooting(true);
-            setShotTimer(20);
+            shotTimer.restart();
         }
         // checks if the player can shoot again
-        if (readyToShoot()){
+        if (shotTimer.isActivated()){
             setShooting(false);
         }
         // update every shot
@@ -110,13 +111,13 @@ public class Player extends GameObject {
         }
         
         // dash mecanic version 1
-        if (Game.getKeyManager().isKeyPressed(VK_SPACE) && !dashing && readyToDash() && getEnergy() >= 15){
+        if (Game.getKeyManager().isKeyPressed(VK_SPACE) && !dashing && getEnergy() >= 15){
             speed = 25;
-            setDashTimer(5);
+            dashTimer.restart();
             setDashing(true);
             setEnergy(getEnergy() - 15);
         }
-        if(readyToDash()){
+        if(dashTimer.isActivated()){
             speed = 3;
             setDashing(false);
             if (energyTimer.isActivated()){
@@ -129,10 +130,11 @@ public class Player extends GameObject {
             }
             energyTimer.update();
         }
-        // actualizes shot timer
         
-        actShotTimer();
-        actDashTimer();
+        // actualizes shot and dash timer
+        
+        shotTimer.update();
+        dashTimer.update();
     }
     /**
      * Returns the player speed
@@ -148,6 +150,7 @@ public class Player extends GameObject {
     public void setSpeed(int speed){
         this.speed = speed;
     }
+    
     /**
      * checks if dashing
      * @return dashing
@@ -161,46 +164,6 @@ public class Player extends GameObject {
      */
     public void setDashing(boolean dashing){
         this.dashing = dashing;
-    }
-    /**
-     * 
-     * @return if the shot timer is less than 1 it returns true, else, false
-     */
-    public boolean readyToDash(){
-        return dashTimer <= 0;
-    }
-    /**
-     * actualizes the timer
-     */
-    public void actDashTimer(){
-        dashTimer--;
-    }
-    /**
-     * Setter for the dashTimer
-     * @param dash 
-     */
-    public void setDashTimer(int dash){
-        dashTimer = dash;
-    }
-    /**
-     * 
-     * @return if the shot timer is less than 1 it returns true, else, false
-     */
-    public boolean readyToShoot(){
-        return shotTimer <= 0;
-    }
-    /**
-     * actualizes the timer
-     */
-    public void actShotTimer(){
-        shotTimer--;
-    }
-    /**
-     * Setter for the shotTimer
-     * @param shot 
-     */
-    public void setShotTimer(int shot){
-        shotTimer = shot;
     }
     
     /**
