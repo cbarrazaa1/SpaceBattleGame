@@ -52,7 +52,15 @@ public class Timer {
         count = 0.0d;
         activated = false;
     }
-
+    
+    /**
+     * Sets the timer to its initial state.
+     */
+    public void restart(double time) {
+        count = 0.0d;
+        activated = false;
+        secondsToActivate = (time * 60.0d);
+    }
     /**
      * Updates the timer state.
      */
