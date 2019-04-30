@@ -8,5 +8,5 @@
 [] Enemies give money
 [] Money floats to player
 [] Shop (can buy new bullet, and vitality/energy upgrades)
-[] Lights for bullets
+[X] Lights for bullets
 [] Make level select work
