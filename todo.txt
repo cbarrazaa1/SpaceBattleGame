@@ -1,0 +1,12 @@
+=== BETA ===
+[] Fix player and enemyone hitbox
+[] Make dash animation
+[] Make player health work
+[] Enemy die animation
+[] Player game over
+[] Boss
+[] Enemies give money
+[] Money floats to player
+[] Shop (can buy new bullet, and vitality/energy upgrades)
+[] Lights for bullets
+[] Make level select work

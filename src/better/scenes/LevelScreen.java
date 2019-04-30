@@ -51,8 +51,8 @@ public class LevelScreen extends Screen {
         objects.put("armorBar", armorBar);
         objects.put("energyBar", energyBar);
         
-        light = new Light2D(100, 100, 0.3f, 100, 255, 255, 255);
-        light2 = new Light2D(130, 100, 0.5f, 50, 244, 229, 66);
+        light = new Light2D(100, 100, 0.1f, 100, 255, 255, 255);
+        light2 = new Light2D(130, 100, 0.15f, 50, 244, 229, 66);
     }
 
     @Override
@@ -72,6 +72,7 @@ public class LevelScreen extends Screen {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
         g.fillRect(0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight());
         
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP));
         light.render(g);
         light2.render(g);
         g.setComposite(orig);
