@@ -135,6 +135,24 @@ public class Player extends GameObject {
         
         shotTimer.update();
         dashTimer.update();
+        
+        checkColision();
+    }
+    
+    private void checkColision(){
+        //check for out of bounds collision
+        if (getX() >= Game.getDisplay().getWidth() - width){
+            setX(Game.getDisplay().getWidth() - width);
+        }
+        else if (getX() <= 0){
+            setX(0);
+        }
+        if (getY() >= Game.getDisplay().getHeight() - height){
+            setY(Game.getDisplay().getHeight() - height);
+        }
+        else if (getY() <= 0){
+            setY(0);
+        }
     }
     /**
      * Returns the player speed
