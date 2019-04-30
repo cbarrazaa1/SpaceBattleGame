@@ -1,5 +1,5 @@
 === BETA ===
-[] Fix player and enemyone hitbox
+[X] Fix player and enemyone hitbox
 [] Make dash animation
 [] Make player health work
 [] Enemy die animation

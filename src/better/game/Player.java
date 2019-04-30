@@ -18,6 +18,7 @@ import static java.awt.event.KeyEvent.VK_SPACE;
 import static java.awt.event.KeyEvent.VK_UP;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 /**
  *
@@ -236,6 +237,11 @@ public class Player extends GameObject {
      */
     public int getEnergy(){
         return energy;
+    }
+    
+    @Override
+    public Rectangle2D.Float getRect() {
+        return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
     }
     
     @Override
