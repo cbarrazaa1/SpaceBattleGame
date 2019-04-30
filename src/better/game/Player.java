@@ -9,10 +9,12 @@ import better.game.GameObject;
 import java.awt.Graphics2D;
 import better.assets.Assets;
 import better.core.Game;
+import better.core.Timer;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_LEFT;
 import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_SPACE;
 import static java.awt.event.KeyEvent.VK_UP;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -25,8 +27,17 @@ import java.util.ArrayList;
 public class Player extends GameObject {
     private double theta;
     private boolean shooting; // to check if the player has just shot
+    private boolean dashing;
     private int shotTimer; 
+    private int dashTimer;
     private ArrayList<PlayerShot> shots; // list for the player shots
+    private int speed;
+    
+    private int energy; // energy for dashes or abilities
+    private int health; // health of the player
+    
+    private Timer energyTimer; // timer for energy regeneration
+    
     
     public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -34,6 +45,11 @@ public class Player extends GameObject {
         shots = new ArrayList<PlayerShot>();
         this.shooting = false;
         this.shotTimer = 0;
+        this.speed = 3;
+        this.dashing = false;
+        this.health = 100;
+        this.energy = 50;
+        energyTimer = new Timer(0.1);
     }
 
     @Override
@@ -42,14 +58,18 @@ public class Player extends GameObject {
         for (int i = 0; i < shots.size(); i++){
             shots.get(i).render(g);
         }
-        
         AffineTransform orig = g.getTransform();
         g.translate(getX(), getY());
         g.rotate(theta, getWidth() / 2, getHeight() / 2);
-        g.drawImage(Assets.images.get("PlayerShip"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
-        g.setTransform(orig);        
+        if (!isDashing()){
+            g.drawImage(Assets.images.get("PlayerShip"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
+        }else{
+            // TEST LOL // Should be a dashing image
+            g.drawImage(Assets.images.get("LevelSelectYoth"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
+        }
+        g.setTransform(orig);    
     }
-
+    
     @Override
     public void update() {
         // delta X and Y are calculated
@@ -62,16 +82,16 @@ public class Player extends GameObject {
         
         // this controls the movement of the player
         if (Game.getKeyManager().isKeyDown(KeyEvent.VK_W)){
-            setY(getY() - 3);
+            setY(getY() - getSpeed());
         }
         if (Game.getKeyManager().isKeyDown(KeyEvent.VK_S)){
-            setY(getY() + 3);
+            setY(getY() + getSpeed());
         }
         if (Game.getKeyManager().isKeyDown(KeyEvent.VK_A)){
-            setX(getX() - 3);
+            setX(getX() - getSpeed());
         }
         if (Game.getKeyManager().isKeyDown(KeyEvent.VK_D)){
-            setX(getX() + 3);
+            setX(getX() + getSpeed());
         }
         
         // this controls the shots of the player
@@ -88,8 +108,79 @@ public class Player extends GameObject {
         for (int i = 0; i < shots.size(); i++){
             shots.get(i).update();
         }
+        
+        // dash mecanic version 1
+        if (Game.getKeyManager().isKeyPressed(VK_SPACE) && !dashing && readyToDash() && getEnergy() >= 15){
+            speed = 25;
+            setDashTimer(5);
+            setDashing(true);
+            setEnergy(getEnergy() - 15);
+        }
+        if(readyToDash()){
+            speed = 3;
+            setDashing(false);
+            if (energyTimer.isActivated()){
+                // adding energy when not dashing
+                setEnergy(getEnergy() + 1);
+                energyTimer.restart();
+                if (getEnergy() >= 50){
+                    setEnergy(50);
+                }
+            }
+            energyTimer.update();
+        }
         // actualizes shot timer
+        
         actShotTimer();
+        actDashTimer();
+    }
+    /**
+     * Returns the player speed
+     * @return speed
+     */
+    public int getSpeed(){
+        return speed;
+    }
+    /**
+     * sets the player speed
+     * @param speed 
+     */
+    public void setSpeed(int speed){
+        this.speed = speed;
+    }
+    /**
+     * checks if dashing
+     * @return dashing
+     */
+    public boolean isDashing(){
+        return dashing;
+    }
+    /**
+     * set if dashing
+     * @param dashing 
+     */
+    public void setDashing(boolean dashing){
+        this.dashing = dashing;
+    }
+    /**
+     * 
+     * @return if the shot timer is less than 1 it returns true, else, false
+     */
+    public boolean readyToDash(){
+        return dashTimer <= 0;
+    }
+    /**
+     * actualizes the timer
+     */
+    public void actDashTimer(){
+        dashTimer--;
+    }
+    /**
+     * Setter for the dashTimer
+     * @param dash 
+     */
+    public void setDashTimer(int dash){
+        dashTimer = dash;
     }
     /**
      * 
@@ -126,7 +217,46 @@ public class Player extends GameObject {
     public void setShooting(boolean shooting){
         this.shooting = shooting;
     }
-
+    /**
+     * returns the shot array list
+     * @return shots
+     */
+    public ArrayList<PlayerShot> getShot(){
+        return shots;
+    }
+    
+    /**
+     * sets player health
+     * @param health 
+     */
+    public void setHealth(int health){
+        this.health = health;
+    }
+    
+    /**
+     * returns player health
+     * @return health
+     */
+    public int getHealth(){
+        return health;
+    }
+    
+    /**
+     * sets player energy
+     * @param energy 
+     */
+    public void setEnergy(int energy){
+        this.energy = energy;
+    }
+    
+    /**
+     * returns the player energy
+     * @return energy
+     */
+    public int getEnergy(){
+        return energy;
+    }
+    
     @Override
     public void onClick() { }
 
