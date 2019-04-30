@@ -9,9 +9,13 @@ import better.assets.Assets;
 import better.core.Game;
 import better.game.EnemyOne;
 import better.game.GameObject;
+import better.game.Light2D;
 import better.game.Player;
 import better.game.StatusBar;
 import better.ui.UIControl;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Map;
@@ -29,9 +33,13 @@ public class LevelScreen extends Screen {
         return instance;
     }
     
+    private Light2D light;
+    private Light2D light2;
+    private Player player;
+    
     @Override
     public void init() {
-        Player player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 75, 75);
+        player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 75, 75);
         objects.put("player", player);
         /*for(int i = 0; i < 3; i++){
             objects.put("enemyOne#" + i, new EnemyOne(700, (Game.getDisplay().getHeight() * i) / 3 + 50, 50, 50, player));
@@ -42,6 +50,9 @@ public class LevelScreen extends Screen {
         
         objects.put("armorBar", armorBar);
         objects.put("energyBar", energyBar);
+        
+        light = new Light2D(100, 100, 0.3f, 100, 255, 255, 255);
+        light2 = new Light2D(130, 100, 0.5f, 50, 244, 229, 66);
     }
 
     @Override
@@ -55,6 +66,16 @@ public class LevelScreen extends Screen {
         for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
             entry.getValue().render(g);
         }
+        
+        Composite orig = g.getComposite();
+        g.setColor(Color.BLACK);
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+        g.fillRect(0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight());
+        
+        light.render(g);
+        light2.render(g);
+        g.setComposite(orig);
+
     }
     //// TEST
     int n = 0;
@@ -98,6 +119,8 @@ public class LevelScreen extends Screen {
             }
         }
         
+        light.setX(player.getX() + player.getWidth() / 2);
+        light.setY(player.getY() + player.getHeight() / 2);
     }
     
 }
