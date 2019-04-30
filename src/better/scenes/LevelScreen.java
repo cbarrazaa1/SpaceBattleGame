@@ -50,7 +50,7 @@ public class LevelScreen extends Screen {
         g.drawImage(Assets.images.get("LevelBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
         
         // render current bullet (temp)
-        g.drawImage(Assets.images.get("BulletGoodv1"), 28, 561, 16, 16, null);
+        g.drawImage(Assets.images.get("BulletGreen"), 28, 561, 16, 16, null);
         
         for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
             entry.getValue().render(g);

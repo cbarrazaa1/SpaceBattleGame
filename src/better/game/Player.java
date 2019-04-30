@@ -62,7 +62,7 @@ public class Player extends GameObject {
         g.translate(getX(), getY());
         g.rotate(theta, getWidth() / 2, getHeight() / 2);
         if (!isDashing()){
-            g.drawImage(Assets.images.get("SpaceShipv1"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
+            g.drawImage(Assets.images.get("PlayerShip"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         }else{
             // TEST LOL // Should be a dashing image
             g.drawImage(Assets.images.get("LevelSelectYoth"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);

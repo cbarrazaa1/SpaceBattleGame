@@ -180,13 +180,13 @@ public class LevelSelectScreen extends Screen {
         g.drawImage(Assets.images.get("SpeechBubbleNeptune1"), 336, 524, 346, 61, null);
         
         // render ship (temp)
-        g.drawImage(Assets.images.get("SpaceShipv1"), 16, 308, 87, 91, null);
+        g.drawImage(Assets.images.get("PlayerShip"), 16, 308, 87, 91, null);
         
         // render coin icon
         g.drawImage(Assets.images.get("coin"), 64, 411, 7, 7, null);
         
         // render first bullet (temp)
-        g.drawImage(Assets.images.get("BulletGoodv1"), 22, 431, 13, 19, null);
+        g.drawImage(Assets.images.get("BulletGreen"), 22, 431, 13, 19, null);
         
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
             String key = entry.getKey();
