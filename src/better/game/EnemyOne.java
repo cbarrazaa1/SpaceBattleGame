@@ -126,15 +126,19 @@ public class EnemyOne extends GameObject{
         //check for out of bounds collision
         if (getX() >= Game.getDisplay().getWidth() - width){
             xSpeed *= -1;
+            setX(Game.getDisplay().getWidth() - width - 1);
         }
         else if (getX() <= 0){
             xSpeed *= -1;
+            setX(1);
         }
         if (getY() >= Game.getDisplay().getHeight() - height){
             ySpeed *= -1;
+            setY(Game.getDisplay().getHeight() - height - 1);
         }
         else if (getY() <= 0){
             ySpeed *= -1;
+            setY(1);
         }
     }
     
