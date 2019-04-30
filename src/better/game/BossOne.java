@@ -8,6 +8,7 @@ package better.game;
 import better.assets.Assets;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import static java.lang.Math.abs;
 import java.util.ArrayList;
 
 /**
@@ -31,7 +32,7 @@ public class BossOne extends GameObject{
     public void render(Graphics2D g) {
         AffineTransform orig = g.getTransform();
         g.translate(getX(), getY());
-        g.rotate(theta, getWidth() / 2, getHeight() / 2);
+        g.rotate(theta - Math.PI/2, getWidth() / 2, getHeight() / 2);
         g.drawImage(Assets.images.get("EnemyShip1"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         g.setTransform(orig);
     }
@@ -41,20 +42,32 @@ public class BossOne extends GameObject{
         // delta X and Y are calculated
         double deltaX = (player.getX()+player.getWidth()/2) - ( x + getHeight() / 2);
         double deltaY = (player.getY()+player.getHeight()/2) - ( y + getWidth() / 2);
-
+        
+        
         
         /*
         theta = Math.atan2(deltaY, deltaX);
         theta -= Math.PI / 2;
         */
-        System.out.println("theta"+theta);
-        System.out.println("player"+Math.atan2(deltaY, deltaX));
         
-        if (theta < Math.atan2(deltaY, deltaX)-.1){
-            theta += Math.PI/400;
-        }else if (theta > Math.atan2(deltaY, deltaX)+.1){
-            theta -= Math.PI/400;
+        
+        
+        
+        if (theta+Math.PI < Math.atan2(deltaY, deltaX)-.1+Math.PI){
+            theta += Math.PI/100;
+        }if (theta+Math.PI > Math.atan2(deltaY, deltaX)+.1+Math.PI){
+            theta -= Math.PI/100;
         }
+        
+        if (theta - Math.atan2(deltaY, deltaX) > Math.PI){
+            theta -= 2*Math.PI;
+        }
+        if (theta - Math.atan2(deltaY, deltaX) < -Math.PI){
+            theta += 2*Math.PI;
+        }
+        
+        System.out.println("theta"+(theta*180)/Math.PI);
+        System.out.println("player"+(Math.atan2(deltaY, deltaX)*180)/Math.PI);
         
     }
 
