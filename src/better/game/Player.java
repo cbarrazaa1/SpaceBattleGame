@@ -111,7 +111,7 @@ public class Player extends GameObject {
         }
         
         // dash mecanic version 1
-        if (Game.getKeyManager().isKeyPressed(VK_SPACE) && !dashing && dashTimer.isActivated() && getEnergy() >= 15){
+        if (Game.getKeyManager().isKeyPressed(VK_SPACE) && !dashing && getEnergy() >= 15){
             speed = 25;
             dashTimer.restart();
             setDashing(true);
