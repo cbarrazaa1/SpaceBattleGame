@@ -28,7 +28,7 @@ public class PlayerShot extends GameObject {
         AffineTransform orig = g.getTransform();
         g.translate(getX(), getY());
         g.rotate(theta, getWidth() / 2, getHeight() / 2);
-        g.drawImage(Assets.images.get("BulletGoodv1"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
+        g.drawImage(Assets.images.get("BulletGreen"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         g.setTransform(orig);
     }
     
