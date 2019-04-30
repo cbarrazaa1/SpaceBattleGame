@@ -7,6 +7,7 @@ package better.game;
 
 import better.assets.Assets;
 import better.core.Game;
+import better.scenes.LevelScreen;
 import better.scenes.MainMenuScreen;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -194,6 +195,7 @@ public class EnemyOne extends GameObject{
             // checks if the player shot intersected the enemy
             for (int i = 0; i < player.getShot().size(); i++){
                 if(player.getShot().get(i).intersects(this)) {
+                    LevelScreen.getInstance().lightsToRemove.add(player.getShot().get(i).getLight());
                     player.getShot().remove(i);
                     setHealth(getHealth()-10); // reduce enemy health when shot
                 }

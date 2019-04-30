@@ -33,26 +33,24 @@ public class LevelScreen extends Screen {
         return instance;
     }
     
-    private Light2D light;
-    private Light2D light2;
+    public ArrayList<Light2D> lights;
+    public ArrayList<Light2D> lightsToRemove;
+    private ArrayList<EnemyOne> enemies;
     private Player player;
     
     @Override
     public void init() {
+        lights = new ArrayList<>();
+        lightsToRemove = new ArrayList<>();
+        enemies = new ArrayList<>();
         player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 75, 75);
         objects.put("player", player);
-        /*for(int i = 0; i < 3; i++){
-            objects.put("enemyOne#" + i, new EnemyOne(700, (Game.getDisplay().getHeight() * i) / 3 + 50, 50, 50, player));
-        }*/
         
         StatusBar armorBar = new StatusBar(59, 571, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
         StatusBar energyBar = new StatusBar(59, 581, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f); 
         
         objects.put("armorBar", armorBar);
         objects.put("energyBar", energyBar);
-        
-        light = new Light2D(100, 100, 0.1f, 100, 255, 255, 255);
-        light2 = new Light2D(130, 100, 0.15f, 50, 244, 229, 66);
     }
 
     @Override
@@ -67,14 +65,19 @@ public class LevelScreen extends Screen {
             entry.getValue().render(g);
         }
         
+        for(EnemyOne e : enemies) {
+            e.render(g);
+        }
+        
         Composite orig = g.getComposite();
         g.setColor(Color.BLACK);
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
         g.fillRect(0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight());
         
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP));
-        light.render(g);
-        light2.render(g);
+        for(Light2D light : lights) {
+            light.render(g);
+        }
         g.setComposite(orig);
 
     }
@@ -86,7 +89,7 @@ public class LevelScreen extends Screen {
     public void update() {
         //// TEST
         if (timer >= 100){
-            objects.put("enemyOne#" + n, new EnemyOne(50, 50, (Player)objects.get("player")));
+            enemies.add(new EnemyOne(50, 50, player));
             n++;
             timer = 0;
         }
@@ -94,34 +97,25 @@ public class LevelScreen extends Screen {
         ////
         
         StatusBar energyBar = (StatusBar)objects.get("energyBar");
-        Player player = (Player)objects.get("player");
         energyBar.setValue(player.getEnergy());
         
         for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
-            /*GameObject go = entry.getValue();
-            if (go instanceof EnemyOne){
-                EnemyOne enemy = (EnemyOne)go;
-                if (!enemy.isAlive()){
-                    
-                }
-            }*/
-            
-            
             entry.getValue().update();
         }
+        
         // for erasing dead enemys from the objects map
-        for (int i = 0; i < n; i++){
-            if (objects.containsKey("enemyOne#" + i)){
-                GameObject gO = objects.get("enemyOne#"+ i);
-                EnemyOne enemy = (EnemyOne)gO;
-                if (!enemy.isAlive()){
-                    objects.remove("enemyOne#"+i);
-                }
+        for(int i = 0; i < enemies.size(); i++) {
+            EnemyOne enemy = enemies.get(i);
+            enemy.update();
+            if(!enemy.isAlive()) {
+                enemies.remove(enemy);
             }
         }
         
-        light.setX(player.getX() + player.getWidth() / 2);
-        light.setY(player.getY() + player.getHeight() / 2);
-    }
-    
+        // remove lights
+        for(Light2D light : lightsToRemove) {
+            lights.remove(light);
+        }
+        lightsToRemove.clear();
+    } 
 }
