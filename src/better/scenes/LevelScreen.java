@@ -8,6 +8,7 @@ package better.scenes;
 import better.assets.Assets;
 import better.core.Game;
 import better.game.EnemyOne;
+import better.game.EnemyShot;
 import better.game.GameObject;
 import better.game.Light2D;
 import better.game.Player;
@@ -108,6 +109,9 @@ public class LevelScreen extends Screen {
             EnemyOne enemy = enemies.get(i);
             enemy.update();
             if(!enemy.isAlive()) {
+                for(EnemyShot shot : enemies.get(i).getShot()) { 
+                    lightsToRemove.add(shot.getLight());
+                }
                 enemies.remove(enemy);
             }
         }
