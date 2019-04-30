@@ -19,8 +19,10 @@ import java.util.ArrayList;
  */
 public class EnemyOne extends GameObject{
     private double theta;
+    
     private int shootTimer;
     private int moveTimer;
+    
     private ArrayList<EnemyShot> shot;
     private Player player;
     private int xSpeed;
@@ -213,7 +215,7 @@ public class EnemyOne extends GameObject{
 
         // theta is calculated
         theta = Math.atan2(deltaY, deltaX);
-        theta += Math.PI / 2;
+        theta -= Math.PI / 2;
         
     }
     

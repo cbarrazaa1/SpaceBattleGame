@@ -7,7 +7,6 @@ package better.game;
 
 import better.assets.Assets;
 import better.game.GameObject;
-import better.scenes.LevelScreen;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
@@ -15,16 +14,13 @@ import java.awt.geom.AffineTransform;
  *
  * @author rogel
  */
-public class EnemyShot extends GameObject {
+public class BossOneShot extends GameObject {
 
     private double theta;
-    private Light2D light;
     
-    public EnemyShot(float x, float y, float width, float height, double theta) {
+    public BossOneShot(float x, float y, float width, float height, double theta) {
         super(x, y, width, height);
         this.theta = theta;
-        this.light = new Light2D(x + width / 2, y + height / 2, 0.1f, 30, 255, 0, 0);
-        LevelScreen.getInstance().lights.add(light);
     }
 
     @Override
@@ -39,20 +35,9 @@ public class EnemyShot extends GameObject {
     @Override
     public void update() {
         // The bullet moves depending on the rotation of the player
-
         setX(getX() + ((float)(Math.cos(theta+Math.PI/2))*5));
         setY(getY() + ((float)(Math.sin(theta+Math.PI/2))*5));
-
-        
-        // update light
-        light.setX(x + width / 2);
-        light.setY(y + height / 2);
     }
-    
-    public Light2D getLight() {
-        return light;
-    }
-    
     @Override
     public void onClick() {
     }

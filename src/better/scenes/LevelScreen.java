@@ -7,6 +7,7 @@ package better.scenes;
 
 import better.assets.Assets;
 import better.core.Game;
+import better.game.BossOne;
 import better.game.EnemyOne;
 import better.game.EnemyShot;
 import better.game.GameObject;
@@ -52,6 +53,11 @@ public class LevelScreen extends Screen {
         
         objects.put("armorBar", armorBar);
         objects.put("energyBar", energyBar);
+
+        
+        //TEST BOSS//
+        BossOne bossOne = new BossOne(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 150, 150, player);
+        objects.put("bossOne", bossOne);
     }
 
     @Override
