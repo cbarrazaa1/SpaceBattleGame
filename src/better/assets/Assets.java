@@ -36,7 +36,7 @@ public class Assets {
         images = new HashMap<>();
         
         try {
-            File dir = new File(Assets.class.getResource("/images/").toURI());
+            File dir = new File("./images/");
             File[] files = dir.listFiles();
             if(files != null) {
                 for(File f : files) {
@@ -44,7 +44,7 @@ public class Assets {
                     images.put(name, ImageIO.read(f));
                 }
             }
-        } catch(IOException | URISyntaxException ex) {
+        } catch(IOException ex) {
             ex.printStackTrace();
         }
     }

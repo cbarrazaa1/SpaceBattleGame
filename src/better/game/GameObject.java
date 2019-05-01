@@ -97,4 +97,9 @@ public abstract class GameObject implements OnClickListener, MouseEventListener 
     public boolean intersects(GameObject obj) {
         return getRect().intersects(obj.getRect());
     }
+    
+    public boolean isOutOfBounds(int tolerance) {
+        return (x + width + tolerance < 0 || x + tolerance > Game.getDisplay().getWidth()) || 
+               (y + height + tolerance < 0 || y + tolerance > Game.getDisplay().getHeight());
+    }
 }

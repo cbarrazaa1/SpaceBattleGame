@@ -122,6 +122,13 @@ public class LevelScreen extends Screen {
             }
         }
         
+        // check if lights out of bounds
+        for(Light2D light : lights) {
+            if(light.isOutOfBounds(0)) {
+                lightsToRemove.add(light);
+            }
+        }
+        
         // remove lights
         for(Light2D light : lightsToRemove) {
             lights.remove(light);

@@ -109,6 +109,9 @@ public class Player extends GameObject {
         // update every shot
         for (int i = 0; i < shots.size(); i++){
             shots.get(i).update();
+            if(shots.get(i).isOutOfBounds(0)) {
+                shots.remove(i);
+            }
         }
         
         // dash mecanic version 1
