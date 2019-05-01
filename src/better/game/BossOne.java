@@ -42,7 +42,7 @@ public class BossOne extends GameObject{
         theta = 0;
         moveTimer = new Timer(0);
         shootTimer = new Timer(1);
-        health = 700;
+        health = 750;
         alive = true;
         hasSpawned = false;
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), health, health, 0.40f);
@@ -85,10 +85,10 @@ public class BossOne extends GameObject{
                 movTheta = Math.atan2(getY()-yPos, getX()-xPos);
             }
 
-            //System.out.println("x: " + (getY()-yPos) + " y: " + (getX()-xPos));
             if((getX() < xPos - 10 || getX() > xPos + 10) && (getY() < yPos - 10 || getY() > yPos + 10)){
-                setX(getX() + ((float)(Math.cos(movTheta+Math.PI))*2));
-                setY(getY() + ((float)(Math.sin(movTheta+Math.PI))*2));
+                float speed = (health > 350 ? 2 : (health > 100 ? 4 : 5));
+                setX(getX() + ((float)(Math.cos(movTheta+Math.PI))*speed));
+                setY(getY() + ((float)(Math.sin(movTheta+Math.PI))*speed));
             }
             moveTimer.update();
         } else {
@@ -108,7 +108,7 @@ public class BossOne extends GameObject{
         float yMID = getY() + getHeight()/2;
         
         if (shootTimer.isActivated()){
-            shootTimer.restart(Math.random()*3);
+            shootTimer.restart(health > 350 ? Math.random()*2 : (health > 100 ? 0.2d : 0.1d));
             float xF = (float)Math.cos(theta + Math.PI/2)*30;
             float yF = (float)Math.sin(theta + Math.PI/2)*30;
             shot.add(new EnemyShot(xMID + xF, yMID + yF, 10, 10, theta - Math.PI/2));
@@ -152,6 +152,7 @@ public class BossOne extends GameObject{
         for (int i = 0; i < shot.size(); i++){
             shot.get(i).update();
             if(shot.get(i).intersects(player) && !player.isDashing()) {
+                player.setHealth(player.getHealth() - 12);
                 LevelScreen.getInstance().lightsToRemove.add(shot.get(i).getLight());
                 shot.remove(i);
             }
@@ -162,7 +163,14 @@ public class BossOne extends GameObject{
             if(player.getShot().get(i).intersects(this)) {
                 LevelScreen.getInstance().lightsToRemove.add(player.getShot().get(i).getLight());
                 player.getShot().remove(i);
-                setHealth(getHealth()-10); // reduce enemy health when shot
+                
+                if(health > 350) { 
+                    setHealth(getHealth()-10); // reduce enemy health when shot                    
+                } else if(health > 100) {
+                    setHealth(getHealth() - 4);
+                } else {
+                    setHealth(getHealth() - 3);
+                }
             }
         }
         

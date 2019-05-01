@@ -44,7 +44,7 @@ public class LevelScreen extends Screen {
     private Player player;
     
     // wave data
-    private static final int TO_DEFEAT = 5;
+    private static final int TO_DEFEAT = 20;
     private int defeated;
     private Timer spawnTimer;
     
@@ -112,6 +112,10 @@ public class LevelScreen extends Screen {
         healthBar.setValue(player.getHealth());
         StatusBar energyBar = (StatusBar)objects.get("energyBar");
         energyBar.setValue(player.getEnergy());
+        
+        if(player.getHealth() <= 0) {
+            Game.setCurrentScreen(LevelSelectScreen.getInstance());
+        }
         
         for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
             entry.getValue().update();
