@@ -177,7 +177,7 @@ public class EnemyOne extends GameObject{
             // checks when its time for the next shot
             if (shootTimer <= 0){
                 shot.add(new EnemyShot(getX()+getWidth()/2, getY()+getHeight()/2, 10, 10, theta));
-                shootTimer = (int)(Math.random()*200);
+                shootTimer = (int)(Math.random()*140);
             }
             shootTimer--;
 
@@ -197,7 +197,7 @@ public class EnemyOne extends GameObject{
             for (int i = 0; i < shot.size(); i++){
                 shot.get(i).update();
                 if(shot.get(i).intersects(player) && !player.isDashing()) {
-                    player.setHealth(player.getHealth() - 5);
+                    player.setHealth(player.getHealth() - 6);
                     LevelScreen.getInstance().lightsToRemove.add(shot.get(i).getLight());
                     shot.remove(i);
                 }
@@ -208,7 +208,7 @@ public class EnemyOne extends GameObject{
                 if(player.getShot().get(i).intersects(this)) {
                     LevelScreen.getInstance().lightsToRemove.add(player.getShot().get(i).getLight());
                     player.getShot().remove(i);
-                    setHealth(getHealth()-10); // reduce enemy health when shot
+                    setHealth(getHealth()-8); // reduce enemy health when shot
                 }
             }
         }

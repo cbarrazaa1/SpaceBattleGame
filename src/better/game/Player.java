@@ -68,7 +68,7 @@ public class Player extends GameObject {
             g.drawImage(Assets.images.get("PlayerShip"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         }else{
             // TEST LOL // Should be a dashing image
-            g.drawImage(Assets.images.get("LevelSelectYoth"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
+            g.drawImage(Assets.images.get("PlayerShip"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         }
         g.setTransform(orig);    
     }
@@ -121,7 +121,7 @@ public class Player extends GameObject {
             speed = 25;
             dashTimer.restart();
             setDashing(true);
-            setEnergy(getEnergy() - 15);
+            setEnergy(getEnergy() - 20);
         }
         if(dashTimer.isActivated()){
             speed = 3;
@@ -236,6 +236,9 @@ public class Player extends GameObject {
      * @param energy 
      */
     public void setEnergy(int energy){
+        if(energy <= 0) {
+            energy = 0;
+        }
         this.energy = energy;
     }
     
