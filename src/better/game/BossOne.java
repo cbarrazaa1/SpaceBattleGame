@@ -80,13 +80,14 @@ public class BossOne extends GameObject{
         float yMID = getY() + getHeight()/2;
         
         if (shootTimer.isActivated()){
-            shootTimer.restart();
+            shootTimer.restart(Math.random()*3);
             float xF = (float)Math.cos(theta + Math.PI/2)*30;
             float yF = (float)Math.sin(theta + Math.PI/2)*30;
             shot.add(new EnemyShot(xMID + xF, yMID + yF, 10, 10, theta - Math.PI/2));
             shot.add(new EnemyShot(xMID - xF, yMID - yF, 10, 10, theta - Math.PI/2));
+        }else{
+            shootTimer.update();
         }
-        shootTimer.update();
     }
     
     @Override
