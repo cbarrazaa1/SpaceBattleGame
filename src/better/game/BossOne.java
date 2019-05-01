@@ -20,25 +20,33 @@ import java.util.ArrayList;
 public class BossOne extends GameObject{
     
     private double theta;
-    private ArrayList<BossOneShot> shots;
+    private ArrayList<EnemyShot> shot;
     private Player player;
     private Timer moveTimer;
+    private Timer shootTimer;
     
     public BossOne(float x, float y, float width, float height, Player player) {
         super(x, y, width, height);
         this.player = player;
-        shots = new ArrayList<BossOneShot>();
+        shot = new ArrayList<EnemyShot>();
         theta = 0;
         moveTimer = new Timer(0);
+        shootTimer = new Timer(1);
     }
     
     @Override
     public void render(Graphics2D g) {
+        // RENDER SHOT HERE FOR NOW
+        for (int i = 0; i < shot.size(); i++){
+            shot.get(i).render(g);
+        }
+        
         AffineTransform orig = g.getTransform();
         g.translate(getX(), getY());
         g.rotate(theta - Math.PI/2, getWidth() / 2, getHeight() / 2);
         g.drawImage(Assets.images.get("EnemyShip1"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         g.setTransform(orig);
+        
     }
     
     int xPos = 0, yPos = 0; 
@@ -67,6 +75,20 @@ public class BossOne extends GameObject{
         moveTimer.update();
     }
     
+    public void shoot(){
+        float xMID = getX() + getWidth()/2;
+        float yMID = getY() + getHeight()/2;
+        
+        if (shootTimer.isActivated()){
+            shootTimer.restart();
+            float xF = (float)Math.cos(theta + Math.PI/2)*30;
+            float yF = (float)Math.sin(theta + Math.PI/2)*30;
+            shot.add(new EnemyShot(xMID + xF, yMID + yF, 10, 10, theta - Math.PI/2));
+            shot.add(new EnemyShot(xMID - xF, yMID - yF, 10, 10, theta - Math.PI/2));
+        }
+        shootTimer.update();
+    }
+    
     @Override
     public void update(){
         // delta X and Y are calculated
@@ -74,9 +96,9 @@ public class BossOne extends GameObject{
         double deltaY = (player.getY()+player.getHeight()/2) - ( y + getWidth() / 2);
         
         // boss follows the player
-        if (theta+Math.PI < Math.atan2(deltaY, deltaX)-.1+Math.PI){
+        if (theta < Math.atan2(deltaY, deltaX)-.01){
             theta += Math.PI/100;
-        }if (theta+Math.PI > Math.atan2(deltaY, deltaX)+.1+Math.PI){
+        }if (theta > Math.atan2(deltaY, deltaX)+.01){
             theta -= Math.PI/100;
         }
         
@@ -88,9 +110,15 @@ public class BossOne extends GameObject{
             theta += 2*Math.PI;
         }
         
+        // Movement function
         move();
-        //System.out.println("theta"+(theta*180)/Math.PI);
-        //System.out.println("player"+(Math.atan2(deltaY, deltaX)*180)/Math.PI);
+        
+        // shooting function
+        shoot();
+        // UPDATE SHOT HERE FOR NOW
+        for (int i = 0; i < shot.size(); i++){
+            shot.get(i).update();
+        }
         
     }
 
