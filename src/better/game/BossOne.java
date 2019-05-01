@@ -8,6 +8,7 @@ package better.game;
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
+import better.scenes.LevelScreen;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import static java.lang.Math.abs;
@@ -24,6 +25,8 @@ public class BossOne extends GameObject{
     private Player player;
     private Timer moveTimer;
     private Timer shootTimer;
+    private int health;
+    private boolean alive;
     
     public BossOne(float x, float y, float width, float height, Player player) {
         super(x, y, width, height);
@@ -32,6 +35,8 @@ public class BossOne extends GameObject{
         theta = 0;
         moveTimer = new Timer(0);
         shootTimer = new Timer(1);
+        health = 300;
+        alive = true;
     }
     
     @Override
@@ -116,13 +121,49 @@ public class BossOne extends GameObject{
         
         // shooting function
         shoot();
-        // UPDATE SHOT HERE FOR NOW
+
+        // checks if the shot intersected the player
         for (int i = 0; i < shot.size(); i++){
             shot.get(i).update();
+            if(shot.get(i).intersects(player) && !player.isDashing()) {
+                LevelScreen.getInstance().lightsToRemove.add(shot.get(i).getLight());
+                shot.remove(i);
+            }
+        }
+
+        // checks if the player shot intersected the enemy
+        for (int i = 0; i < player.getShot().size(); i++){
+            if(player.getShot().get(i).intersects(this)) {
+                LevelScreen.getInstance().lightsToRemove.add(player.getShot().get(i).getLight());
+                player.getShot().remove(i);
+                setHealth(getHealth()-10); // reduce enemy health when shot
+            }
         }
         
+        if (getHealth() <= 0) System.out.println("BOSS IS DEAD");
+        
     }
-
+    
+    public int getHealth(){
+        return health;
+    }
+    
+    public void setHealth(int health){
+        this.health = health;
+    }
+    
+    public boolean isAlive(){
+        return alive;
+    }
+    
+    public void setAlive(boolean alive){
+        this.alive = alive;
+    }
+    
+    public ArrayList<EnemyShot> getShot() {
+        return shot;
+    }
+    
     @Override
     public void onClick() {
     }
