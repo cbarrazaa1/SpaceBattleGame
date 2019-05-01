@@ -7,6 +7,8 @@ package better.scenes;
 
 import better.assets.Assets;
 import better.core.Game;
+import better.core.Timer;
+import better.core.Util;
 import better.game.BossOne;
 import better.game.EnemyOne;
 import better.game.EnemyShot;
@@ -20,6 +22,7 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -40,11 +43,17 @@ public class LevelScreen extends Screen {
     private ArrayList<EnemyOne> enemies;
     private Player player;
     
+    // wave data
+    private static final int TO_DEFEAT = 5;
+    private int defeated;
+    private Timer spawnTimer;
+    
     @Override
     public void init() {
         lights = new ArrayList<>();
         lightsToRemove = new ArrayList<>();
         enemies = new ArrayList<>();
+        objects = new HashMap<>();
         player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 75, 75);
         objects.put("player", player);
         
@@ -53,11 +62,9 @@ public class LevelScreen extends Screen {
         
         objects.put("armorBar", armorBar);
         objects.put("energyBar", energyBar);
-
-        
-        //TEST BOSS//
-        BossOne bossOne = new BossOne(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 150, 150, player);
-        objects.put("bossOne", bossOne);
+           
+        defeated = 0;
+        spawnTimer = new Timer(1f);
     }
 
     @Override
@@ -88,21 +95,21 @@ public class LevelScreen extends Screen {
         g.setComposite(orig);
 
     }
-    //// TEST
-    int n = 0;
-    int timer = 0;
-    ////
+
     @Override
     public void update() {
-        //// TEST
-        if (timer >= 100){
+        if(spawnTimer.isActivated()) {
             enemies.add(new EnemyOne(50, 50, player));
-            n++;
-            timer = 0;
+            if(defeated < TO_DEFEAT) {
+                spawnTimer.restart(Util.randNumF(1.5f, 2f));
+            } else {
+                spawnTimer.restart(Util.randNumF(2.5f, 4.5f));
+            }
         }
-        timer++;
-        ////
+        spawnTimer.update();
         
+        StatusBar healthBar = (StatusBar)objects.get("armorBar");
+        healthBar.setValue(player.getHealth());
         StatusBar energyBar = (StatusBar)objects.get("energyBar");
         energyBar.setValue(player.getEnergy());
         
@@ -117,6 +124,11 @@ public class LevelScreen extends Screen {
             if(!enemy.isAlive()) {
                 for(EnemyShot shot : enemies.get(i).getShot()) { 
                     lightsToRemove.add(shot.getLight());
+                }
+                defeated++;
+                if(defeated == TO_DEFEAT) {
+                    BossOne bossOne = new BossOne(Game.getDisplay().getWidth() / 2 - 75, -300, 150, 150, player);
+                    objects.put("bossOne", bossOne);
                 }
                 enemies.remove(enemy);
             }

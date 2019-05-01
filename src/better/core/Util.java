@@ -20,4 +20,8 @@ public class Util {
     public static int randNum(int min, int max) {
         return new Random().nextInt((max - min) + 1) + min;
     }
+    
+    public static float randNumF(float min, float max) {
+        return new Random().nextFloat() * (max - min) + min;
+    }
 }

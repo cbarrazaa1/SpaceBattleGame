@@ -99,7 +99,7 @@ public abstract class GameObject implements OnClickListener, MouseEventListener 
     }
     
     public boolean isOutOfBounds(int tolerance) {
-        return (x + width + tolerance < 0 || x + tolerance > Game.getDisplay().getWidth()) || 
-               (y + height + tolerance < 0 || y + tolerance > Game.getDisplay().getHeight());
+        return (x + width + tolerance < 0 || x > Game.getDisplay().getWidth() + tolerance) || 
+               (y + height + tolerance < 0 || y > Game.getDisplay().getHeight() + tolerance);
     }
 }
