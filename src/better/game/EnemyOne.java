@@ -30,6 +30,8 @@ public class EnemyOne extends GameObject{
     private boolean spawning;
     private int health;
     private boolean alive;
+    private StatusBar healthBar;
+    private boolean renderBar;
     
     public EnemyOne(float width, float height, Player player) {
         super(0, 0, width, height);
@@ -42,8 +44,11 @@ public class EnemyOne extends GameObject{
         ySpeed = 0;
         spawning = true;
         spawnEnemy();
-        health = 20;
+        health = 30;
         alive = true;
+        
+        healthBar = new StatusBar(x, y, 6, 11, Assets.images.get("ArmorBar"), health, health, 1.6f);
+        renderBar = false;
     }
 
     @Override
@@ -57,6 +62,10 @@ public class EnemyOne extends GameObject{
         g.rotate(theta, getWidth() / 2, getHeight() / 2);
         g.drawImage(Assets.images.get("EnemyShip1"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         g.setTransform(orig);
+        
+        if(renderBar) {
+            healthBar.render(g);            
+        }
     }
     
     private void spawnEnemy(){
@@ -120,9 +129,6 @@ public class EnemyOne extends GameObject{
                 break;
                 
         }
-        
-        //System.out.println("X: " + getX() + " Y: " + getY() + "cuadrant: " + cuadrant);
-        
     }
     
     private void checkColision(){
@@ -147,6 +153,7 @@ public class EnemyOne extends GameObject{
     
     @Override
     public void update(){
+        super.update();
         int WIDTH = Game.getDisplay().getWidth();
         int HEIGHT = Game.getDisplay().getHeight();
         
@@ -190,6 +197,7 @@ public class EnemyOne extends GameObject{
             for (int i = 0; i < shot.size(); i++){
                 shot.get(i).update();
                 if(shot.get(i).intersects(player) && !player.isDashing()) {
+                    player.setHealth(player.getHealth() - 5);
                     LevelScreen.getInstance().lightsToRemove.add(shot.get(i).getLight());
                     shot.remove(i);
                 }
@@ -208,6 +216,11 @@ public class EnemyOne extends GameObject{
         if (getHealth() <= 0){ 
             setAlive(false);
         }
+        
+        // update healthbar
+        healthBar.setValue(health);
+        healthBar.setX(x);
+        healthBar.setY(y - 10);
         
         // delta X and Y are calculated
         double deltaX = (player.getX()+player.getWidth()/2) - ( x + getHeight() / 2);
@@ -245,10 +258,12 @@ public class EnemyOne extends GameObject{
 
     @Override
     public void mouseEnter() {
+        renderBar = true;
     }
 
     @Override
     public void mouseLeave() {
+        renderBar = false;
     }
 
     @Override

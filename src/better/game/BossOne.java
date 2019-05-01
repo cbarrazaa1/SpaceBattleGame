@@ -9,8 +9,12 @@ import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
 import better.scenes.LevelScreen;
+import better.scenes.LevelSelectScreen;
+import better.ui.UILabel;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
 
@@ -27,6 +31,9 @@ public class BossOne extends GameObject{
     private Timer shootTimer;
     private int health;
     private boolean alive;
+    private boolean hasSpawned;
+    private StatusBar healthBar;
+    private UILabel lblName;
     
     public BossOne(float x, float y, float width, float height, Player player) {
         super(x, y, width, height);
@@ -35,8 +42,11 @@ public class BossOne extends GameObject{
         theta = 0;
         moveTimer = new Timer(0);
         shootTimer = new Timer(1);
-        health = 300;
+        health = 700;
         alive = true;
+        hasSpawned = false;
+        healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), health, health, 0.40f);
+        lblName = new UILabel(10, 4, "Boss #1", Color.WHITE, UILabel.DEFAULT_FONT);
     }
     
     @Override
@@ -52,6 +62,8 @@ public class BossOne extends GameObject{
         g.drawImage(Assets.images.get("EnemyShip1"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         g.setTransform(orig);
         
+        lblName.render(g);
+        healthBar.render(g);
     }
     
     int xPos = 0, yPos = 0; 
@@ -61,26 +73,37 @@ public class BossOne extends GameObject{
         int WIDTH =  Game.getDisplay().getWidth();
         int HEIGHT = Game.getDisplay().getHeight();
         
-        if(moveTimer.isActivated()){
-            do{
-            xPos = (int)(Math.random() * 600)-300;
-            yPos = (int)(Math.random() * 600)-300;
-            xPos += getX();
-            yPos += getY();
-            }while(xPos < 0 || xPos > WIDTH - width || yPos < 0 || yPos > + HEIGHT - height);
-            moveTimer.restart(2);
-            movTheta = Math.atan2(getY()-yPos, getX()-xPos);
+        if(hasSpawned) {
+            if(moveTimer.isActivated()){
+                do{
+                xPos = (int)(Math.random() * 600)-300;
+                yPos = (int)(Math.random() * 600)-300;
+                xPos += getX();
+                yPos += getY();
+                }while(xPos < 0 || xPos > WIDTH - width || yPos < 0 || yPos > + HEIGHT - height);
+                moveTimer.restart(2);
+                movTheta = Math.atan2(getY()-yPos, getX()-xPos);
+            }
+
+            //System.out.println("x: " + (getY()-yPos) + " y: " + (getX()-xPos));
+            if((getX() < xPos - 10 || getX() > xPos + 10) && (getY() < yPos - 10 || getY() > yPos + 10)){
+                setX(getX() + ((float)(Math.cos(movTheta+Math.PI))*2));
+                setY(getY() + ((float)(Math.sin(movTheta+Math.PI))*2));
+            }
+            moveTimer.update();
+        } else {
+            setY(getY() + 1);
+            if(getY() >= 0) {
+                setSpawned(true);
+            }
         }
-        
-        //System.out.println("x: " + (getY()-yPos) + " y: " + (getX()-xPos));
-        if((getX() < xPos - 10 || getX() > xPos + 10) && (getY() < yPos - 10 || getY() > yPos + 10)){
-            setX(getX() + ((float)(Math.cos(movTheta+Math.PI))*2));
-            setY(getY() + ((float)(Math.sin(movTheta+Math.PI))*2));
-        }
-        moveTimer.update();
     }
     
     public void shoot(){
+        if(!hasSpawned) {
+            return;
+        }
+        
         float xMID = getX() + getWidth()/2;
         float yMID = getY() + getHeight()/2;
         
@@ -122,6 +145,9 @@ public class BossOne extends GameObject{
         // shooting function
         shoot();
 
+        // update healtbar
+        healthBar.setValue(health);
+        
         // checks if the shot intersected the player
         for (int i = 0; i < shot.size(); i++){
             shot.get(i).update();
@@ -140,7 +166,9 @@ public class BossOne extends GameObject{
             }
         }
         
-        if (getHealth() <= 0) System.out.println("BOSS IS DEAD");
+        if (getHealth() <= 0) {
+            Game.setCurrentScreen(LevelSelectScreen.getInstance());
+        }
         
     }
     
@@ -163,6 +191,15 @@ public class BossOne extends GameObject{
     public ArrayList<EnemyShot> getShot() {
         return shot;
     }
+    
+    public void setSpawned(boolean hasSpawned) {
+        this.hasSpawned = hasSpawned;
+    }
+    
+//    @Override
+//    public Rectangle2D.Float getRect() {
+//        
+//    }
     
     @Override
     public void onClick() {

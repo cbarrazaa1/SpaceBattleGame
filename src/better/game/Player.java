@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
+import better.scenes.LevelScreen;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_LEFT;
@@ -109,7 +110,8 @@ public class Player extends GameObject {
         // update every shot
         for (int i = 0; i < shots.size(); i++){
             shots.get(i).update();
-            if(shots.get(i).isOutOfBounds(0)) {
+            if(shots.get(i).isOutOfBounds(100)) {
+                LevelScreen.getInstance().lightsToRemove.add(shots.get(i).getLight());
                 shots.remove(i);
             }
         }
@@ -215,6 +217,9 @@ public class Player extends GameObject {
      * @param health 
      */
     public void setHealth(int health){
+        if(health <= 0) {
+            health = 0;
+        }
         this.health = health;
     }
     
