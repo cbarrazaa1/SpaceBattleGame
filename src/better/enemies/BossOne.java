@@ -3,11 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package better.game;
+package better.enemies;
 
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
+import better.game.EnemyShot;
+import better.game.GameObject;
+import better.game.Player;
+import better.game.StatusBar;
 import better.scenes.LevelScreen;
 import better.scenes.LevelSelectScreen;
 import better.ui.UILabel;
@@ -58,7 +62,7 @@ public class BossOne extends GameObject{
         
         AffineTransform orig = g.getTransform();
         g.translate(getX(), getY());
-        g.rotate(theta - Math.PI/2, getWidth() / 2, getHeight() / 2);
+        g.rotate(theta, getWidth() / 2, getHeight() / 2);
         g.drawImage(Assets.images.get("EnemyShip1"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         g.setTransform(orig);
         
@@ -109,10 +113,10 @@ public class BossOne extends GameObject{
         
         if (shootTimer.isActivated()){
             shootTimer.restart(health > 350 ? Math.random()*2 : (health > 100 ? 0.2d : 0.1d));
-            float xF = (float)Math.cos(theta + Math.PI/2)*30;
-            float yF = (float)Math.sin(theta + Math.PI/2)*30;
-            shot.add(new EnemyShot(xMID + xF, yMID + yF, 10, 10, theta - Math.PI/2));
-            shot.add(new EnemyShot(xMID - xF, yMID - yF, 10, 10, theta - Math.PI/2));
+            float xF = (float)Math.cos(theta)*30;
+            float yF = (float)Math.sin(theta)*30;
+            shot.add(new EnemyShot(xMID + xF, yMID + yF, 10, 10, theta));
+            shot.add(new EnemyShot(xMID - xF, yMID - yF, 10, 10, theta));
         }else{
             shootTimer.update();
         }
@@ -126,17 +130,17 @@ public class BossOne extends GameObject{
         double deltaY = (player.getY()+player.getHeight()/2) - ( y + getWidth() / 2);
         
         // boss follows the player
-        if (theta < Math.atan2(deltaY, deltaX)-.01){
+        if (theta + Math.PI/2 < Math.atan2(deltaY, deltaX)-.01){
             theta += Math.PI/100;
-        }if (theta > Math.atan2(deltaY, deltaX)+.01){
+        }if (theta + Math.PI/2 > Math.atan2(deltaY, deltaX)+.01){
             theta -= Math.PI/100;
         }
         
         // for when the diference in angles is more the 180 degrees
-        if (theta - Math.atan2(deltaY, deltaX) > Math.PI){
+        if (theta + Math.PI/2 - Math.atan2(deltaY, deltaX) > Math.PI){
             theta -= 2*Math.PI;
         }
-        if (theta - Math.atan2(deltaY, deltaX) < -Math.PI){
+        if (theta + Math.PI/2 - Math.atan2(deltaY, deltaX) < -Math.PI){
             theta += 2*Math.PI;
         }
         

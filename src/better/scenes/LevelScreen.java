@@ -10,9 +10,11 @@ import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
 import better.core.Util;
-import better.game.BossOne;
+import better.enemies.Boss1;
+import better.enemies.BossOne;
+import better.enemies.Enemy;
+import better.enemies.Enemy1;
 import better.game.Bullet;
-import better.game.EnemyOne;
 import better.game.EnemyShot;
 import better.game.GameObject;
 import better.game.Light2D;
@@ -43,13 +45,12 @@ public class LevelScreen extends Screen {
     
     public ArrayList<Light2D> lights;
     public ArrayList<Light2D> lightsToRemove;
-    private ArrayList<EnemyOne> enemies;
+    private ArrayList<Enemy> enemies;
     private ArrayList<Powerup> powerups;
     private ArrayList<Bullet> bullets;
     private Player player;
     private StatusBar armorBar;
     private StatusBar energyBar;
-    private BossOne bossOne;
     
     // wave data
     private static final int TO_DEFEAT = 1;
@@ -63,7 +64,7 @@ public class LevelScreen extends Screen {
         enemies = new ArrayList<>();
         powerups = new ArrayList<>();
         bullets = new ArrayList();
-        player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 64, 64);
+        player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 64, 64, bullets);
         
         armorBar = new StatusBar(59, 571, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
         energyBar = new StatusBar(59, 581, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f);       
@@ -86,16 +87,12 @@ public class LevelScreen extends Screen {
         }
         
         // render enemies
-        for(EnemyOne e : enemies) {
+        for(Enemy e : enemies) {
             e.render(g);
         }
         
         // render player
         player.render(g);
-        
-        if(bossOne != null) {
-            bossOne.render(g);
-        }
         
         // render powerups
         for(Powerup powerup : powerups) {
@@ -121,7 +118,7 @@ public class LevelScreen extends Screen {
     @Override
     public void update() {
         if(spawnTimer.isActivated()) {
-            enemies.add(new EnemyOne(64, 64, player));
+            enemies.add(new Enemy1(64, 64, 40, player, bullets));
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(1.6f, 2.5f));
             } else {
@@ -138,29 +135,43 @@ public class LevelScreen extends Screen {
             Game.setCurrentScreen(LevelSelectScreen.getInstance());
         }   
         
-        if(bossOne != null) {
-            bossOne.update();
-        }
-        
         // update bullets
         for(int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
             bullet.update();
             
-            
+            if(bullet.getType() == Bullet.BULLET_TYPE_ENEMY) {
+                if(bullet.intersects(player) && !player.isDashing()) {
+                    player.setHealth(player.getHealth() - bullet.getDamage());
+                    lightsToRemove.add(bullet.getLight());
+                    Assets.damage.play();
+                    bullets.remove(i);
+                }
+            }
         }
          
-        // for erasing dead enemys from the objects map
+        // update enemies
         for(int i = 0; i < enemies.size(); i++) {
-            EnemyOne enemy = enemies.get(i);
+            Enemy enemy = enemies.get(i);
             enemy.update();
-            if(!enemy.isAlive()) {
-                for(EnemyShot shot : enemies.get(i).getShot()) { 
-                    lightsToRemove.add(shot.getLight());
+            
+            // check bullets collision
+            for(int j = 0; j < bullets.size(); j++) {
+                Bullet bullet = bullets.get(j);
+                if(bullet.getType() == Bullet.BULLET_TYPE_PLAYER) {
+                    if(bullet.intersects(enemy)) {
+                        enemy.setHealth(enemy.getHealth() - bullet.getDamage());
+                        lightsToRemove.add(bullet.getLight());
+                        Assets.damage.play();
+                        bullets.remove(j);
+                    }
                 }
+            }
+            
+            if(!enemy.isAlive()) {
                 defeated++;
                 if(defeated == TO_DEFEAT) {
-                    bossOne = new BossOne(Game.getDisplay().getWidth() / 2 - 75, -300, 128, 128, player);
+                    enemies.add(new Boss1(Game.getDisplay().getWidth() / 2 - 75, -300, 128, 128, 750, player, bullets));
                 }
                 
                 // spawn powerup

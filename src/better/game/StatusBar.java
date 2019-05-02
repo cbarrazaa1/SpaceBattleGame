@@ -66,16 +66,18 @@ public class StatusBar extends GameObject {
         g.drawImage(backImg, (int)getX() + (int)getWidth(), (int)getY(), (int)getX() + (int)getWidth() + 2, (int)getY() + (int)getHeight(), 4, 0, 6, 11, null);
         
         // Actual Bar //
-        float w = (value * getWidth()) / maxValue;
-        
-        // render left side
-        g.drawImage(img, (int)getX(), (int)getY(), (int)getX() + 2, (int)getY() + (int)getHeight(), 0, 0, 2, 11, null);
-        
-        // render middle
-        g.drawImage(img, (int)getX() + 2, (int)getY(), (int)getX() + (int)w, (int)getY() + (int)getHeight(), 2, 0, 4, 11, null);
-        
-        // render right side
-        g.drawImage(img, (int)getX() + (int)w, (int)getY(), (int)getX() + (int)w + 2, (int)getY() + (int)getHeight(), 4, 0, 6, 11, null);
+        if(value > 0) {
+            float w = (value * getWidth()) / maxValue;
+
+            // render left side
+            g.drawImage(img, (int)getX(), (int)getY(), (int)getX() + 2, (int)getY() + (int)getHeight(), 0, 0, 2, 11, null);
+
+            // render middle
+            g.drawImage(img, (int)getX() + 2, (int)getY(), (int)getX() + (int)w, (int)getY() + (int)getHeight(), 2, 0, 4, 11, null);
+
+            // render right side
+            g.drawImage(img, (int)getX() + (int)w, (int)getY(), (int)getX() + (int)w + 2, (int)getY() + (int)getHeight(), 4, 0, 6, 11, null);
+        }
     }
 
     @Override

@@ -7,7 +7,6 @@ package better.scenes;
 
 import better.assets.Assets;
 import better.core.Game;
-import better.game.EnemyOne;
 import better.game.Player;
 import better.ui.UIButton;
 import better.ui.UIControl;
@@ -26,10 +25,6 @@ import kuusisto.tinysound.TinySound;
  */
 public class MainMenuScreen extends Screen {
     private static MainMenuScreen instance;
-    
-    /// TEST /////
-    private Player player;
-    private ArrayList<EnemyOne> enemies;
     
     public static MainMenuScreen getInstance() {
         if(instance == null) {

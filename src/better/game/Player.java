@@ -11,6 +11,7 @@ import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
 import better.scenes.LevelScreen;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_LEFT;
@@ -34,7 +35,7 @@ public class Player extends GameObject {
     private boolean dashing;
     private Timer shotTimer; 
     private Timer dashTimer;
-    private ArrayList<PlayerShot> shots; // list for the player shots
+    private ArrayList<Bullet> bullets; // list for the player shots
     private int speed;
     
     private int energy; // energy for dashes or abilities
@@ -42,10 +43,9 @@ public class Player extends GameObject {
     
     private Timer energyTimer; // timer for energy regeneration
     
-    public Player(float x, float y, float width, float height) {
+    public Player(float x, float y, float width, float height, ArrayList<Bullet> bullets) {
         super(x, y, width, height);
         //theta = 0;
-        shots = new ArrayList<PlayerShot>();
         this.shooting = false;
         this.speed = 3;
         this.dashing = false;
@@ -53,15 +53,12 @@ public class Player extends GameObject {
         this.energy = 50;
         energyTimer = new Timer(0.1);
         shotTimer = new Timer(0.2);
-        dashTimer = new Timer(0.1);    
+        dashTimer = new Timer(0.1);   
+        this.bullets = bullets;
     }
 
     @Override
     public void render(Graphics2D g) {
-        // render every shot
-        for (int i = 0; i < shots.size(); i++){
-            shots.get(i).render(g);
-        }
         AffineTransform orig = g.getTransform();
         g.translate(getX(), getY());
         g.rotate(theta, getWidth() / 2, getHeight() / 2);
@@ -100,7 +97,8 @@ public class Player extends GameObject {
         
         // this controls the shots of the player
         if (Game.getMouseManager().isButtonDown(MouseEvent.BUTTON1)&& !isShooting()){
-            shots.add(new PlayerShot(getX()+getWidth()/2, getY()+getHeight()/2, 10, 10, theta));
+            bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 10,
+                        theta - Math.PI, 8, Assets.images.get("BulletGreen"), Bullet.BULLET_TYPE_PLAYER, Color.GREEN));      
             Assets.playerShoot.play();
             setShooting(true);
             shotTimer.restart();
@@ -108,14 +106,6 @@ public class Player extends GameObject {
         // checks if the player can shoot again
         if (shotTimer.isActivated()){
             setShooting(false);
-        }
-        // update every shot
-        for (int i = 0; i < shots.size(); i++){
-            shots.get(i).update();
-            if(shots.get(i).isOutOfBounds(100)) {
-                LevelScreen.getInstance().lightsToRemove.add(shots.get(i).getLight());
-                shots.remove(i);
-            }
         }
         
         // dash mecanic version 1
@@ -205,13 +195,6 @@ public class Player extends GameObject {
      */
     public void setShooting(boolean shooting){
         this.shooting = shooting;
-    }
-    /**
-     * returns the shot array list
-     * @return shots
-     */
-    public ArrayList<PlayerShot> getShot(){
-        return shots;
     }
     
     /**
