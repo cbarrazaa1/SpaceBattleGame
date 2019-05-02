@@ -116,6 +116,7 @@ public class BossOne extends GameObject{
         }else{
             shootTimer.update();
         }
+        
     }
     
     @Override
@@ -154,6 +155,7 @@ public class BossOne extends GameObject{
             if(shot.get(i).intersects(player) && !player.isDashing()) {
                 player.setHealth(player.getHealth() - 12);
                 LevelScreen.getInstance().lightsToRemove.add(shot.get(i).getLight());
+                Assets.damage.play();
                 shot.remove(i);
             }
         }
@@ -163,6 +165,7 @@ public class BossOne extends GameObject{
             if(player.getShot().get(i).intersects(this)) {
                 LevelScreen.getInstance().lightsToRemove.add(player.getShot().get(i).getLight());
                 player.getShot().remove(i);
+                Assets.damage.play();
                 
                 if(health > 350) { 
                     setHealth(getHealth()-10); // reduce enemy health when shot                    

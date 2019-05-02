@@ -14,8 +14,11 @@ import better.ui.UIControl;
 import better.ui.UILabel;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
+import kuusisto.tinysound.Music;
+import kuusisto.tinysound.TinySound;
 
 /**
  *
@@ -53,6 +56,10 @@ public class MainMenuScreen extends Screen {
         uiControls.put("btnLoadGame", btnLoadGame);
         uiControls.put("btnOptions", btnOptions);
         uiControls.put("btnExitGame", btnExit);
+        System.out.println(new File("test.ogg").exists());
+        
+        Music m = TinySound.loadMusic("test.ogg");
+        m.play(true);
     }
 
     @Override

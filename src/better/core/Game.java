@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import kuusisto.tinysound.TinySound;
 
 /**
  * Game Handles everything that the game needs to function correctly.
@@ -95,15 +96,16 @@ public class Game implements Runnable {
         display.getCanvas().addMouseMotionListener(getMouseManager());
 
         // initialize the game's assets
+        TinySound.init();
         Assets.init();
-        
+
         // set initial screen
         currentScreen = MainMenuScreen.getInstance();
         getCurrentScreen().init();
         screenTimer = new Timer(0.03d);
         isChangingScreen = false;
         fadeAlpha = 0.0f;
-    }
+}
 
     /**
      * Starts the main game thread.
@@ -124,6 +126,7 @@ public class Game implements Runnable {
             isRunning = false;
             try {
                 thread.join();
+                TinySound.shutdown();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

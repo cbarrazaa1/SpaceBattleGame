@@ -7,6 +7,8 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
+import kuusisto.tinysound.Sound;
+import kuusisto.tinysound.TinySound;
 
 /**
  * Assets
@@ -26,7 +28,12 @@ public class Assets {
     /**
      * Audio that will be used by the game.
      */
-
+    public static Sound playerShoot;
+    public static Sound enemyShoot;
+    public static Sound damage;
+    public static Sound enemyDie;
+    public static Sound powerup;
+    public static Sound dash;
     
     /**
      * Loads all the assets that the game needs.
@@ -47,5 +54,12 @@ public class Assets {
         } catch(IOException ex) {
             ex.printStackTrace();
         }
+        
+        playerShoot = TinySound.loadSound("playerShoot.wav");
+        enemyShoot = TinySound.loadSound("enemyShoot.wav");
+        damage = TinySound.loadSound("damage.wav");
+        enemyDie = TinySound.loadSound("enemyDie.wav");
+        powerup = TinySound.loadSound("powerup.wav");
+        dash = TinySound.loadSound("dash.wav");
     }
 }

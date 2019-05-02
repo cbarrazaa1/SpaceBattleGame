@@ -149,6 +149,7 @@ public class LevelScreen extends Screen {
                     float y = enemy.getY();
                     powerups.add(new Powerup(x, y, 48, 30, Powerup.TYPE_HEALTH, player));
                 }
+                Assets.enemyDie.play();
                 enemies.remove(enemy);
             }
         }
@@ -163,6 +164,7 @@ public class LevelScreen extends Screen {
                         player.setHealth(player.getHealth() + 15);
                         break;
                 }
+                Assets.powerup.play();
                 powerups.remove(i);
             }
         }

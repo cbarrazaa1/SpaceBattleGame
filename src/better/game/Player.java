@@ -21,6 +21,8 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import kuusisto.tinysound.Sound;
+import kuusisto.tinysound.TinySound;
 /**
  *
  * @author rogel
@@ -40,7 +42,6 @@ public class Player extends GameObject {
     
     private Timer energyTimer; // timer for energy regeneration
     
-    
     public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
         //theta = 0;
@@ -52,7 +53,7 @@ public class Player extends GameObject {
         this.energy = 50;
         energyTimer = new Timer(0.1);
         shotTimer = new Timer(0.2);
-        dashTimer = new Timer(0.1);
+        dashTimer = new Timer(0.1);    
     }
 
     @Override
@@ -100,6 +101,7 @@ public class Player extends GameObject {
         // this controls the shots of the player
         if (Game.getMouseManager().isButtonDown(MouseEvent.BUTTON1)&& !isShooting()){
             shots.add(new PlayerShot(getX()+getWidth()/2, getY()+getHeight()/2, 10, 10, theta));
+            Assets.playerShoot.play();
             setShooting(true);
             shotTimer.restart();
         }

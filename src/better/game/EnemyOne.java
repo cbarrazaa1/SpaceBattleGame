@@ -48,7 +48,7 @@ public class EnemyOne extends GameObject{
         health = 30;
         alive = true;
         
-        healthBar = new StatusBar(x, y, 6, 11, Assets.images.get("ArmorBar"), health, health, 1.6f);
+        healthBar = new StatusBar(x, y, 6, 11, Assets.images.get("ArmorBar"), health, health, 2.13f);
         renderBar = false;
     }
 
@@ -200,6 +200,7 @@ public class EnemyOne extends GameObject{
                 if(shot.get(i).intersects(player) && !player.isDashing()) {
                     player.setHealth(player.getHealth() - 5);
                     LevelScreen.getInstance().lightsToRemove.add(shot.get(i).getLight());
+                    Assets.damage.play();
                     shot.remove(i);
                 }
             }
@@ -209,6 +210,7 @@ public class EnemyOne extends GameObject{
                 if(player.getShot().get(i).intersects(this)) {
                     LevelScreen.getInstance().lightsToRemove.add(player.getShot().get(i).getLight());
                     player.getShot().remove(i);
+                    Assets.damage.play();
                     setHealth(getHealth()-8); // reduce enemy health when shot
                 }
             }
