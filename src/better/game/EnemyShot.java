@@ -39,11 +39,9 @@ public class EnemyShot extends GameObject {
     @Override
     public void update() {
         // The bullet moves depending on the rotation of the player
-
         setX(getX() + ((float)(Math.cos(theta+Math.PI/2))*5));
         setY(getY() + ((float)(Math.sin(theta+Math.PI/2))*5));
 
-        
         // update light
         light.setX(x + width / 2);
         light.setY(y + height / 2);

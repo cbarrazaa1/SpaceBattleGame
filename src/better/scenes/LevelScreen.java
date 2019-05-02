@@ -11,6 +11,7 @@ import better.core.Game;
 import better.core.Timer;
 import better.core.Util;
 import better.game.BossOne;
+import better.game.Bullet;
 import better.game.EnemyOne;
 import better.game.EnemyShot;
 import better.game.GameObject;
@@ -44,6 +45,7 @@ public class LevelScreen extends Screen {
     public ArrayList<Light2D> lightsToRemove;
     private ArrayList<EnemyOne> enemies;
     private ArrayList<Powerup> powerups;
+    private ArrayList<Bullet> bullets;
     private Player player;
     private StatusBar armorBar;
     private StatusBar energyBar;
@@ -60,6 +62,7 @@ public class LevelScreen extends Screen {
         lightsToRemove = new ArrayList<>();
         enemies = new ArrayList<>();
         powerups = new ArrayList<>();
+        bullets = new ArrayList();
         player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 64, 64);
         
         armorBar = new StatusBar(59, 571, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
@@ -77,6 +80,11 @@ public class LevelScreen extends Screen {
         // render current bullet (temp)
         g.drawImage(Assets.images.get("BulletGreen"), 28, 561, 16, 16, null);
          
+        // render bullets
+        for(Bullet bullet : bullets) {
+            bullet.render(g);
+        }
+        
         // render enemies
         for(EnemyOne e : enemies) {
             e.render(g);
@@ -132,6 +140,14 @@ public class LevelScreen extends Screen {
         
         if(bossOne != null) {
             bossOne.update();
+        }
+        
+        // update bullets
+        for(int i = 0; i < bullets.size(); i++) {
+            Bullet bullet = bullets.get(i);
+            bullet.update();
+            
+            
         }
          
         // for erasing dead enemys from the objects map
