@@ -3,11 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package better.game;
+package better.enemies;
 
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
+import better.game.EnemyShot;
+import better.game.GameObject;
+import better.game.Player;
+import better.game.StatusBar;
 import better.scenes.LevelScreen;
 import better.scenes.LevelSelectScreen;
 import better.ui.UILabel;

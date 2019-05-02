@@ -104,11 +104,11 @@ public abstract class GameObject implements OnClickListener, MouseEventListener 
     }
     
     public double getDistXTo(GameObject obj) {
-        return obj.getX() + obj.getWidth() / 2;
+        return (obj.getX() + obj.getWidth() / 2) - (getX() + getWidth() / 2);
     }
     
     public double getDistYTo(GameObject obj) {
-        return obj.getY() + obj.getHeight() / 2;
+        return (obj.getY() + obj.getHeight() / 2) - (getY() + getHeight() / 2);
     }
     
     public double getThetaTo(GameObject obj) {

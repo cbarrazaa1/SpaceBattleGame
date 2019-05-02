@@ -19,14 +19,14 @@ public class Bullet extends GameObject {
     public static final int BULLET_TYPE_PLAYER = 0;
     public static final int BULLET_TYPE_ENEMY = 1;
     
-    private int damage;
-    private double theta;
-    private double speed;
-    private Light2D light;
-    private BufferedImage img;
-    private int bulletType;
+    protected int damage;
+    protected double theta;
+    protected double speed;
+    protected Light2D light;
+    protected BufferedImage img;
+    protected int bulletType;
     
-    public Bullet(float x, float y, float width, float height, int damage, double theta, double speed, Light2D light, BufferedImage img, int bulletType, Color color) {
+    public Bullet(float x, float y, float width, float height, int damage, double theta, double speed, BufferedImage img, int bulletType, Color color) {
         super(x, y, width, height);
         this.damage = damage;
         this.theta = theta;
@@ -34,6 +34,18 @@ public class Bullet extends GameObject {
         this.light = new Light2D(x + width / 2, y + height / 2, 0.1f, 30, color.getRed(), color.getGreen(), color.getBlue());
         this.img = img;
         this.bulletType = bulletType;
+    }
+    
+    public int getDamage() {
+        return damage;
+    }
+    
+    public Light2D getLight() {
+        return light;
+    }
+    
+    public int getType() {
+        return bulletType;
     }
     
     @Override
@@ -54,14 +66,6 @@ public class Bullet extends GameObject {
         g.rotate(theta, getWidth() / 2, getHeight() / 2);
         g.drawImage(img, 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         g.setTransform(orig);
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-    
-    public Light2D getLight() {
-        return light;
     }
             
     @Override
