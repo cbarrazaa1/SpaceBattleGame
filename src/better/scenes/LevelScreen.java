@@ -46,7 +46,7 @@ public class LevelScreen extends Screen {
     private Player player;
     
     // wave data
-    private static final int TO_DEFEAT = 15;
+    private static final int TO_DEFEAT = 1;
     private int defeated;
     private Timer spawnTimer;
     
