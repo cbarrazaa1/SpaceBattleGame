@@ -39,8 +39,8 @@ public class PlayerShot extends GameObject {
     @Override
     public void update() {
         // The bullet moves depending on the rotation of the player
-        setX(getX() + ((float)(Math.cos(theta-Math.PI/2))*5));
-        setY(getY() + ((float)(Math.sin(theta-Math.PI/2))*5));
+        setX(getX() + ((float)(Math.cos(theta-Math.PI/2))*6));
+        setY(getY() + ((float)(Math.sin(theta-Math.PI/2))*6));
         
         // update light
         light.setX(x + width / 2);

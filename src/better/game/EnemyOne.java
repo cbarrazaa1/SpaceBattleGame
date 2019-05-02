@@ -11,6 +11,7 @@ import better.scenes.LevelScreen;
 import better.scenes.MainMenuScreen;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -177,7 +178,7 @@ public class EnemyOne extends GameObject{
             // checks when its time for the next shot
             if (shootTimer <= 0){
                 shot.add(new EnemyShot(getX()+getWidth()/2, getY()+getHeight()/2, 10, 10, theta));
-                shootTimer = (int)(Math.random()*140);
+                shootTimer = (int)(Math.random()*170);
             }
             shootTimer--;
 
@@ -197,7 +198,7 @@ public class EnemyOne extends GameObject{
             for (int i = 0; i < shot.size(); i++){
                 shot.get(i).update();
                 if(shot.get(i).intersects(player) && !player.isDashing()) {
-                    player.setHealth(player.getHealth() - 6);
+                    player.setHealth(player.getHealth() - 5);
                     LevelScreen.getInstance().lightsToRemove.add(shot.get(i).getLight());
                     shot.remove(i);
                 }
@@ -230,6 +231,11 @@ public class EnemyOne extends GameObject{
         theta = Math.atan2(deltaY, deltaX);
         theta -= Math.PI / 2;
         
+    }
+    
+    @Override
+    public Rectangle2D.Float getRect() {
+        return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
     }
     
     public int getHealth(){

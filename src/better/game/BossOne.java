@@ -86,7 +86,7 @@ public class BossOne extends GameObject{
             }
 
             if((getX() < xPos - 10 || getX() > xPos + 10) && (getY() < yPos - 10 || getY() > yPos + 10)){
-                float speed = (health > 350 ? 2 : (health > 100 ? 4 : 5));
+                float speed = (health > 350 ? 2 : (health > 100 ? 4.5f : 5.5f));
                 setX(getX() + ((float)(Math.cos(movTheta+Math.PI))*speed));
                 setY(getY() + ((float)(Math.sin(movTheta+Math.PI))*speed));
             }
@@ -204,10 +204,10 @@ public class BossOne extends GameObject{
         this.hasSpawned = hasSpawned;
     }
     
-//    @Override
-//    public Rectangle2D.Float getRect() {
-//        
-//    }
+    @Override
+    public Rectangle2D.Float getRect() {
+        return new Rectangle2D.Float(x + 32, y + 32, 64, 64);
+    }
     
     @Override
     public void onClick() {

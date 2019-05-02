@@ -15,6 +15,7 @@ import better.game.EnemyShot;
 import better.game.GameObject;
 import better.game.Light2D;
 import better.game.Player;
+import better.game.Powerup;
 import better.game.StatusBar;
 import better.ui.UIControl;
 import java.awt.AlphaComposite;
@@ -41,10 +42,11 @@ public class LevelScreen extends Screen {
     public ArrayList<Light2D> lights;
     public ArrayList<Light2D> lightsToRemove;
     private ArrayList<EnemyOne> enemies;
+    private ArrayList<Powerup> powerups;
     private Player player;
     
     // wave data
-    private static final int TO_DEFEAT = 20;
+    private static final int TO_DEFEAT = 15;
     private int defeated;
     private Timer spawnTimer;
     
@@ -53,12 +55,13 @@ public class LevelScreen extends Screen {
         lights = new ArrayList<>();
         lightsToRemove = new ArrayList<>();
         enemies = new ArrayList<>();
+        powerups = new ArrayList<>();
         objects = new HashMap<>();
-        player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 75, 75);
+        player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 64, 64);
         objects.put("player", player);
         
         StatusBar armorBar = new StatusBar(59, 571, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
-        StatusBar energyBar = new StatusBar(59, 581, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f); 
+        StatusBar energyBar = new StatusBar(59, 581, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f);       
         
         objects.put("armorBar", armorBar);
         objects.put("energyBar", energyBar);
@@ -83,6 +86,10 @@ public class LevelScreen extends Screen {
             e.render(g);
         }
         
+        for(Powerup powerup : powerups) {
+            powerup.render(g);
+        }
+        
         Composite orig = g.getComposite();
         g.setColor(Color.BLACK);
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
@@ -99,11 +106,11 @@ public class LevelScreen extends Screen {
     @Override
     public void update() {
         if(spawnTimer.isActivated()) {
-            enemies.add(new EnemyOne(50, 50, player));
+            enemies.add(new EnemyOne(64, 64, player));
             if(defeated < TO_DEFEAT) {
-                spawnTimer.restart(Util.randNumF(1.5f, 2f));
+                spawnTimer.restart(Util.randNumF(1.6f, 2.5f));
             } else {
-                spawnTimer.restart(Util.randNumF(2.5f, 4.5f));
+                spawnTimer.restart(Util.randNumF(4f, 7f));
             }
         }
         spawnTimer.update();
@@ -131,10 +138,32 @@ public class LevelScreen extends Screen {
                 }
                 defeated++;
                 if(defeated == TO_DEFEAT) {
-                    BossOne bossOne = new BossOne(Game.getDisplay().getWidth() / 2 - 75, -300, 150, 150, player);
+                    BossOne bossOne = new BossOne(Game.getDisplay().getWidth() / 2 - 75, -300, 128, 128, player);
                     objects.put("bossOne", bossOne);
                 }
+                
+                // spawn powerup
+                int p = Util.randNum(1, 11);
+                if(p == 2) {
+                    float x = enemy.getX();
+                    float y = enemy.getY();
+                    powerups.add(new Powerup(x, y, 48, 30, Powerup.TYPE_HEALTH, player));
+                }
                 enemies.remove(enemy);
+            }
+        }
+        
+        // check powerups
+        for(int i = 0; i < powerups.size(); i++) {
+            Powerup powerup = powerups.get(i);
+            powerup.update();
+            if(powerup.intersects(player)) {
+                switch(powerup.getType()) {
+                    case Powerup.TYPE_HEALTH:
+                        player.setHealth(player.getHealth() + 15);
+                        break;
+                }
+                powerups.remove(i);
             }
         }
         
