@@ -71,6 +71,11 @@ public class ChoosePalScreen extends Screen {
         return instance;
     }
         
+    // Game objects
+    private SelectablePal yothPal;
+    private SelectablePal lakPal;
+    private SelectablePal adaPal;
+    
     @Override
     public void init() {
         // UI
@@ -94,42 +99,38 @@ public class ChoosePalScreen extends Screen {
         uiControls.put("lblSelectedPal", lblSelectedPal);
         
         // Objects
-        SelectablePal yothPal = new SelectablePal(90, 147, 107, 185, Assets.images.get("YothSelected"));
+        yothPal = new SelectablePal(90, 147, 107, 185, Assets.images.get("YothSelected"));
         yothPal.setOnClickListener(() -> {
             yothPal.setSelected(true);
-            ((SelectablePal)objects.get("lakPal")).setSelected(false);
-            ((SelectablePal)objects.get("adaPal")).setSelected(false);
+            lakPal.setSelected(false);
+            adaPal.setSelected(false);
             UILabel lbl = (UILabel)uiControls.get("lblSelectedPal");
             lbl.setText("YOTH");
             lbl.setColor(Color.RED);
             btnConfirm.setEnabled(true);
         });
         
-        SelectablePal lakPal = new SelectablePal(332, 167, 135, 162, Assets.images.get("LakSelected"));
+        lakPal = new SelectablePal(332, 167, 135, 162, Assets.images.get("LakSelected"));
         lakPal.setOnClickListener(() -> {
             lakPal.setSelected(true);
-            ((SelectablePal)objects.get("yothPal")).setSelected(false);
-            ((SelectablePal)objects.get("adaPal")).setSelected(false);
+            yothPal.setSelected(false);
+            adaPal.setSelected(false);
             UILabel lbl = (UILabel)uiControls.get("lblSelectedPal");
             lbl.setText("LAK");
             lbl.setColor(new Color(145f / 255f, 237f / 255f, 108f / 255f, 1f));
             btnConfirm.setEnabled(true);
         });
         
-        SelectablePal adaPal = new SelectablePal(583, 192, 126, 137, Assets.images.get("AdaSelected"));
+        adaPal = new SelectablePal(583, 192, 126, 137, Assets.images.get("AdaSelected"));
         adaPal.setOnClickListener(() -> {
             adaPal.setSelected(true);
-            ((SelectablePal)objects.get("lakPal")).setSelected(false);
-            ((SelectablePal)objects.get("yothPal")).setSelected(false);
+            lakPal.setSelected(false);
+            yothPal.setSelected(false);
             UILabel lbl = (UILabel)uiControls.get("lblSelectedPal");
             lbl.setText("ADA");
             lbl.setColor(Color.WHITE);
             btnConfirm.setEnabled(true);
         });
-        
-        objects.put("yothPal", yothPal);
-        objects.put("lakPal", lakPal);
-        objects.put("adaPal", adaPal);
     }
 
     @Override
@@ -150,9 +151,10 @@ public class ChoosePalScreen extends Screen {
             }
         }
         
-        for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
-            entry.getValue().render(g);
-        }
+        // render objects
+        yothPal.render(g);
+        lakPal.render(g);
+        adaPal.render(g);
     }
 
     @Override
@@ -160,10 +162,11 @@ public class ChoosePalScreen extends Screen {
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
             entry.getValue().update();
         }
-        
-        for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
-            entry.getValue().update();
-        }
+         
+        // update objects
+        yothPal.update();
+        lakPal.update();
+        adaPal.update();
     }
     
 }
