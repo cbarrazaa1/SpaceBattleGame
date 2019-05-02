@@ -17,6 +17,7 @@ import better.ui.UILabel;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Map;
 
 class SelectablePlanet extends GameObject {
@@ -92,6 +93,11 @@ public class LevelSelectScreen extends Screen {
         return instance;
     }
     
+    // Game objects
+    private ArrayList<SelectablePlanet> selectablePlanets;
+    private StatusBar armorBar;
+    private StatusBar energyBar;
+    
     @Override
     public void init() {
         int w = Game.getDisplay().getWidth();
@@ -139,6 +145,7 @@ public class LevelSelectScreen extends Screen {
         uiControls.put("lblEnergy", lblEnergy);
         
         // Objects
+        selectablePlanets = new ArrayList<>();
         SelectablePlanet sun = new SelectablePlanet(503, 18, 94, 89, Assets.images.get("sun"));
         SelectablePlanet mercury = new SelectablePlanet(650, 110, 31, 29, Assets.images.get("mercury"));
         SelectablePlanet venus = new SelectablePlanet(413, 126, 44, 42, Assets.images.get("venus"));
@@ -150,22 +157,20 @@ public class LevelSelectScreen extends Screen {
         SelectablePlanet neptune = new SelectablePlanet(397, 433, 52, 49, Assets.images.get("neptune"));
         neptune.setState(PlanetState.SELECTED);
         
-        StatusBar armorBar = new StatusBar(175, 421, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
-        StatusBar energyBar = new StatusBar(175, 453, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f);
+        armorBar = new StatusBar(175, 421, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
+        energyBar = new StatusBar(175, 453, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f);
         armorBar.setX(120 + (92 - armorBar.getWidth() / 2));
         energyBar.setX(120 + (92 - energyBar.getWidth() / 2));
         
-        objects.put("sun", sun);
-        objects.put("mercury", mercury);
-        objects.put("venus", venus);
-        objects.put("earth", earth);
-        objects.put("mars", mars);
-        objects.put("jupiter", jupiter);
-        objects.put("saturn", saturn);
-        objects.put("uranus", uranus);
-        objects.put("neptune", neptune);
-        objects.put("armorBar", armorBar);
-        objects.put("energyBar", energyBar);
+        selectablePlanets.add(sun);
+        selectablePlanets.add(mercury);
+        selectablePlanets.add(venus);
+        selectablePlanets.add(earth);
+        selectablePlanets.add(mars);
+        selectablePlanets.add(jupiter);
+        selectablePlanets.add(saturn);
+        selectablePlanets.add(uranus);
+        selectablePlanets.add(neptune);
     }
 
     @Override
@@ -222,11 +227,15 @@ public class LevelSelectScreen extends Screen {
                 lbl.calculateDimensions(g);
                 lbl.setX(120 + (92 - lbl.getWidth() / 2));
             }   
+        } 
+        
+        // render objects
+        for(SelectablePlanet planet : selectablePlanets) {
+            planet.render(g);
         }
         
-        for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
-            entry.getValue().render(g);
-        }
+        armorBar.render(g);
+        energyBar.render(g);
     }
 
     @Override
@@ -235,8 +244,12 @@ public class LevelSelectScreen extends Screen {
             entry.getValue().update();
         }
         
-        for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
-            entry.getValue().update();
+        // update objects
+        for(SelectablePlanet planet : selectablePlanets) {
+            planet.update();
         }
+        
+        armorBar.update();
+        energyBar.update();
     }
 }

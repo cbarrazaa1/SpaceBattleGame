@@ -51,14 +51,14 @@ public class MainMenuScreen extends Screen {
         btnExit.setOnClickListener(() -> {
             System.exit(0);
         });
-
+ 
         uiControls.put("btnNewGame", btnNewGame);
         uiControls.put("btnLoadGame", btnLoadGame);
         uiControls.put("btnOptions", btnOptions);
         uiControls.put("btnExitGame", btnExit);
         System.out.println(new File("test.ogg").exists());
         
-        Music m = TinySound.loadMusic("test.ogg");
+        Music m = TinySound.loadMusic("test.ogg"); 
         m.play(true);
     }
 
