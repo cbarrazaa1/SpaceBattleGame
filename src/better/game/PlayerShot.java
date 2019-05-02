@@ -19,12 +19,14 @@ public class PlayerShot extends GameObject {
 
     private double theta;
     private Light2D light;
+    private int speed;
     
     public PlayerShot(float x, float y, float width, float height, double theta) {
         super(x, y, width, height);
         this.theta = theta;
         this.light = new Light2D(x + width / 2, y + height / 2, 0.1f, 30, 80, 152, 70);
         LevelScreen.getInstance().lights.add(light);
+        this.speed = 8;
     }
 
     @Override
@@ -39,8 +41,8 @@ public class PlayerShot extends GameObject {
     @Override
     public void update() {
         // The bullet moves depending on the rotation of the player
-        setX(getX() + ((float)(Math.cos(theta-Math.PI/2))*6));
-        setY(getY() + ((float)(Math.sin(theta-Math.PI/2))*6));
+        setX(getX() + ((float)(Math.cos(theta-Math.PI/2))*speed));
+        setY(getY() + ((float)(Math.sin(theta-Math.PI/2))*speed));
         
         // update light
         light.setX(x + width / 2);
