@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -44,6 +45,9 @@ public class LevelScreen extends Screen {
     private ArrayList<EnemyOne> enemies;
     private ArrayList<Powerup> powerups;
     private Player player;
+    private StatusBar armorBar;
+    private StatusBar energyBar;
+    private BossOne bossOne;
     
     // wave data
     private static final int TO_DEFEAT = 15;
@@ -56,15 +60,10 @@ public class LevelScreen extends Screen {
         lightsToRemove = new ArrayList<>();
         enemies = new ArrayList<>();
         powerups = new ArrayList<>();
-        objects = new HashMap<>();
         player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 64, 64);
-        objects.put("player", player);
         
-        StatusBar armorBar = new StatusBar(59, 571, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
-        StatusBar energyBar = new StatusBar(59, 581, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f);       
-        
-        objects.put("armorBar", armorBar);
-        objects.put("energyBar", energyBar);
+        armorBar = new StatusBar(59, 571, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
+        energyBar = new StatusBar(59, 581, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f);       
            
         defeated = 0;
         spawnTimer = new Timer(1f);
@@ -77,30 +76,38 @@ public class LevelScreen extends Screen {
         
         // render current bullet (temp)
         g.drawImage(Assets.images.get("BulletGreen"), 28, 561, 16, 16, null);
-        
-        for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
-            entry.getValue().render(g);
-        }
-        
+         
+        // render enemies
         for(EnemyOne e : enemies) {
             e.render(g);
         }
         
+        // render player
+        player.render(g);
+        
+        if(bossOne != null) {
+            bossOne.render(g);
+        }
+        
+        // render powerups
         for(Powerup powerup : powerups) {
             powerup.render(g);
         }
         
+        // render lights
         Composite orig = g.getComposite();
         g.setColor(Color.BLACK);
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
-        g.fillRect(0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight());
-        
+        g.fillRect(0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight());      
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP));
         for(Light2D light : lights) {
             light.render(g);
         }
         g.setComposite(orig);
 
+        // render bars
+        armorBar.render(g);
+        energyBar.render(g);
     }
 
     @Override
@@ -115,19 +122,18 @@ public class LevelScreen extends Screen {
         }
         spawnTimer.update();
         
-        StatusBar healthBar = (StatusBar)objects.get("armorBar");
-        healthBar.setValue(player.getHealth());
-        StatusBar energyBar = (StatusBar)objects.get("energyBar");
+        // update player
+        player.update();
+        armorBar.setValue(player.getHealth());
         energyBar.setValue(player.getEnergy());
-        
         if(player.getHealth() <= 0) {
             Game.setCurrentScreen(LevelSelectScreen.getInstance());
-        }
+        }   
         
-        for(Map.Entry<String, GameObject> entry : objects.entrySet()) {
-            entry.getValue().update();
+        if(bossOne != null) {
+            bossOne.update();
         }
-        
+         
         // for erasing dead enemys from the objects map
         for(int i = 0; i < enemies.size(); i++) {
             EnemyOne enemy = enemies.get(i);
@@ -138,8 +144,7 @@ public class LevelScreen extends Screen {
                 }
                 defeated++;
                 if(defeated == TO_DEFEAT) {
-                    BossOne bossOne = new BossOne(Game.getDisplay().getWidth() / 2 - 75, -300, 128, 128, player);
-                    objects.put("bossOne", bossOne);
+                    bossOne = new BossOne(Game.getDisplay().getWidth() / 2 - 75, -300, 128, 128, player);
                 }
                 
                 // spawn powerup
