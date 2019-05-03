@@ -16,6 +16,7 @@ import better.game.Light2D;
 import better.game.Player;
 import better.game.Powerup;
 import better.game.StatusBar;
+import better.scenes.LevelScreen;
 import better.scenes.LevelSelectScreen;
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -97,7 +98,7 @@ public abstract class Level implements LevelEventListener {
         armorBar.setValue(player.getHealth());
         energyBar.setValue(player.getEnergy());
         if(player.getHealth() <= 0) {
-            Game.setCurrentScreen(LevelSelectScreen.getInstance());
+            LevelScreen.getInstance().setGameOver();
         }   
         
         // update bullets

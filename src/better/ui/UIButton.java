@@ -31,6 +31,7 @@ public class UIButton extends UIControl {
     private BufferedImage img;
     private BufferedImage hoverImg;
     private BufferedImage clickImg;
+    private float alpha;
     
     public UIButton(float x, float y, float width, float height, BufferedImage img) {
         super(x, y, width, height, Color.WHITE);
@@ -40,6 +41,11 @@ public class UIButton extends UIControl {
         this.img = img.getSubimage(0, 0, (int)width, (int)height);
         this.hoverImg = img.getSubimage((int)width, 0, (int)width, (int)height);
         this.clickImg = img.getSubimage((int)(width * 2), 0, (int)width, (int)height);
+        alpha = 1f;
+    }
+    
+    public void setAlpha(float alpha) {
+        this.alpha = alpha;
     }
     
     @Override
@@ -57,7 +63,10 @@ public class UIButton extends UIControl {
         if(!isEnabled()) {
             toRender = clickImg;
         }
+        //Composite orig = g.getComposite();
+        //g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
         g.drawImage(toRender, (int)getX(), (int)getY(), (int)getWidth(), (int)getHeight(), null);
+        //g.setComposite(orig);
     }
 
     @Override

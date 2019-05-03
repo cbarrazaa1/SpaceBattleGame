@@ -74,6 +74,10 @@ public class Player extends GameObject {
     
     @Override
     public void update() {
+        if(getHealth() <= 0) {
+            return;
+        }
+        
         // delta X and Y are calculated
         double deltaX = Game.getMouseManager().getX() - ( x + getHeight() / 2);
         double deltaY = Game.getMouseManager().getY() - ( y + getWidth() / 2);
@@ -131,7 +135,6 @@ public class Player extends GameObject {
         }
         
         // actualizes shot and dash timer
-        
         shotTimer.update();
         dashTimer.update();
         
