@@ -41,7 +41,7 @@ public class LevelScreen extends Screen {
     
     @Override
     public void init() {
-        level = new Level2();
+        level = new Level1();
         fadeTimer = new Timer(0.1d);
         fadeAlpha = 0;
         gameOver = false;
@@ -148,7 +148,7 @@ public class LevelScreen extends Screen {
             int w = Assets.images.get("coin").getWidth();
             int h = Assets.images.get("coin").getHeight();
             int coinX = 139 + (129 - (w / 2 + (int)lblCoins.getWidth() / 2)) - w + 2;
-            g.drawImage(Assets.images.get("coin"), coinX, 290, w, h, null);
+            g.drawImage(Assets.images.get("coin"), coinX, 288, w, h, null);
             lblCoins.setX(coinX + w + 10);
             
             // render skin reward

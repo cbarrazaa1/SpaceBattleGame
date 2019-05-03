@@ -24,4 +24,8 @@ public abstract class Screen {
     public abstract void init();
     public abstract void render(Graphics2D g);
     public abstract void update();
+    
+    public UIControl getUIControl(String key) {
+        return uiControls.get(key);
+    }
 }

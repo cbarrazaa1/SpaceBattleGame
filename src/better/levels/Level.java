@@ -168,7 +168,6 @@ public abstract class Level implements LevelEventListener {
                 }
                 
                 if(!enemy.isAlive()) {
-                    eventListener.onEnemyDead(enemy);
                     Assets.enemyDie.play();
                     score += enemy.getScore();
                     
@@ -178,6 +177,7 @@ public abstract class Level implements LevelEventListener {
                     }
                     
                     // remove enemy
+                    eventListener.onEnemyDead(enemy);
                     enemies.remove(enemy);                  
                 }
             }

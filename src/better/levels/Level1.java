@@ -14,13 +14,14 @@ import better.enemies.Enemy1;
 import better.game.Coin;
 import better.game.Powerup;
 import better.scenes.LevelScreen;
+import better.ui.UILabel;
 
 /**
  *
  * @author Cesar Barraza
  */
 public class Level1 extends Level {
-    private static final int TO_DEFEAT = 15;
+    private static final int TO_DEFEAT = 3;
     private int defeated;
     private Timer spawnTimer;
     
@@ -48,12 +49,18 @@ public class Level1 extends Level {
     @Override
     public void onEnemyDead(Enemy enemy) {
         if(enemy instanceof Boss1) {
+            player.setCoins(player.getCoins() + 45);
             LevelScreen.getInstance().setVictory();
+            UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
+            lblScore.setText(String.valueOf(score));
+            
+            UILabel lblCoins = (UILabel)LevelScreen.getInstance().getUIControl("lblCoins");
+            lblCoins.setText(String.valueOf(player.getCoins()));
         }
         
         defeated++;
         if(defeated == TO_DEFEAT) {
-            enemies.add(new Boss1(Game.getDisplay().getWidth() / 2 - 75, -300, 128, 128, 150, 50, 750, player, bullets, lights));
+            enemies.add(new Boss1(Game.getDisplay().getWidth() / 2 - 75, -300, 128, 128, 150, 0, 750, player, bullets, lights));
         }
 
         // spawn powerup
