@@ -48,6 +48,7 @@ public class Player extends GameObject {
     private int maxArmor;
     private int energy;
     private int maxEnergy;
+    private int currLevel;
     
     private Timer energyTimer; // timer for energy regeneration
     
@@ -71,6 +72,7 @@ public class Player extends GameObject {
         dashTimer = new Timer(0.1);   
         coins = 0;
         level = 3;
+        currLevel = 0;
         skin = 0;
         currBullet = 0;
         selectedPal = 0;
@@ -85,7 +87,7 @@ public class Player extends GameObject {
         if (!isDashing()){
             g.drawImage(Assets.images.get("PlayerDefault"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         }else{
-            // TEST LOL // Should be a dashing image
+            // Should be a dashing image
             g.drawImage(Assets.images.get("PlayerDefault"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         }
         g.setTransform(orig);    
@@ -175,7 +177,7 @@ public class Player extends GameObject {
             setY(0);
         }
         
-        if(level == 3){
+        if(currLevel == 3){
             y = Game.getDisplay().getHeight() - height - 10;
         }
     }
@@ -235,7 +237,15 @@ public class Player extends GameObject {
     public void setLevel(int level) {
         this.level = level;
     }
+    
+    public int getCurrLevel() {
+        return currLevel;
+    }
 
+    public void setCurrLevel(int currLevel) {
+        this.currLevel = currLevel;
+    }
+    
     public int getSkin() {
         return skin;
     }

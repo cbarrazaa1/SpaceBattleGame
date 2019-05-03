@@ -126,6 +126,7 @@ public class LevelSelectScreen extends Screen {
         UIButton btnPlayLevel = new UIButton(48, 90, 205, 56, Assets.images.get("LevelSelectPlay"));
         btnPlayLevel.setOnClickListener(() -> {
             Game.setCurrentScreen(LevelScreen.getInstance());
+            player.setCurrLevel(selectedPlanet);
             LevelScreen.getInstance().setPlayer(player);
             LevelScreen.getInstance().setSelectedLevel(selectedPlanet);
             LevelScreen.getInstance().init();

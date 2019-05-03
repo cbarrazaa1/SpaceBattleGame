@@ -34,7 +34,6 @@ public class Level3 extends Level {
         defeated = 0;
         spawnTimer = new Timer(1f);
         eventListener = this;
-        player.setLevel(3);
     }
     
     @Override
