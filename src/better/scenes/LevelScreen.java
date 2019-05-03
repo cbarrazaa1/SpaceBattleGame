@@ -67,6 +67,9 @@ public class LevelScreen extends Screen {
         });
 
         UIButton btnLevelSelect = new UIButton(297, 306, 205, 56, Assets.images.get("GameOverLevelSelect"));
+        btnLevelSelect.setOnClickListener(() -> {
+            Game.setCurrentScreen(LevelSelectScreen.getInstance());
+        });
         
         uiControls.put("btnTryAgain", btnTryAgain);
         uiControls.put("btnLevelSelect", btnLevelSelect);
