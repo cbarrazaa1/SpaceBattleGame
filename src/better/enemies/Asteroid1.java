@@ -35,7 +35,7 @@ public class Asteroid1 extends Enemy {
         super(x, y, width, height, score, coins, health, player, lights);
         this.bullets = bullets;
         theta = Util.randNumF(0.0f, (float)Math.PI*2);
-        img = Assets.images.get("BulletRed");
+        img = Assets.images.get("Asteroid0" + Util.randNum(1, 4));
         if (width == 128){
             spawn();
         }
@@ -88,10 +88,13 @@ public class Asteroid1 extends Enemy {
 
     }
     
+    /*
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
     }
+*/
+    
     
     @Override
     public void mouseEnter() {
