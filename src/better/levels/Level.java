@@ -50,7 +50,7 @@ public abstract class Level implements LevelEventListener {
         bullets = new ArrayList();
         score = 0;
         
-        player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 64, 64, bullets, lights);
+        player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 64, 64, 1, 1, bullets, lights);
         armorBar = new StatusBar(59, 571, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
         energyBar = new StatusBar(59, 581, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f);   
         
@@ -104,9 +104,9 @@ public abstract class Level implements LevelEventListener {
         if(!(LevelScreen.getInstance().isGameOver() || LevelScreen.getInstance().hasVictory())) {
             // update player
             player.update();
-            armorBar.setValue(player.getHealth());
+            armorBar.setValue(player.getArmor());
             energyBar.setValue(player.getEnergy());
-            if(player.getHealth() <= 0) {
+            if(player.getArmor() <= 0) {
                 LevelScreen.getInstance().setGameOver();
             }   
 
@@ -117,7 +117,7 @@ public abstract class Level implements LevelEventListener {
 
                 if(bullet.getType() == Bullet.BULLET_TYPE_ENEMY) {
                     if(bullet.intersects(player) && !player.isDashing()) {
-                        player.setHealth(player.getHealth() - bullet.getDamage());
+                        player.setArmor(player.getArmor() - bullet.getDamage());
                         score -= 5;
                         if(score <= 0) {
                             score = 0;
@@ -162,7 +162,7 @@ public abstract class Level implements LevelEventListener {
                 if(powerup.intersects(player)) {
                     switch(powerup.getType()) {
                         case Powerup.TYPE_HEALTH:
-                            player.setHealth(player.getHealth() + 15);
+                            player.setArmor(player.getArmor() + 15);
                             break;
                     }
                     Assets.powerup.play();
