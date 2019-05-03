@@ -12,6 +12,7 @@ import better.enemies.Boss1;
 import better.enemies.Enemy;
 import better.enemies.Enemy1;
 import better.game.Powerup;
+import better.scenes.LevelScreen;
 
 /**
  *
@@ -35,9 +36,9 @@ public class Level1 extends Level {
         if(spawnTimer.isActivated()) {
             enemies.add(new Enemy1(64, 64, 25, 40, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
-                spawnTimer.restart(Util.randNumF(1.6f, 2.5f));
+                spawnTimer.restart(Util.randNumF(2.3f, 3.3f));
             } else {
-                spawnTimer.restart(Util.randNumF(4f, 7f));
+                spawnTimer.restart(Util.randNumF(4.5f, 7f));
             }
         }
         spawnTimer.update();
@@ -45,6 +46,10 @@ public class Level1 extends Level {
     
     @Override
     public void onEnemyDead(Enemy enemy) {
+        if(enemy instanceof Boss1) {
+            LevelScreen.getInstance().setVictory();
+        }
+        
         defeated++;
         if(defeated == TO_DEFEAT) {
             enemies.add(new Boss1(Game.getDisplay().getWidth() / 2 - 75, -300, 128, 128, 150, 750, player, bullets, lights));
