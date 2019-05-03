@@ -13,6 +13,7 @@ import better.enemies.Boss1;
 import better.enemies.Enemy;
 import better.enemies.Enemy1;
 import better.game.Bullet;
+import better.game.Coin;
 import better.game.Light2D;
 import better.game.Player;
 import better.game.Powerup;
@@ -42,6 +43,7 @@ public abstract class Level implements LevelEventListener {
     protected StatusBar energyBar;
     protected LevelEventListener eventListener;
     private UILabel lblScore;
+    private Coin coin;
     
     public Level() {
         lights = new ArrayList<>();
@@ -57,6 +59,8 @@ public abstract class Level implements LevelEventListener {
         
         // UI
         lblScore = new UILabel(15, 544, "Score: 0", Color.WHITE, UILabel.DEFAULT_FONT);
+        
+        coin = new Coin(15, 15, 10, 10, player);
     }
     
     public void render(Graphics2D g) {
@@ -99,6 +103,8 @@ public abstract class Level implements LevelEventListener {
         armorBar.render(g);
         energyBar.render(g);
         lblScore.render(g);
+        
+        coin.render(g);
     }
     
     public void update() {
@@ -195,5 +201,7 @@ public abstract class Level implements LevelEventListener {
         
         // update score
         lblScore.setText("Score: " + score);
+        
+        coin.update();
     }
 }

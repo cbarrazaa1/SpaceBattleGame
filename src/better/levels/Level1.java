@@ -11,6 +11,7 @@ import better.core.Util;
 import better.enemies.Boss1;
 import better.enemies.Enemy;
 import better.enemies.Enemy1;
+import better.game.Coin;
 import better.game.Powerup;
 import better.scenes.LevelScreen;
 
