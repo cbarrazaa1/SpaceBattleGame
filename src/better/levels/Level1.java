@@ -33,7 +33,7 @@ public class Level1 extends Level {
     public void update() {
         super.update();
         if(spawnTimer.isActivated()) {
-            enemies.add(new Enemy1(64, 64, 40, player, bullets, lights));
+            enemies.add(new Enemy1(64, 64, 25, 40, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(1.6f, 2.5f));
             } else {
@@ -47,7 +47,7 @@ public class Level1 extends Level {
     public void onEnemyDead(Enemy enemy) {
         defeated++;
         if(defeated == TO_DEFEAT) {
-            enemies.add(new Boss1(Game.getDisplay().getWidth() / 2 - 75, -300, 128, 128, 750, player, bullets, lights));
+            enemies.add(new Boss1(Game.getDisplay().getWidth() / 2 - 75, -300, 128, 128, 150, 750, player, bullets, lights));
         }
 
         // spawn powerup

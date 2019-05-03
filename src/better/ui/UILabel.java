@@ -18,6 +18,7 @@ public class UILabel extends UIControl {
     
     private String text;
     private Font font;
+    private boolean dimensions;
     
     public UILabel(float x, float y, String text, Color color, Font font) {        
         super(x, y, 0, 0, color);
@@ -55,14 +56,19 @@ public class UILabel extends UIControl {
         this.font = new Font(font.getName(), style, font.getSize());
     }
     
+    public void setDimensions(boolean dimensions) {
+        this.dimensions = dimensions;
+    }
+    
     public boolean hasDimensions() {
-        return !(getWidth() == 0 || getHeight() == 0);
+        return dimensions;
     }
     
     public void calculateDimensions(Graphics2D g) {
         // calculate string dimensions
         setWidth(g.getFontMetrics(getFont()).stringWidth(getText()));
         setHeight(g.getFontMetrics(getFont()).getHeight());
+        dimensions = true;
     }
     
     @Override
@@ -72,7 +78,6 @@ public class UILabel extends UIControl {
             return;
         }
         
-        // calculate string dimensions
         if(!hasDimensions()) {
             calculateDimensions(g);
             return;

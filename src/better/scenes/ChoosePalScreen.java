@@ -106,6 +106,7 @@ public class ChoosePalScreen extends Screen {
             adaPal.setSelected(false);
             UILabel lbl = (UILabel)uiControls.get("lblSelectedPal");
             lbl.setText("YOTH");
+            lbl.setDimensions(false);
             lbl.setColor(Color.RED);
             btnConfirm.setEnabled(true);
         });
@@ -117,6 +118,7 @@ public class ChoosePalScreen extends Screen {
             adaPal.setSelected(false);
             UILabel lbl = (UILabel)uiControls.get("lblSelectedPal");
             lbl.setText("LAK");
+            lbl.setDimensions(false);
             lbl.setColor(new Color(145f / 255f, 237f / 255f, 108f / 255f, 1f));
             btnConfirm.setEnabled(true);
         });
@@ -128,6 +130,7 @@ public class ChoosePalScreen extends Screen {
             yothPal.setSelected(false);
             UILabel lbl = (UILabel)uiControls.get("lblSelectedPal");
             lbl.setText("ADA");
+            lbl.setDimensions(false);
             lbl.setColor(Color.WHITE);
             btnConfirm.setEnabled(true);
         });
