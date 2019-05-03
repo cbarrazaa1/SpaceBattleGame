@@ -8,6 +8,7 @@ package better.levels;
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Util;
+import better.enemies.Asteroid1;
 import better.enemies.Boss1;
 import better.enemies.Enemy;
 import better.enemies.Enemy1;
@@ -146,7 +147,13 @@ public abstract class Level implements LevelEventListener {
                         }
                     }
                 }
-
+                if(enemy instanceof Asteroid1){
+                  Enemy e = enemy;
+                  Asteroid1 a = (Asteroid1)e;
+                  if (a.intersects(player)){
+                    a.die();
+                  }
+                }
                 if(!enemy.isAlive()) {
                     eventListener.onEnemyDead(enemy);
                     Assets.enemyDie.play();
@@ -154,6 +161,9 @@ public abstract class Level implements LevelEventListener {
                     enemies.remove(enemy);
                 }
             }
+
+            
+            
 
             // check powerups
             for(int i = 0; i < powerups.size(); i++) {
