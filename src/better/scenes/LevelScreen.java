@@ -14,6 +14,7 @@ import better.levels.Level;
 import better.levels.Level1;
 import better.ui.UIButton;
 import better.levels.Level2;
+import better.levels.Level3;
 import better.ui.UIControl;
 import better.ui.UILabel;
 import java.awt.AlphaComposite;
@@ -43,7 +44,7 @@ public class LevelScreen extends Screen {
     
     @Override
     public void init() {
-        level = new Level1(player);
+        level = new Level3(player);
         fadeTimer = new Timer(0.1d);
         fadeAlpha = 0;
         gameOver = false;
