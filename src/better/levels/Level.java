@@ -147,6 +147,7 @@ public abstract class Level implements LevelEventListener {
                         }
                     }
                 }
+                
                 if(enemy instanceof Asteroid1){
                   Enemy e = enemy;
                   Asteroid1 a = (Asteroid1)e;
@@ -154,6 +155,7 @@ public abstract class Level implements LevelEventListener {
                     a.die();
                   }
                 }
+                
                 if(!enemy.isAlive()) {
                     eventListener.onEnemyDead(enemy);
                     Assets.enemyDie.play();
@@ -161,9 +163,6 @@ public abstract class Level implements LevelEventListener {
                     enemies.remove(enemy);
                 }
             }
-
-            
-            
 
             // check powerups
             for(int i = 0; i < powerups.size(); i++) {
