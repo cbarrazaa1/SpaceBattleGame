@@ -98,8 +98,8 @@ public class Boss1 extends Enemy {
             shootTimer.restart(health > 350 ? Math.random()*2 : (health > 100 ? 0.2d : 0.1d));
             float xF = (float)Math.cos(theta) * 30;
             float yF = (float)Math.sin(theta) * 30;
-            bullets.add(new Bullet(xMID + xF, yMID + yF, 10, 10, 5, theta, 8, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-            bullets.add(new Bullet(xMID - xF, yMID - yF, 10, 10, 5, theta, 8, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+            bullets.add(new Bullet(xMID + xF, yMID + yF, 10, 10, 10, theta, 8, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+            bullets.add(new Bullet(xMID - xF, yMID - yF, 10, 10, 10, theta, 8, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
         } else {
             shootTimer.update();
         }
