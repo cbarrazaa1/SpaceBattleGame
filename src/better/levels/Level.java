@@ -55,6 +55,7 @@ public abstract class Level implements LevelEventListener {
         score = 0;
         
         this.player = player;
+        player.recoverStats();
         player.setBullets(bullets);
         player.setLights(lights);
         armorBar = new StatusBar(59, 571, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);

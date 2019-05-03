@@ -350,6 +350,11 @@ public class Player extends GameObject {
         return energy;
     }
     
+    public void recoverStats() {
+        armor = maxArmor;
+        energy = maxEnergy;
+    }
+    
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
