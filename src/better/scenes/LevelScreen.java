@@ -21,6 +21,7 @@ import better.game.Powerup;
 import better.game.StatusBar;
 import better.levels.Level;
 import better.levels.Level1;
+import better.levels.Level2;
 import better.ui.UIControl;
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -47,7 +48,8 @@ public class LevelScreen extends Screen {
     
     @Override
     public void init() {
-        level = new Level1();
+        //level = new Level1();
+        level = new Level2();
     }
 
     @Override
