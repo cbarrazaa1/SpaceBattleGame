@@ -35,6 +35,7 @@ public class LevelScreen extends Screen {
     }
     
     private Level level;
+    private int selectedLevel;
     private boolean gameOver;
     private boolean victory;
     private Timer fadeTimer;
@@ -43,7 +44,28 @@ public class LevelScreen extends Screen {
     
     @Override
     public void init() {
-        level = new Level1(player);
+        switch(selectedLevel) {
+            case 1:
+                level = new Level1(player);
+                break;
+            case 2:
+                level = new Level2(player);
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+        }
         fadeTimer = new Timer(0.1d);
         fadeAlpha = 0;
         gameOver = false;
@@ -211,5 +233,9 @@ public class LevelScreen extends Screen {
     
     public void setPlayer(Player player) {
         this.player = player;
+    }
+    
+    public void setSelectedLevel(int selectedLevel) {
+        this.selectedLevel = selectedLevel;
     }
 }

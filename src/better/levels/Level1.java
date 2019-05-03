@@ -22,7 +22,7 @@ import better.ui.UILabel;
  * @author Cesar Barraza
  */
 public class Level1 extends Level {
-    private static final int TO_DEFEAT = 3;
+    private static final int TO_DEFEAT = 15;
     private int defeated;
     private Timer spawnTimer;
     
