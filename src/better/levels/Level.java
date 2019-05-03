@@ -101,86 +101,88 @@ public abstract class Level implements LevelEventListener {
     }
     
     public void update() {
-        // update player
-        player.update();
-        armorBar.setValue(player.getHealth());
-        energyBar.setValue(player.getEnergy());
-        if(player.getHealth() <= 0) {
-            LevelScreen.getInstance().setGameOver();
-        }   
-        
-        // update bullets
-        for(int i = 0; i < bullets.size(); i++) {
-            Bullet bullet = bullets.get(i);
-            bullet.update();
-            
-            if(bullet.getType() == Bullet.BULLET_TYPE_ENEMY) {
-                if(bullet.intersects(player) && !player.isDashing()) {
-                    player.setHealth(player.getHealth() - bullet.getDamage());
-                    score -= 5;
-                    if(score <= 0) {
-                        score = 0;
-                    }
-                    lightsToRemove.add(bullet.getLight());
-                    Assets.damage.play();
-                    bullets.remove(i);
-                }
-            }
-        }
-         
-        // update enemies
-        for(int i = 0; i < enemies.size(); i++) {
-            Enemy enemy = enemies.get(i);
-            enemy.update();
-            
-            // check bullets collision
-            for(int j = 0; j < bullets.size(); j++) {
-                Bullet bullet = bullets.get(j);
-                if(bullet.getType() == Bullet.BULLET_TYPE_PLAYER) {
-                    if(bullet.intersects(enemy)) {
-                        enemy.setHealth(enemy.getHealth() - bullet.getDamage());
+        if(!(LevelScreen.getInstance().isGameOver() || LevelScreen.getInstance().hasVictory())) {
+            // update player
+            player.update();
+            armorBar.setValue(player.getHealth());
+            energyBar.setValue(player.getEnergy());
+            if(player.getHealth() <= 0) {
+                LevelScreen.getInstance().setGameOver();
+            }   
+
+            // update bullets
+            for(int i = 0; i < bullets.size(); i++) {
+                Bullet bullet = bullets.get(i);
+                bullet.update();
+
+                if(bullet.getType() == Bullet.BULLET_TYPE_ENEMY) {
+                    if(bullet.intersects(player) && !player.isDashing()) {
+                        player.setHealth(player.getHealth() - bullet.getDamage());
+                        score -= 5;
+                        if(score <= 0) {
+                            score = 0;
+                        }
                         lightsToRemove.add(bullet.getLight());
                         Assets.damage.play();
-                        bullets.remove(j);
+                        bullets.remove(i);
                     }
                 }
             }
-            
-            if(!enemy.isAlive()) {
-                eventListener.onEnemyDead(enemy);
-                Assets.enemyDie.play();
-                score += enemy.getScore();
-                enemies.remove(enemy);
-            }
-        }
-        
-        // check powerups
-        for(int i = 0; i < powerups.size(); i++) {
-            Powerup powerup = powerups.get(i);
-            powerup.update();
-            if(powerup.intersects(player)) {
-                switch(powerup.getType()) {
-                    case Powerup.TYPE_HEALTH:
-                        player.setHealth(player.getHealth() + 15);
-                        break;
+
+            // update enemies
+            for(int i = 0; i < enemies.size(); i++) {
+                Enemy enemy = enemies.get(i);
+                enemy.update();
+
+                // check bullets collision
+                for(int j = 0; j < bullets.size(); j++) {
+                    Bullet bullet = bullets.get(j);
+                    if(bullet.getType() == Bullet.BULLET_TYPE_PLAYER) {
+                        if(bullet.intersects(enemy)) {
+                            enemy.setHealth(enemy.getHealth() - bullet.getDamage());
+                            lightsToRemove.add(bullet.getLight());
+                            Assets.damage.play();
+                            bullets.remove(j);
+                        }
+                    }
                 }
-                Assets.powerup.play();
-                powerups.remove(i);
+
+                if(!enemy.isAlive()) {
+                    eventListener.onEnemyDead(enemy);
+                    Assets.enemyDie.play();
+                    score += enemy.getScore();
+                    enemies.remove(enemy);
+                }
             }
-        }
-        
-        // check if lights out of bounds
-        for(Light2D light : lights) {
-            if(light.isOutOfBounds(0)) {
-                lightsToRemove.add(light);
+
+            // check powerups
+            for(int i = 0; i < powerups.size(); i++) {
+                Powerup powerup = powerups.get(i);
+                powerup.update();
+                if(powerup.intersects(player)) {
+                    switch(powerup.getType()) {
+                        case Powerup.TYPE_HEALTH:
+                            player.setHealth(player.getHealth() + 15);
+                            break;
+                    }
+                    Assets.powerup.play();
+                    powerups.remove(i);
+                }
             }
+
+            // check if lights out of bounds
+            for(Light2D light : lights) {
+                if(light.isOutOfBounds(0)) {
+                    lightsToRemove.add(light);
+                }
+            }
+
+            // remove lights
+            for(Light2D light : lightsToRemove) {
+                lights.remove(light);
+            }
+            lightsToRemove.clear();
         }
-        
-        // remove lights
-        for(Light2D light : lightsToRemove) {
-            lights.remove(light);
-        }
-        lightsToRemove.clear();
         
         // update score
         lblScore.setText("Score: " + score);
