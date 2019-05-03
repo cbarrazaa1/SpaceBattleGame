@@ -36,7 +36,7 @@ public class Level2 extends Level {
     public void update() {
         super.update();
         if(spawnTimer.isActivated()) {
-            enemies.add(new Asteroid1(0, 0, 128, 128, 100, 10, player, bullets, lights));
+            enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(0.5f, 1.5f));
             } else {
@@ -53,8 +53,8 @@ public class Level2 extends Level {
             Asteroid1 a = (Asteroid1)e;
             a.explode();
             if (a.getWidth() > 32){
-                enemies.add(new Asteroid1(a.getX(), a.getY(), a.getWidth()/2, a.getHeight()/2, 100, 10, player, bullets, lights));
-                enemies.add(new Asteroid1(a.getX(), a.getY(), a.getWidth()/2, a.getHeight()/2, 100, 10, player, bullets, lights));
+                enemies.add(new Asteroid1(a.getX(), a.getY(), a.getWidth()/2, a.getHeight()/2, 100, 0, 10, player, bullets, lights));
+                enemies.add(new Asteroid1(a.getX(), a.getY(), a.getWidth()/2, a.getHeight()/2, 100, 0, 10, player, bullets, lights));
             }
         }
     }

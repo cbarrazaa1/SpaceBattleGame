@@ -31,8 +31,8 @@ public class Asteroid1 extends Enemy {
     // Level Bullet List //
     private ArrayList<Bullet> bullets;
     
-    public Asteroid1(float x, float y, float width, float height, int score, int health, Player player, ArrayList<Bullet> bullets, ArrayList<Light2D> lights) {
-        super(x, y, width, height, score, health, player, lights);
+    public Asteroid1(float x, float y, float width, float height, int score, int coins, int health, Player player, ArrayList<Bullet> bullets, ArrayList<Light2D> lights) {
+        super(x, y, width, height, score, coins, health, player, lights);
         this.bullets = bullets;
         theta = Util.randNumF(0.0f, (float)Math.PI*2);
         img = Assets.images.get("BulletRed");

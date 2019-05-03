@@ -37,8 +37,8 @@ public class Enemy2 extends Enemy {
     // Level Bullet List //
     private ArrayList<Bullet> bullets;
     
-    public Enemy2(float width, float height, int score, int health, Player player, ArrayList<Bullet> bullets, ArrayList<Light2D> lights) {
-        super(0, 0, width, height, score, health, player, lights);
+    public Enemy2(float width, float height, int score, int coins, int health, Player player, ArrayList<Bullet> bullets, ArrayList<Light2D> lights) {
+        super(0, 0, width, height, score, coins, health, player, lights);
         this.bullets = bullets;
         shouldRenderBar = false;
         theta = -Math.PI/2;

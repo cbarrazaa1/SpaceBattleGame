@@ -37,20 +37,21 @@ public abstract class Level implements LevelEventListener {
     protected ArrayList<Enemy> enemies;
     protected ArrayList<Powerup> powerups;
     protected ArrayList<Bullet> bullets;
+    protected ArrayList<Coin> coins;
     protected Player player;
     protected int score;
     protected StatusBar armorBar;
     protected StatusBar energyBar;
     protected LevelEventListener eventListener;
     private UILabel lblScore;
-    private Coin coin;
     
     public Level() {
         lights = new ArrayList<>();
         lightsToRemove = new ArrayList<>();
         enemies = new ArrayList<>();
         powerups = new ArrayList<>();
-        bullets = new ArrayList();
+        bullets = new ArrayList<>();
+        coins = new ArrayList<>();
         score = 0;
         
         player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 64, 64, 1, 1, bullets, lights);
@@ -59,8 +60,6 @@ public abstract class Level implements LevelEventListener {
         
         // UI
         lblScore = new UILabel(15, 544, "Score: 0", Color.WHITE, UILabel.DEFAULT_FONT);
-        
-        coin = new Coin(15, 15, 10, 10, player);
     }
     
     public void render(Graphics2D g) {
@@ -83,6 +82,11 @@ public abstract class Level implements LevelEventListener {
         // render player
         player.render(g);
         
+        // render coins
+        for(Coin coin : coins) {
+            coin.render(g);
+        }
+        
         // render powerups
         for(Powerup powerup : powerups) {
             powerup.render(g);
@@ -102,9 +106,7 @@ public abstract class Level implements LevelEventListener {
         // render bars
         armorBar.render(g);
         energyBar.render(g);
-        lblScore.render(g);
-        
-        coin.render(g);
+        lblScore.render(g);  
     }
     
     public void update() {
@@ -166,10 +168,28 @@ public abstract class Level implements LevelEventListener {
                     eventListener.onEnemyDead(enemy);
                     Assets.enemyDie.play();
                     score += enemy.getScore();
-                    enemies.remove(enemy);
+                    
+                    // spawn coins
+                    for(int j = 0; j < enemy.getCoins(); j++) {
+                        coins.add(new Coin(enemy.getX() + Util.randNumF(0, enemy.getWidth()), enemy.getY() + Util.randNumF(0, enemy.getHeight()), 8, 8, player));
+                    }
+                    
+                    // remove enemy
+                    enemies.remove(enemy);                  
                 }
             }
 
+            // check coins
+            for(int i = 0; i < coins.size(); i++) {
+                Coin coin = coins.get(i);
+                coin.update();
+                
+                if(player.intersects(coin)) {
+                    player.setCoins(player.getCoins() + 1);
+                    coins.remove(i);
+                }
+            }
+            
             // check powerups
             for(int i = 0; i < powerups.size(); i++) {
                 Powerup powerup = powerups.get(i);
@@ -201,7 +221,5 @@ public abstract class Level implements LevelEventListener {
         
         // update score
         lblScore.setText("Score: " + score);
-        
-        coin.update();
     }
 }

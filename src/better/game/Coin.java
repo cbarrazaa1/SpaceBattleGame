@@ -42,6 +42,9 @@ public class Coin extends GameObject {
         float speed =  1f / (dist / 600f) * 2.5f;
         theta = (float)Math.atan2(distY, distX);
         
+        if(speed >= 11f) {
+            speed = 11f;
+        }
         setX(getX() + ((float)(Math.cos(theta)) * speed));
         setY(getY() + ((float)(Math.sin(theta)) * speed));
     }
