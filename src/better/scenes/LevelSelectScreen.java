@@ -7,6 +7,7 @@ package better.scenes;
 
 import better.assets.Assets;
 import better.core.Game;
+import better.core.Util;
 import better.game.GameObject;
 import better.game.Player;
 import better.game.StatusBar;
@@ -97,6 +98,9 @@ public class LevelSelectScreen extends Screen {
     private ArrayList<SelectablePlanet> selectablePlanets;
     private StatusBar armorBar;
     private StatusBar energyBar;
+    private int selectedPlanet;
+    private String funFactPlanet;
+    private int funFactIndex;
     
     @Override
     public void init() {
@@ -171,6 +175,8 @@ public class LevelSelectScreen extends Screen {
         selectablePlanets.add(saturn);
         selectablePlanets.add(uranus);
         selectablePlanets.add(neptune);
+        selectedPlanet = 1;
+        funFactIndex = Util.randNum(1, 3);
     }
 
     @Override
@@ -182,7 +188,8 @@ public class LevelSelectScreen extends Screen {
         g.drawImage(palImg, 740, 510, palImg.getWidth(), palImg.getHeight(), null);
         
         // render speech tip
-        g.drawImage(Assets.images.get("SpeechBubbleNeptune1"), 336, 524, 346, 61, null);
+        String s = getPlanetString();
+        g.drawImage(Assets.images.get(s + "Fact" + funFactIndex), 336, 524, 346, 61, null);
         
         // render ship (temp)
         g.drawImage(Assets.images.get("PlayerShip"), 16, 308, 87, 91, null);
@@ -251,5 +258,40 @@ public class LevelSelectScreen extends Screen {
         
         armorBar.update();
         energyBar.update();
+    }
+    
+    private String getPlanetString() {
+        String res = "";
+        switch(selectedPlanet) {
+            case 1:
+                res = "Neptune";
+                break;
+            case 2:
+                res = "Uranus";
+                break;
+            case 3:
+                res = "Saturn";
+                break;
+            case 4:
+                res = "Jupiter";
+                break;
+            case 5:
+                res = "Mars";
+                break;
+            case 6:
+                res = "Earth";
+                break;
+            case 7:
+                res = "Venus";
+                break;
+            case 8:
+                res = "Mercury";
+                break;
+            case 9:
+                res = "Sun";
+                break;
+        }
+        
+        return res;
     }
 }
