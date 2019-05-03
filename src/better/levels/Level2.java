@@ -35,7 +35,7 @@ public class Level2 extends Level {
     public void update() {
         super.update();
         if(spawnTimer.isActivated()) {
-            enemies.add(new Enemy3(64, 64, 40, player, bullets, lights));
+            enemies.add(new Enemy3(64, 64, 40, 20, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(1.6f, 2.5f));
             } else {
