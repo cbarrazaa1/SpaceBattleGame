@@ -16,6 +16,7 @@ import better.enemies.Enemy2;
 import better.enemies.Enemy3;
 import better.game.Player;
 import better.enemies.Enemy4;
+import better.enemies.OGBoss;
 import better.enemies.OGEnemy1;
 import better.enemies.OGEnemy2;
 import better.game.Powerup;
@@ -25,7 +26,7 @@ import better.game.Powerup;
  * @author Cesar Barraza
  */
 public class Level3 extends Level {
-    private static final int TO_DEFEAT = 100;
+    private static final int TO_DEFEAT = 1;
     private int defeated;
     private Timer spawnTimer;
     
@@ -42,7 +43,7 @@ public class Level3 extends Level {
         if(spawnTimer.isActivated()) {
             //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
             enemies.add(new OGEnemy1(64, 64, 100, 10, 40, player, bullets, lights));
-            enemies.add(new OGEnemy2(64, 64, 100, 10, 40, player, bullets, lights));
+            enemies.add(new OGEnemy2(64, 64, 100, 10, 20, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(1.5f, 2.5f));
             } else {
@@ -58,9 +59,9 @@ public class Level3 extends Level {
     public void onEnemyDead(Enemy enemy) {
         defeated++;
 
-        //if(defeated == TO_DEFEAT) {
-        //    enemies.add(new Boss1(Game.getDisplay().getWidth() / 2 - 75, -300, 128, 128, 750, player, bullets, lights));
-        //}
+        if(defeated == TO_DEFEAT) {
+            enemies.add(new OGBoss(128, 128, 100, 10, 200, player, bullets, lights));
+        }
 
         // spawn powerup
         int p = Util.randNum(1, 9);
