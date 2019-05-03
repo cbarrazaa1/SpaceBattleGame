@@ -70,7 +70,7 @@ public class Player extends GameObject {
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
         coins = 0;
-        level = 1;
+        level = 2;
         skin = 0;
         currBullet = 0;
         selectedPal = 0;
@@ -192,6 +192,10 @@ public class Player extends GameObject {
         this.name = name;
     }
 
+    public int getMaxArmor() {
+        return maxArmor;
+    }
+    
     public int getArmorLvl() {
         return armorLvl;
     }
@@ -200,6 +204,10 @@ public class Player extends GameObject {
         this.armorLvl = armorLvl;
     }
 
+    public int getMaxEnergy() {
+        return maxEnergy;
+    }
+    
     public int getEnergyLvl() {
         return energyLvl;
     }
