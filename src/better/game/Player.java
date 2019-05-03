@@ -36,14 +36,14 @@ public class Player extends GameObject {
     private Timer shotTimer; 
     private Timer dashTimer;
     private ArrayList<Bullet> bullets; // list for the player shots
+    private ArrayList<Light2D> lights;
     private int speed;
-    
     private int energy; // energy for dashes or abilities
     private int health; // health of the player
     
     private Timer energyTimer; // timer for energy regeneration
     
-    public Player(float x, float y, float width, float height, ArrayList<Bullet> bullets) {
+    public Player(float x, float y, float width, float height, ArrayList<Bullet> bullets, ArrayList<Light2D> lights) {
         super(x, y, width, height);
         //theta = 0;
         this.shooting = false;
@@ -55,6 +55,7 @@ public class Player extends GameObject {
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
         this.bullets = bullets;
+        this.lights = lights;
     }
 
     @Override
@@ -98,7 +99,7 @@ public class Player extends GameObject {
         // this controls the shots of the player
         if (Game.getMouseManager().isButtonDown(MouseEvent.BUTTON1)&& !isShooting()){
             bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 10,
-                        theta - Math.PI, 8, Assets.images.get("BulletGreen"), Bullet.BULLET_TYPE_PLAYER, Color.GREEN));      
+                        theta - Math.PI, 8, Assets.images.get("BulletGreen"), Bullet.BULLET_TYPE_PLAYER, Color.GREEN, lights));      
             Assets.playerShoot.play();
             setShooting(true);
             shotTimer.restart();

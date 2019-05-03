@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,7 +27,7 @@ public class Bullet extends GameObject {
     protected BufferedImage img;
     protected int bulletType;
     
-    public Bullet(float x, float y, float width, float height, int damage, double theta, double speed, BufferedImage img, int bulletType, Color color) {
+    public Bullet(float x, float y, float width, float height, int damage, double theta, double speed, BufferedImage img, int bulletType, Color color, ArrayList<Light2D> lights) {
         super(x, y, width, height);
         this.damage = damage;
         this.theta = theta;
@@ -34,6 +35,7 @@ public class Bullet extends GameObject {
         this.light = new Light2D(x + width / 2, y + height / 2, 0.1f, 30, color.getRed(), color.getGreen(), color.getBlue());
         this.img = img;
         this.bulletType = bulletType;
+        lights.add(light);
     }
     
     public int getDamage() {

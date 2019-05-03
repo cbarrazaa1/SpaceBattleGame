@@ -8,7 +8,7 @@ package better.enemies;
 import better.assets.Assets;
 import better.core.Game;
 import better.game.Bullet;
-import better.game.EnemyShot;
+import better.game.Light2D;
 import better.game.Player;
 import better.scenes.LevelScreen;
 import java.awt.Color;
@@ -32,8 +32,8 @@ public class Enemy1 extends Enemy {
     // Level Bullet List //
     private ArrayList<Bullet> bullets;
     
-    public Enemy1(float width, float height, int health, Player player, ArrayList<Bullet> bullets) {
-        super(0, 0, width, height, health, player);
+    public Enemy1(float width, float height, int health, Player player, ArrayList<Bullet> bullets, ArrayList<Light2D> lights) {
+        super(0, 0, width, height, health, player, lights);
         this.bullets = bullets;
         shouldRenderBar = false;
         theta = -Math.PI/2;
@@ -148,7 +148,7 @@ public class Enemy1 extends Enemy {
             // checks when its time for the next shot
             if (shootTimer <= 0){
                 bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 5,
-                            theta, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED));
+                            theta, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
                 shootTimer = (int)(Math.random() * 170);
             }
             shootTimer--;

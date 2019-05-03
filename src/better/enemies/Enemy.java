@@ -7,11 +7,13 @@ package better.enemies;
 
 import better.assets.Assets;
 import better.game.GameObject;
+import better.game.Light2D;
 import better.game.Player;
 import better.game.StatusBar;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  *
@@ -25,12 +27,16 @@ public abstract class Enemy extends GameObject {
     protected Player player;
     protected BufferedImage img;
     
-    public Enemy(float x, float y, float width, float height, int maxHealth, Player player) {
+    // Lights Screen //
+    protected ArrayList<Light2D> lights;
+    
+    public Enemy(float x, float y, float width, float height, int maxHealth, Player player, ArrayList<Light2D> lights) {
         super(x, y, width, height);
         this.maxHealth = maxHealth;
         this.health = maxHealth;
         this.player = player;
         this.healthBar = new StatusBar(x, y, 6, 11, Assets.images.get("ArmorBar"), health, health, width / health);
+        this.lights = lights;
     }
 
     public int getHealth() {
