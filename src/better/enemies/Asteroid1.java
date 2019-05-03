@@ -61,7 +61,10 @@ public class Asteroid1 extends Enemy {
     }
     
     public void die(){
-        if (width < 64) return;
+        if (width < 64){
+            health = 0;
+            return;
+        }
         health = 0;
         for (int i = 0; i < 6; i++){
         bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 32, 32, 5,

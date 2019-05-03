@@ -305,8 +305,8 @@ public class Player extends GameObject {
         if(armor <= 0) {
             armor = 0;
         }
-        if(armor >= 100) {
-            armor = 100;
+        if(armor >= maxArmor) {
+            armor = maxArmor;
         }
         this.armor = armor;
     }

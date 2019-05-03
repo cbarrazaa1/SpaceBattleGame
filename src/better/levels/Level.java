@@ -161,6 +161,9 @@ public abstract class Level implements LevelEventListener {
                   Asteroid1 a = (Asteroid1)e;
                   if (a.intersects(player)){
                     a.die();
+                    if(a.getWidth() < 64){
+                        player.setArmor(player.getArmor()-10);
+                    }
                   }
                 }
                 
