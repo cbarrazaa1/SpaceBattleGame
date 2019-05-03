@@ -7,6 +7,7 @@ package better.enemies;
 
 import better.assets.Assets;
 import better.core.Game;
+import better.core.Timer;
 import better.core.Util;
 import better.game.Bullet;
 import better.game.Light2D;
@@ -27,8 +28,8 @@ public class Enemy3 extends Enemy {
     private int xSpeed;
     private int ySpeed;
     private boolean spawning;
-    private int shootTimer;
     private int moveTimer;
+    private Timer shotTimer;
     
     // Level Bullet List //
     private ArrayList<Bullet> bullets;
@@ -38,10 +39,10 @@ public class Enemy3 extends Enemy {
         this.bullets = bullets;
         shouldRenderBar = false;
         theta = -Math.PI/2;
-        shootTimer = (int)(Math.random()*200);
         moveTimer = 0;
         spawning = true;
         img = Assets.images.get("EnemyShip1");
+        shotTimer = new Timer(1);
         spawnEnemy();
     }
 
@@ -139,12 +140,21 @@ public class Enemy3 extends Enemy {
             theta += 2*Math.PI;
         }
         
+        if(theta + Math.PI/2 < Math.atan2(deltaY, deltaX) + 0.001 && theta + Math.PI/2 > Math.atan2(deltaY, deltaX) - 0.001 ){
+            shoot();
+        }
+        
     }
     
     private void move(){
         // moves the way it is looking
-        setX(getX() + ((float)(Math.cos(theta + Math.PI / 2)) * 5));
-        setY(getY() + ((float)(Math.sin(theta + Math.PI / 2)) * 5));
+        setX(getX() + ((float)(Math.cos(theta + Math.PI / 2)) * 4));
+        setY(getY() + ((float)(Math.sin(theta + Math.PI / 2)) * 4));
+    }
+    
+    private void shoot(){
+        bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 10,
+                        theta, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
     }
     @Override
     public void update(){
@@ -170,7 +180,11 @@ public class Enemy3 extends Enemy {
         } else {
             this.checkColision();
             this.move();
-            
+            if (shotTimer.isActivated()){
+                this.shoot();
+                shotTimer.restart(Util.randNumF(0.5f, 2f));
+            }
+            shotTimer.update();
         }
         this.turn();
         // update healthbar
