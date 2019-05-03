@@ -41,7 +41,7 @@ public class LevelScreen extends Screen {
     
     @Override
     public void init() {
-        level = new Level1();
+        level = new Level2();
         fadeTimer = new Timer(0.1d);
         fadeAlpha = 0;
         gameOver = false;
