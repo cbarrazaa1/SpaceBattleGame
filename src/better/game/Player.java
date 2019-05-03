@@ -99,7 +99,7 @@ public class Player extends GameObject {
         // this controls the shots of the player
         if (Game.getMouseManager().isButtonDown(MouseEvent.BUTTON1)&& !isShooting()){
             bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 10,
-                        theta - Math.PI, 8, Assets.images.get("BulletGreen"), Bullet.BULLET_TYPE_PLAYER, Color.GREEN, lights));      
+                        theta - Math.PI, 10, Assets.images.get("BulletGreen"), Bullet.BULLET_TYPE_PLAYER, Color.GREEN, lights));      
             Assets.playerShoot.play();
             setShooting(true);
             shotTimer.restart();

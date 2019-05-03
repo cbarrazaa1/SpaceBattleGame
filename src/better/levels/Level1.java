@@ -51,7 +51,7 @@ public class Level1 extends Level {
         }
 
         // spawn powerup
-        int p = Util.randNum(1, 11);
+        int p = Util.randNum(1, 9);
         if(p == 2) {
             float x = enemy.getX();
             float y = enemy.getY();

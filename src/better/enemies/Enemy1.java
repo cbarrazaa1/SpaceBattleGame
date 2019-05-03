@@ -7,6 +7,7 @@ package better.enemies;
 
 import better.assets.Assets;
 import better.core.Game;
+import better.core.Util;
 import better.game.Bullet;
 import better.game.Light2D;
 import better.game.Player;
@@ -155,8 +156,8 @@ public class Enemy1 extends Enemy {
 
             // checks when its time for the next change in movement
             if (moveTimer <= 0){
-                xSpeed = (int)(Math.random() * 7) - 3;
-                ySpeed = (int)(Math.random() * 7) - 3;
+                xSpeed = (int) Util.randNumF(-3, 3);
+                ySpeed = (int)Util.randNumF(-3, 3);
                 moveTimer = (int)(Math.random() * 500);
             }
             moveTimer--;
