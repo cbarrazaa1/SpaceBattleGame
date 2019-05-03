@@ -21,7 +21,11 @@ import better.game.Powerup;
 import better.game.StatusBar;
 import better.levels.Level;
 import better.levels.Level1;
+<<<<<<< HEAD
 import better.ui.UIButton;
+=======
+import better.levels.Level2;
+>>>>>>> enemy2
 import better.ui.UIControl;
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -52,6 +56,7 @@ public class LevelScreen extends Screen {
     
     @Override
     public void init() {
+<<<<<<< HEAD
         level = new Level1();
         fadeTimer = new Timer(0.1d);
         fadeAlpha = 0;
@@ -73,6 +78,10 @@ public class LevelScreen extends Screen {
         
         uiControls.put("btnTryAgain", btnTryAgain);
         uiControls.put("btnLevelSelect", btnLevelSelect);
+=======
+        //level = new Level1();
+        level = new Level2();
+>>>>>>> enemy2
     }
 
     @Override
