@@ -23,6 +23,7 @@ public abstract class Enemy extends GameObject {
     protected int maxHealth;
     protected int health;
     protected double theta;
+    protected int score;
     protected StatusBar healthBar;
     protected Player player;
     protected BufferedImage img;
@@ -30,8 +31,9 @@ public abstract class Enemy extends GameObject {
     // Lights Screen //
     protected ArrayList<Light2D> lights;
     
-    public Enemy(float x, float y, float width, float height, int maxHealth, Player player, ArrayList<Light2D> lights) {
+    public Enemy(float x, float y, float width, float height, int score, int maxHealth, Player player, ArrayList<Light2D> lights) {
         super(x, y, width, height);
+        this.score = score;
         this.maxHealth = maxHealth;
         this.health = maxHealth;
         this.player = player;
@@ -65,6 +67,10 @@ public abstract class Enemy extends GameObject {
     
     public boolean isAlive() {
         return health > 0;
+    }
+    
+    public int getScore() {
+        return score;
     }
     
     @Override

@@ -17,6 +17,7 @@ import better.game.Player;
 import better.game.Powerup;
 import better.game.StatusBar;
 import better.scenes.LevelSelectScreen;
+import better.ui.UILabel;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
@@ -34,9 +35,11 @@ public abstract class Level implements LevelEventListener {
     protected ArrayList<Powerup> powerups;
     protected ArrayList<Bullet> bullets;
     protected Player player;
+    protected int score;
     protected StatusBar armorBar;
     protected StatusBar energyBar;
     protected LevelEventListener eventListener;
+    private UILabel lblScore;
     
     public Level() {
         lights = new ArrayList<>();
@@ -44,10 +47,14 @@ public abstract class Level implements LevelEventListener {
         enemies = new ArrayList<>();
         powerups = new ArrayList<>();
         bullets = new ArrayList();
+        score = 0;
         
         player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 64, 64, bullets, lights);
         armorBar = new StatusBar(59, 571, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
         energyBar = new StatusBar(59, 581, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f);   
+        
+        // UI
+        lblScore = new UILabel(15, 544, "Score: 0", Color.WHITE, UILabel.DEFAULT_FONT);
     }
     
     public void render(Graphics2D g) {
@@ -89,6 +96,7 @@ public abstract class Level implements LevelEventListener {
         // render bars
         armorBar.render(g);
         energyBar.render(g);
+        lblScore.render(g);
     }
     
     public void update() {
@@ -108,6 +116,10 @@ public abstract class Level implements LevelEventListener {
             if(bullet.getType() == Bullet.BULLET_TYPE_ENEMY) {
                 if(bullet.intersects(player) && !player.isDashing()) {
                     player.setHealth(player.getHealth() - bullet.getDamage());
+                    score -= 5;
+                    if(score <= 0) {
+                        score = 0;
+                    }
                     lightsToRemove.add(bullet.getLight());
                     Assets.damage.play();
                     bullets.remove(i);
@@ -136,6 +148,7 @@ public abstract class Level implements LevelEventListener {
             if(!enemy.isAlive()) {
                 eventListener.onEnemyDead(enemy);
                 Assets.enemyDie.play();
+                score += enemy.getScore();
                 enemies.remove(enemy);
             }
         }
@@ -167,5 +180,8 @@ public abstract class Level implements LevelEventListener {
             lights.remove(light);
         }
         lightsToRemove.clear();
+        
+        // update score
+        lblScore.setText("Score: " + score);
     }
 }
