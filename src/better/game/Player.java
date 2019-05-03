@@ -174,6 +174,10 @@ public class Player extends GameObject {
         else if (getY() <= 0){
             setY(0);
         }
+        
+        if(level == 3){
+            y = Game.getDisplay().getHeight() - height - 10;
+        }
     }
     
    public int getId() {

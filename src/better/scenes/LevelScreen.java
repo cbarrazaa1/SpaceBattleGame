@@ -14,6 +14,7 @@ import better.levels.Level;
 import better.levels.Level1;
 import better.ui.UIButton;
 import better.levels.Level2;
+import better.levels.Level3;
 import better.ui.UIControl;
 import better.ui.UILabel;
 import java.awt.AlphaComposite;

@@ -58,6 +58,10 @@ public class Powerup extends GameObject {
         
         setX(getX() + ((float)(Math.cos(theta)) * speed));
         setY(getY() + ((float)(Math.sin(theta)) * speed));
+        
+        if(player.getLevel() == 3){
+            setY(getY() + 2);
+        }
     }
     
     @Override
