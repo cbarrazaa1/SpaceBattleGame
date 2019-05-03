@@ -8,6 +8,7 @@ package better.scenes;
 import better.assets.Assets;
 import better.core.Game;
 import better.game.GameObject;
+import better.game.Player;
 import better.ui.UIButton;
 import better.ui.UIControl;
 import better.ui.UILabel;
@@ -87,7 +88,24 @@ public class ChoosePalScreen extends Screen {
         UIButton btnConfirm = new UIButton(578, 503, 205, 56, Assets.images.get("PalScreenConfirm"));
         btnConfirm.setEnabled(false);
         btnConfirm.setOnClickListener(() -> {
+            Player player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 64, 64, 1, 1);
+            player.setName("");
+            int selectedPal = 0;
+            if(yothPal.isSelected()) {
+                selectedPal = 0;
+            }
+            
+            if(lakPal.isSelected()) {
+                selectedPal = 1;
+            }
+            
+            if(adaPal.isSelected()) {
+                selectedPal = 2;
+            }
+            player.setSelectedPal(selectedPal);
             Game.setCurrentScreen(LevelSelectScreen.getInstance());
+            LevelSelectScreen.getInstance().setPlayer(player);
+            LevelSelectScreen.getInstance().init();
         });
         
         UILabel lblSelectedPal = new UILabel(0, 504, "", Color.WHITE, UILabel.DEFAULT_FONT);

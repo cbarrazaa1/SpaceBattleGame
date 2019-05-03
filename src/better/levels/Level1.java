@@ -12,6 +12,7 @@ import better.enemies.Boss1;
 import better.enemies.Enemy;
 import better.enemies.Enemy1;
 import better.game.Coin;
+import better.game.Player;
 import better.game.Powerup;
 import better.scenes.LevelScreen;
 import better.ui.UILabel;
@@ -25,8 +26,8 @@ public class Level1 extends Level {
     private int defeated;
     private Timer spawnTimer;
     
-    public Level1() {
-        super();
+    public Level1(Player player) {
+        super(player);
         defeated = 0;
         spawnTimer = new Timer(1f);
         eventListener = this;

@@ -9,6 +9,7 @@ package better.scenes;
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
+import better.game.Player;
 import better.levels.Level;
 import better.levels.Level1;
 import better.ui.UIButton;
@@ -38,10 +39,11 @@ public class LevelScreen extends Screen {
     private boolean victory;
     private Timer fadeTimer;
     private float fadeAlpha;
+    private Player player;
     
     @Override
     public void init() {
-        level = new Level1();
+        level = new Level1(player);
         fadeTimer = new Timer(0.1d);
         fadeAlpha = 0;
         gameOver = false;
@@ -50,7 +52,7 @@ public class LevelScreen extends Screen {
         // Game over buttons
         UIButton btnTryAgain = new UIButton(297, 237, 205, 56, Assets.images.get("GameOverTryAgain"));
         btnTryAgain.setOnClickListener(() -> {
-            level = new Level1();
+            level = new Level1(player);
             gameOver = false;
             fadeAlpha = 0;
             fadeTimer = new Timer(0.1d);
@@ -67,7 +69,7 @@ public class LevelScreen extends Screen {
         // Victory UI
         UIButton btnPlayAgain = new UIButton(429, 252, 205, 56, Assets.images.get("VictoryPlayAgain"));
         btnPlayAgain.setOnClickListener(() -> {
-            level = new Level1();
+            level = new Level1(player);
             victory = false;
             fadeAlpha = 0;
             fadeTimer = new Timer(0.1d);
@@ -205,5 +207,9 @@ public class LevelScreen extends Screen {
             this.victory = true;
             fadeAlpha = 0.0f;
         }
+    }
+    
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
