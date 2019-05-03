@@ -45,7 +45,7 @@ public abstract class Level implements LevelEventListener {
     protected LevelEventListener eventListener;
     private UILabel lblScore;
     
-    public Level() {
+    public Level(Player player) {
         lights = new ArrayList<>();
         lightsToRemove = new ArrayList<>();
         enemies = new ArrayList<>();
@@ -54,7 +54,9 @@ public abstract class Level implements LevelEventListener {
         coins = new ArrayList<>();
         score = 0;
         
-        player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 64, 64, 1, 1, bullets, lights);
+        this.player = player;
+        player.setBullets(bullets);
+        player.setLights(lights);
         armorBar = new StatusBar(59, 571, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
         energyBar = new StatusBar(59, 581, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f);   
         

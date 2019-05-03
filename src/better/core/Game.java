@@ -173,7 +173,6 @@ public class Game implements Runnable {
                         fadeAlpha = 1.0f;
                         nextScreen.init();
                         currentScreen = nextScreen;
-                        getCurrentScreen().init();
                         fadeDelta /= -2;
                     }
                     

@@ -51,7 +51,7 @@ public class Player extends GameObject {
     
     private Timer energyTimer; // timer for energy regeneration
     
-    public Player(float x, float y, float width, float height, int armorLvl, int energyLvl, ArrayList<Bullet> bullets, ArrayList<Light2D> lights) {
+    public Player(float x, float y, float width, float height, int armorLvl, int energyLvl) {
         super(x, y, width, height);
         //theta = 0;
         this.shooting = false;
@@ -69,8 +69,12 @@ public class Player extends GameObject {
         energyTimer = new Timer(0.1);
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
-        this.bullets = bullets;
-        this.lights = lights;
+        coins = 0;
+        level = 1;
+        skin = 0;
+        currBullet = 0;
+        selectedPal = 0;
+        bulletTypes = "";
     }
 
     @Override
@@ -250,6 +254,14 @@ public class Player extends GameObject {
 
     public void setBulletTypes(String bulletTypes) {
         this.bulletTypes = bulletTypes;
+    }
+    
+    public void setBullets(ArrayList<Bullet> bullets) {
+        this.bullets = bullets;
+    }
+    
+    public void setLights(ArrayList<Light2D> lights) {
+        this.lights = lights;
     }
     
     /**

@@ -98,6 +98,7 @@ public class LevelSelectScreen extends Screen {
     private ArrayList<SelectablePlanet> selectablePlanets;
     private StatusBar armorBar;
     private StatusBar energyBar;
+    private Player player;
     private int selectedPlanet;
     private String funFactPlanet;
     private int funFactIndex;
@@ -110,6 +111,8 @@ public class LevelSelectScreen extends Screen {
         UIButton btnPlayLevel = new UIButton(48, 90, 205, 56, Assets.images.get("LevelSelectPlay"));
         btnPlayLevel.setOnClickListener(() -> {
             Game.setCurrentScreen(LevelScreen.getInstance());
+            LevelScreen.getInstance().setPlayer(player);
+            LevelScreen.getInstance().init();
         });
         
         UIButton btnHighscores = new UIButton(48, 154, 205, 56, Assets.images.get("LevelSelectHighscores"));
@@ -260,6 +263,10 @@ public class LevelSelectScreen extends Screen {
         energyBar.update();
     }
     
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+  
     private String getPlanetString() {
         String res = "";
         switch(selectedPlanet) {

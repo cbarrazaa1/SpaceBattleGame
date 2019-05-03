@@ -14,6 +14,7 @@ import better.enemies.Enemy;
 import better.enemies.Enemy1;
 import better.enemies.Enemy2;
 import better.enemies.Enemy3;
+import better.game.Player;
 import better.enemies.Enemy4;
 import better.game.Powerup;
 
@@ -26,8 +27,8 @@ public class Level2 extends Level {
     private int defeated;
     private Timer spawnTimer;
     
-    public Level2() {
-        super();
+    public Level2(Player player) {
+        super(player);
         defeated = 0;
         spawnTimer = new Timer(1f);
         eventListener = this;
