@@ -53,6 +53,7 @@ public class LevelScreen extends Screen {
                 level = new Level2(player);
                 break;
             case 3:
+                level = new Level3(player);
                 break;
             case 4:
                 break;

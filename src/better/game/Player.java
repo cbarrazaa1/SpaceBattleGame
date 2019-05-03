@@ -70,7 +70,7 @@ public class Player extends GameObject {
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
         coins = 0;
-        level = 2;
+        level = 3;
         skin = 0;
         currBullet = 0;
         selectedPal = 0;
