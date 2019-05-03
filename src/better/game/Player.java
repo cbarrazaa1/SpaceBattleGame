@@ -10,20 +10,13 @@ import java.awt.Graphics2D;
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
-import better.scenes.LevelScreen;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import static java.awt.event.KeyEvent.VK_DOWN;
-import static java.awt.event.KeyEvent.VK_LEFT;
-import static java.awt.event.KeyEvent.VK_RIGHT;
 import static java.awt.event.KeyEvent.VK_SPACE;
-import static java.awt.event.KeyEvent.VK_UP;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import kuusisto.tinysound.Sound;
-import kuusisto.tinysound.TinySound;
 /**
  *
  * @author rogel
@@ -72,6 +65,7 @@ public class Player extends GameObject {
         this.energyLvl = energyLvl;
         this.maxEnergy = 40 + energyLvl * 10;
         this.energy = maxEnergy;
+        
         energyTimer = new Timer(0.1);
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
