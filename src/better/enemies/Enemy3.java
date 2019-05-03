@@ -119,7 +119,7 @@ public class Enemy3 extends Enemy {
         }
     }
     
-    private void moveAndTurn(){
+    private void turn(){
         // delta X and Y are calculated
         double deltaX = (player.getX()+player.getWidth()/2) - ( x + getHeight() / 2);
         double deltaY = (player.getY()+player.getHeight()/2) - ( y + getWidth() / 2);
@@ -139,11 +139,13 @@ public class Enemy3 extends Enemy {
             theta += 2*Math.PI;
         }
         
+    }
+    
+    private void move(){
         // moves the way it is looking
         setX(getX() + ((float)(Math.cos(theta + Math.PI / 2)) * 5));
         setY(getY() + ((float)(Math.sin(theta + Math.PI / 2)) * 5));
     }
-    
     @Override
     public void update(){
         super.update();
@@ -153,28 +155,24 @@ public class Enemy3 extends Enemy {
         if(spawning) {
             if(getX() > WIDTH - 100) {
                 setX(getX() - 2);
-                theta = Math.PI/2;
             }
             else if(getY() > HEIGHT - 100) {
                 setY(getY() - 2);
-                theta = Math.PI;
             }
             else if(getX() < 100) {
                 setX(getX() + 2);
-                theta = -Math.PI/2;
             }
             else if(getY() < 100){
                 setY(getY() + 2);
-                theta = -Math.PI;
             } else {
                 spawning = false;
             }
         } else {
             this.checkColision();
-            this.moveAndTurn();
+            this.move();
             
         }
-        
+        this.turn();
         // update healthbar
         healthBar.setValue(health);
         healthBar.setX(x);
