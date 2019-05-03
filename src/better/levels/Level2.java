@@ -12,6 +12,7 @@ import better.enemies.Boss1;
 import better.enemies.Enemy;
 import better.enemies.Enemy1;
 import better.enemies.Enemy2;
+import better.enemies.Enemy3;
 import better.game.Powerup;
 
 /**
@@ -34,7 +35,7 @@ public class Level2 extends Level {
     public void update() {
         super.update();
         if(spawnTimer.isActivated()) {
-            enemies.add(new Enemy2(64, 64, 40, player, bullets, lights));
+            enemies.add(new Enemy3(64, 64, 40, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(1.6f, 2.5f));
             } else {
