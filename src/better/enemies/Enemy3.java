@@ -30,6 +30,7 @@ public class Enemy3 extends Enemy {
     private boolean spawning;
     private int moveTimer;
     private Timer shotTimer;
+    private Timer shotTimer2;
     
     // Level Bullet List //
     private ArrayList<Bullet> bullets;
@@ -43,6 +44,7 @@ public class Enemy3 extends Enemy {
         spawning = true;
         img = Assets.images.get("EnemyShip1");
         shotTimer = new Timer(1);
+        shotTimer2 = new Timer(0.2);
         spawnEnemy();
     }
 
@@ -141,8 +143,12 @@ public class Enemy3 extends Enemy {
         }
         
         if(theta + Math.PI/2 < Math.atan2(deltaY, deltaX) + 0.001 && theta + Math.PI/2 > Math.atan2(deltaY, deltaX) - 0.001 ){
-            shoot();
+            if (shotTimer2.isActivated()){
+                shoot();
+                shotTimer2.restart();
+            }
         }
+        shotTimer2.update();
         
     }
     
@@ -153,8 +159,8 @@ public class Enemy3 extends Enemy {
     }
     
     private void shoot(){
-        bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 10,
-                        theta, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+        bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 5,
+                        theta, 10, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
     }
     @Override
     public void update(){
