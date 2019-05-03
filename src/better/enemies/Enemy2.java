@@ -46,7 +46,7 @@ public class Enemy2 extends Enemy {
         img = Assets.images.get("EnemyShip1");
         spawnEnemy();
         this.moveTimer = new Timer(0);
-        this.shootTimer = new Timer(5);
+        this.shootTimer = new Timer(2);
         this.shooting = new Timer(0);
         this.chargeTimer = new Timer(0);
         this.shootFrequency = new Timer(0.05);
@@ -206,7 +206,7 @@ public class Enemy2 extends Enemy {
             }
             
             if (!shooting.isActivated()){
-                shootTimer.restart(5);
+                shootTimer.restart(4);
                 if (shootFrequency.isActivated() && chargeTimer.isActivated()){
                     shoot();
                     shootFrequency.restart();
