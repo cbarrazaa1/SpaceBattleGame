@@ -17,6 +17,7 @@ import better.enemies.Enemy3;
 import better.game.Player;
 import better.enemies.Enemy4;
 import better.enemies.OGEnemy1;
+import better.enemies.OGEnemy2;
 import better.game.Powerup;
 
 /**
@@ -42,6 +43,7 @@ public class Level3 extends Level {
         if(spawnTimer.isActivated()) {
             //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
             enemies.add(new OGEnemy1(64, 64, 100, 10, 40, player, bullets, lights));
+            enemies.add(new OGEnemy2(64, 64, 100, 10, 40, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(1.5f, 2.5f));
             } else {

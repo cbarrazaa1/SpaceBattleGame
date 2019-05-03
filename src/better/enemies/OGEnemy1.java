@@ -53,21 +53,16 @@ public class OGEnemy1 extends Enemy {
     @Override
     public void update(){
         super.update();
-        int WIDTH = Game.getDisplay().getWidth();
-        int HEIGHT = Game.getDisplay().getHeight();
  
-        
         // moves the object
         setX(getX() + xSpeed);
         setY(getY() + ySpeed);
-        
         
         // update healthbar
         healthBar.setValue(health);
         healthBar.setX(x);
         healthBar.setY(y - 10);
 
-        
     }
     
     @Override
