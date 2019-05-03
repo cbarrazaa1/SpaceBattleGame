@@ -60,7 +60,7 @@ public class Asteroid1 extends Enemy {
         }
     }
     
-    private void die(){
+    public void die(){
         if (width < 64) return;
         health = 0;
         for (int i = 0; i < 6; i++){

@@ -8,6 +8,7 @@ package better.levels;
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Util;
+import better.enemies.Asteroid1;
 import better.enemies.Boss1;
 import better.enemies.Enemy;
 import better.enemies.Enemy1;
@@ -143,6 +144,14 @@ public abstract class Level implements LevelEventListener {
                         Assets.damage.play();
                         bullets.remove(j);
                     }
+                }
+            }
+            
+            if(enemy instanceof Asteroid1){
+                Enemy e = enemy;
+                Asteroid1 a = (Asteroid1)e;
+                if (a.intersects(player)){
+                    a.die();
                 }
             }
             
