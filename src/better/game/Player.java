@@ -10,26 +10,32 @@ import java.awt.Graphics2D;
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
-import better.scenes.LevelScreen;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import static java.awt.event.KeyEvent.VK_DOWN;
-import static java.awt.event.KeyEvent.VK_LEFT;
-import static java.awt.event.KeyEvent.VK_RIGHT;
 import static java.awt.event.KeyEvent.VK_SPACE;
-import static java.awt.event.KeyEvent.VK_UP;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import kuusisto.tinysound.Sound;
-import kuusisto.tinysound.TinySound;
 /**
  *
  * @author rogel
  */
 
-public class Player extends GameObject {
+public class Player extends GameObject {    
+    // Database Data //
+    private int id;
+    private String name;
+    private int armorLvl;
+    private int energyLvl;
+    private int coins;
+    private int level;
+    private int skin;
+    private int currBullet;
+    private int selectedPal;
+    private String bulletTypes;
+    
+    // In-Game Data //
     private double theta;
     private boolean shooting; // to check if the player has just shot
     private boolean dashing;
@@ -38,19 +44,28 @@ public class Player extends GameObject {
     private ArrayList<Bullet> bullets; // list for the player shots
     private ArrayList<Light2D> lights;
     private int speed;
-    private int energy; // energy for dashes or abilities
-    private int health; // health of the player
+    private int armor;
+    private int maxArmor;
+    private int energy;
+    private int maxEnergy;
     
     private Timer energyTimer; // timer for energy regeneration
     
-    public Player(float x, float y, float width, float height, ArrayList<Bullet> bullets, ArrayList<Light2D> lights) {
+    public Player(float x, float y, float width, float height, int armorLvl, int energyLvl, ArrayList<Bullet> bullets, ArrayList<Light2D> lights) {
         super(x, y, width, height);
         //theta = 0;
         this.shooting = false;
         this.speed = 3;
         this.dashing = false;
-        this.health = 100;
-        this.energy = 50;
+        
+        this.armorLvl = armorLvl;
+        this.maxArmor = 90 + armorLvl * 10;
+        this.armor = maxArmor;
+        
+        this.energyLvl = energyLvl;
+        this.maxEnergy = 40 + energyLvl * 10;
+        this.energy = maxEnergy;
+        
         energyTimer = new Timer(0.1);
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
@@ -64,17 +79,17 @@ public class Player extends GameObject {
         g.translate(getX(), getY());
         g.rotate(theta, getWidth() / 2, getHeight() / 2);
         if (!isDashing()){
-            g.drawImage(Assets.images.get("PlayerShip"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
+            g.drawImage(Assets.images.get("PlayerDefault"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         }else{
             // TEST LOL // Should be a dashing image
-            g.drawImage(Assets.images.get("PlayerShip"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
+            g.drawImage(Assets.images.get("PlayerDefault"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         }
         g.setTransform(orig);    
     }
     
     @Override
     public void update() {
-        if(getHealth() <= 0) {
+        if(getArmor() <= 0) {
             return;
         }
         
@@ -156,6 +171,87 @@ public class Player extends GameObject {
             setY(0);
         }
     }
+    
+   public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getArmorLvl() {
+        return armorLvl;
+    }
+
+    public void setArmorLvl(int armorLvl) {
+        this.armorLvl = armorLvl;
+    }
+
+    public int getEnergyLvl() {
+        return energyLvl;
+    }
+
+    public void setEnergyLvl(int energyLvl) {
+        this.energyLvl = energyLvl;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getSkin() {
+        return skin;
+    }
+
+    public void setSkin(int skin) {
+        this.skin = skin;
+    }
+
+    public int getCurrBullet() {
+        return currBullet;
+    }
+
+    public void setCurrBullet(int currBullet) {
+        this.currBullet = currBullet;
+    }
+
+    public int getSelectedPal() {
+        return selectedPal;
+    }
+
+    public void setSelectedPal(int selectedPal) {
+        this.selectedPal = selectedPal;
+    }
+
+    public String getBulletTypes() {
+        return bulletTypes;
+    }
+
+    public void setBulletTypes(String bulletTypes) {
+        this.bulletTypes = bulletTypes;
+    }
+    
     /**
      * Returns the player speed
      * @return speed
@@ -205,22 +301,22 @@ public class Player extends GameObject {
      * sets player health
      * @param health 
      */
-    public void setHealth(int health){
-        if(health <= 0) {
-            health = 0;
+    public void setArmor(int armor){
+        if(armor <= 0) {
+            armor = 0;
         }
-        if(health >= 100) {
-            health = 100;
+        if(armor >= 100) {
+            armor = 100;
         }
-        this.health = health;
+        this.armor = armor;
     }
     
     /**
      * returns player health
      * @return health
      */
-    public int getHealth(){
-        return health;
+    public int getArmor(){
+        return armor;
     }
     
     /**
