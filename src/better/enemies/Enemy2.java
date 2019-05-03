@@ -10,6 +10,7 @@ import better.core.Game;
 import better.core.Timer;
 import better.core.Util;
 import better.game.Bullet;
+import better.game.GuidedBullet;
 import better.game.Light2D;
 import better.game.Player;
 import better.scenes.LevelScreen;
@@ -163,12 +164,12 @@ public class Enemy2 extends Enemy {
         do{
         xSpeed = (int) Util.randNumF(-5, 5);
         ySpeed = (int)Util.randNumF(-5, 5);
-        }while (abs(xSpeed) < 4 || abs(ySpeed) < 4);
+        }while (abs(xSpeed) < 4 && abs(ySpeed) < 4);
     }
     
     private void shoot(){
         bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 5,
-                    theta, 10, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+                    theta, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
                 
     }
     @Override
