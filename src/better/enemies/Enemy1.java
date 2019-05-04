@@ -20,7 +20,9 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Cesar Barraza
+ * @author Cesar Barraza Rogelio Martinez
+ * @author Rogelio Martinez
+ * Enemy that moves and shoots slowly and randomly
  */
 public class Enemy1 extends Enemy {
     private boolean shouldRenderBar;

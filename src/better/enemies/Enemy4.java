@@ -21,7 +21,8 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Cesar Barraza
+ * @author Cesar Barraza and Rogelio Martinez
+ * Enemy that moves slowly and shoots guided bullets
  */
 public class Enemy4 extends Enemy {
     private boolean shouldRenderBar;

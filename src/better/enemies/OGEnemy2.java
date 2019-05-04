@@ -114,7 +114,7 @@ public class OGEnemy2 extends Enemy {
         healthBar.setValue(health);
         healthBar.setX(x);
         healthBar.setY(y - 10);
-        
+
 
     }
     

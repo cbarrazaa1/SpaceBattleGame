@@ -22,6 +22,8 @@ import java.util.ArrayList;
 /**
  *
  * @author Cesar Barraza
+ * @author Rogelio Martinez
+ * Enemy that follows the player and shoots
  */
 public class Enemy3 extends Enemy {
     private boolean shouldRenderBar;

@@ -24,6 +24,8 @@ import java.util.ArrayList;
 /**
  *
  * @author Cesar Barraza
+ * @author Rogelio Martinez
+ * Enemy that moves fast, and stops to shoot
  */
 public class Enemy2 extends Enemy {
     private boolean shouldRenderBar;

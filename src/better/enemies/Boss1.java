@@ -24,6 +24,7 @@ import java.util.ArrayList;
 /**
  *
  * @author Cesar Barraza
+ * @author Rogelio Martinez
  */
 public class Boss1 extends Enemy {
     private Timer moveTimer;
