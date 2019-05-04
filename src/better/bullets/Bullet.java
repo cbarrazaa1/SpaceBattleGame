@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package better.game;
+package better.bullets;
 
 import better.assets.Assets;
+import better.game.GameObject;
+import better.game.Light2D;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -65,7 +68,7 @@ public class Bullet extends GameObject {
     public void render(Graphics2D g) {
         AffineTransform orig = g.getTransform();
         g.translate(getX(), getY());
-        g.rotate(theta, getWidth() / 2, getHeight() / 2);
+        g.rotate(theta + Math.PI, getWidth() / 2, getHeight() / 2);
         g.drawImage(img, 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         g.setTransform(orig);
     }
@@ -88,5 +91,10 @@ public class Bullet extends GameObject {
 
     @Override
     public void mouseUp() {
+    }
+    
+    @Override
+    public Rectangle2D.Float getRect() {
+        return new Rectangle2D.Float(x, y + height / 3 + 1, width, height / 3);
     }
 }

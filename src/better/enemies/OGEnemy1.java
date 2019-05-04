@@ -8,7 +8,7 @@ package better.enemies;
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Util;
-import better.game.Bullet;
+import better.bullets.Bullet;
 import better.game.Light2D;
 import better.game.Player;
 import better.scenes.LevelScreen;
@@ -36,7 +36,7 @@ public class OGEnemy1 extends Enemy {
         this.bullets = bullets;
         shouldRenderBar = false;
         theta = 0;
-        img = Assets.images.get("EnemyShip1");
+        img = Assets.images.get("EnemyShip1Blue");
         spawnEnemy();
         ySpeed = 4;
         xSpeed = 0;

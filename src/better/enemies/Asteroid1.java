@@ -9,7 +9,7 @@ import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
 import better.core.Util;
-import better.game.Bullet;
+import better.bullets.Bullet;
 import better.game.Light2D;
 import better.game.Player;
 import better.scenes.LevelScreen;

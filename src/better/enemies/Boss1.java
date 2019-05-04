@@ -8,7 +8,7 @@ package better.enemies;
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
-import better.game.Bullet;
+import better.bullets.Bullet;
 import better.game.Light2D;
 import better.game.Player;
 import better.game.StatusBar;
@@ -99,8 +99,8 @@ public class Boss1 extends Enemy {
             shootTimer.restart(health > 350 ? Math.random()*2 : (health > 100 ? 0.2d : 0.1d));
             float xF = (float)Math.cos(theta) * 30;
             float yF = (float)Math.sin(theta) * 30;
-            bullets.add(new Bullet(xMID + xF, yMID + yF, 10, 10, 10, theta, 8, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-            bullets.add(new Bullet(xMID - xF, yMID - yF, 10, 10, 10, theta, 8, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+            bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+            bullets.add(new Bullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
         } else {
             shootTimer.update();
         }

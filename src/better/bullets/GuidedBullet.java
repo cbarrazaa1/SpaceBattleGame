@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package better.game;
+package better.bullets;
 
+import better.bullets.Bullet;
+import better.game.Light2D;
+import better.game.Player;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;

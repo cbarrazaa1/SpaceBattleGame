@@ -9,8 +9,8 @@ import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
 import better.core.Util;
-import better.game.Bullet;
-import better.game.GuidedBullet;
+import better.bullets.Bullet;
+import better.bullets.GuidedBullet;
 import better.game.Light2D;
 import better.game.Player;
 import better.scenes.LevelScreen;
@@ -37,6 +37,8 @@ public class Enemy2 extends Enemy {
     private Timer shooting;
     private Timer chargeTimer;
     private Timer shootFrequency;
+    private Color shotColor;
+    
     // Level Bullet List //
     private ArrayList<Bullet> bullets;
     
@@ -53,6 +55,7 @@ public class Enemy2 extends Enemy {
         this.shooting = new Timer(0);
         this.chargeTimer = new Timer(0);
         this.shootFrequency = new Timer(0.05);
+        shotColor = new Color(16, 147, 246);
     }
 
     private void spawnEnemy(){
@@ -170,8 +173,8 @@ public class Enemy2 extends Enemy {
     }
     
     private void shoot(){
-        bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 5,
-                    theta, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+        bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 8, 17, 5,
+                    theta, 6, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, shotColor, lights));
                 
     }
     @Override

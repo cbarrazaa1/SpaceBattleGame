@@ -5,6 +5,7 @@
  */
 package better.game;
 
+import better.bullets.Bullet;
 import better.game.GameObject;
 import java.awt.Graphics2D;
 import better.assets.Assets;
@@ -121,8 +122,8 @@ public class Player extends GameObject {
         
         // this controls the shots of the player
         if (Game.getMouseManager().isButtonDown(MouseEvent.BUTTON1)&& !isShooting()){
-            bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 10,
-                        theta - Math.PI, 10, Assets.images.get("BulletGreen"), Bullet.BULLET_TYPE_PLAYER, Color.GREEN, lights));      
+            bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 7, 19, 10,
+                        theta - Math.PI, 10, Assets.images.get("BulletNormal"), Bullet.BULLET_TYPE_PLAYER, new Color(215, 234, 209), lights));      
             Assets.playerShoot.play();
             setShooting(true);
             shotTimer.restart();
