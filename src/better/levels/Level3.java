@@ -26,14 +26,16 @@ import better.game.Powerup;
  * @author Cesar Barraza
  */
 public class Level3 extends Level {
-    private static final int TO_DEFEAT = 1;
+    private static final int TO_DEFEAT = 15;
     private int defeated;
     private Timer spawnTimer;
+    private Timer spawnTimer2;
     
     public Level3(Player player) {
         super(player);
         defeated = 0;
         spawnTimer = new Timer(1f);
+        spawnTimer2 = new Timer(1f);
         eventListener = this;
     }
     
@@ -43,14 +45,25 @@ public class Level3 extends Level {
         if(spawnTimer.isActivated()) {
             //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
             enemies.add(new OGEnemy1(64, 64, 100, 10, 40, player, bullets, lights));
-            enemies.add(new OGEnemy2(64, 64, 100, 10, 20, player, bullets, lights));
+            
             if(defeated < TO_DEFEAT) {
-                spawnTimer.restart(Util.randNumF(1.5f, 2.5f));
+                spawnTimer.restart(Util.randNumF(0.5f, 2f));
             } else {
-                spawnTimer.restart(Util.randNumF(4f, 7f));
+                spawnTimer.restart(Util.randNumF(2f, 4f));
             }
         }
         spawnTimer.update();
+        if(spawnTimer2.isActivated()) {
+            //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
+            
+            enemies.add(new OGEnemy2(64, 64, 100, 10, 20, player, bullets, lights));
+            if(defeated < TO_DEFEAT) {
+                spawnTimer2.restart(Util.randNumF(1.5f, 2.5f));
+            } else {
+                spawnTimer2.restart(Util.randNumF(2f, 4f));
+            }
+        }
+        spawnTimer2.update();
     }
     
 
