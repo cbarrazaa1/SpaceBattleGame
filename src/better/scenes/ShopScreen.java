@@ -159,21 +159,25 @@ public class ShopScreen extends Screen {
                 descImg = Assets.images.get("ShopDoubleShotDesc");
                 if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
                     descImg = null;
+                    msgBox = new MessageBox("Not available yet LOL", MessageBox.MSG_TYPE_OK, null);
                 }
             } else if(Game.getMouseManager().intersects(rect2)) {
                 descImg = Assets.images.get("ShopHeavyShotDesc");
                 if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
                     descImg = null;
+                    msgBox = new MessageBox("Not available yet LOL", MessageBox.MSG_TYPE_OK, null);
                 }
             } else if(Game.getMouseManager().intersects(rect3)) {
                 descImg = Assets.images.get("ShopProtonShotDesc");
                 if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
                     descImg = null;
+                    msgBox = new MessageBox("Not available yet LOL", MessageBox.MSG_TYPE_OK, null);
                 }
             } else if(Game.getMouseManager().intersects(rect4)) {
                 descImg = Assets.images.get("ShopTripleShotDesc");
                 if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
                     descImg = null;
+                    msgBox = new MessageBox("Not available yet LOL", MessageBox.MSG_TYPE_OK, null);
                 }
             } else if(Game.getMouseManager().intersects(rect5)) {
                 descImg = Assets.images.get("ShopArmorDesc");
