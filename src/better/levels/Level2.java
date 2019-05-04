@@ -46,7 +46,7 @@ public class Level2 extends Level {
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(2.5f, 5.5f));
             } else {
-                spawnTimer.restart(Util.randNumF(10f, 20f));
+                spawnTimer.restart(Util.randNumF(15f, 25f));
             }
         }
         spawnTimer.update();
@@ -56,7 +56,7 @@ public class Level2 extends Level {
             if(defeated < TO_DEFEAT) {
                 spawnTimer2.restart(Util.randNumF(1.5f, 4.5f));
             }else{
-                spawnTimer2.restart(Util.randNumF(10f, 20f));
+                spawnTimer2.restart(Util.randNumF(25f, 35f));
             }
         }
         spawnTimer2.update();
