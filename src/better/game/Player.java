@@ -60,17 +60,15 @@ public class Player extends GameObject {
         this.dashing = false;
         
         this.armorLvl = armorLvl;
-        this.maxArmor = 90 + armorLvl * 10;
-        this.armor = maxArmor;
+        calculateMaxArmor();
         
         this.energyLvl = energyLvl;
-        this.maxEnergy = 40 + energyLvl * 10;
-        this.energy = maxEnergy;
+        calculateMaxEnergy();
         
         energyTimer = new Timer(0.1);
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
-        coins = 0;
+        coins = 150000;
         level = 3;
         currLevel = 0;
         skin = 0;
@@ -148,8 +146,8 @@ public class Player extends GameObject {
                 // adding energy when not dashing
                 setEnergy(getEnergy() + 1);
                 energyTimer.restart();
-                if (getEnergy() >= 50){
-                    setEnergy(50);
+                if (getEnergy() >= maxEnergy){
+                    setEnergy(maxEnergy);
                 }
             }
             energyTimer.update();
@@ -208,6 +206,7 @@ public class Player extends GameObject {
 
     public void setArmorLvl(int armorLvl) {
         this.armorLvl = armorLvl;
+        calculateMaxArmor();
     }
 
     public int getMaxEnergy() {
@@ -220,6 +219,7 @@ public class Player extends GameObject {
 
     public void setEnergyLvl(int energyLvl) {
         this.energyLvl = energyLvl;
+        calculateMaxEnergy();
     }
 
     public int getCoins() {
@@ -374,6 +374,16 @@ public class Player extends GameObject {
     
     public void recoverStats() {
         armor = maxArmor;
+        energy = maxEnergy;
+    }
+    
+    public void calculateMaxArmor() {
+        maxArmor = 80 + armorLvl * 20;
+        armor = maxArmor;
+    }
+    
+    public void calculateMaxEnergy() {
+        maxEnergy = 30 + energyLvl * 20;
         energy = maxEnergy;
     }
     
