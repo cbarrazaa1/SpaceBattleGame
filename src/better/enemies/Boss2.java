@@ -9,7 +9,7 @@ import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
 import better.core.Util;
-import better.game.Bullet;
+import better.bullets.Bullet;
 import better.game.Light2D;
 import better.game.Player;
 import better.game.StatusBar;
@@ -32,6 +32,7 @@ public class Boss2 extends Enemy {
     private Timer shootTimer;
     private boolean hasSpawned;
     private UILabel lblName; 
+    private Color lightColor;
     
     // Level Bullets //
     private ArrayList<Bullet> bullets;
@@ -46,6 +47,7 @@ public class Boss2 extends Enemy {
         img = Assets.images.get("Rotor");
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
         lblName = new UILabel(10, 4, "Pinweel", Color.WHITE, UILabel.DEFAULT_FONT);
+        lightColor = new Color(219, 219, 23);
     }
     
     @Override
@@ -112,10 +114,10 @@ public class Boss2 extends Enemy {
         
         if (shootTimer.isActivated()) {
             shootTimer.restart(0.3);
-            bullets.add(new Bullet(xMID, yMID, 20, 20, 10, theta, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-            bullets.add(new Bullet(xMID, yMID, 20, 20, 10, theta + Math.PI, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-            bullets.add(new Bullet(xMID, yMID, 20, 20, 10, theta + Math.PI/2, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-            bullets.add(new Bullet(xMID, yMID, 20, 20, 10, theta - Math.PI/2, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta, 6, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, lightColor, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI, 6, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, lightColor, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI/2, 6, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, lightColor, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - Math.PI/2, 6, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, lightColor, lights));
         }
         shootTimer.update();
         
@@ -131,10 +133,10 @@ public class Boss2 extends Enemy {
         
         if (shootTimer.isActivated()) {
             shootTimer.restart(0.1);
-            bullets.add(new Bullet(xMID, yMID, 20, 20, 10, theta, 8, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-            bullets.add(new Bullet(xMID, yMID, 20, 20, 10, theta + Math.PI, 8, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-            bullets.add(new Bullet(xMID, yMID, 20, 20, 10, theta + Math.PI/2, 8, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-            bullets.add(new Bullet(xMID, yMID, 20, 20, 10, theta - Math.PI/2, 8, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta, 8, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, lightColor, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI, 8, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, lightColor, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI/2, 8, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, lightColor, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - Math.PI/2, 8, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, lightColor, lights));
         }
         shootTimer.update();
         
@@ -151,10 +153,10 @@ public class Boss2 extends Enemy {
         if (shootTimer.isActivated()) {
             shootTimer.restart(Util.randNumF(0.25f,1.5f));
             for (int i = 1; i <= 12; i++){
-                bullets.add(new Bullet(xMID, yMID, 20, 20, 10, theta + Math.PI*i/12, 5, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+                bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/12, 5, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, lightColor, lights));
             }
             for (int i = 0; i <= 12; i++){
-                bullets.add(new Bullet(xMID, yMID, 20, 20, 10, theta - Math.PI*i/12, 5, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+                bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/12, 5, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, lightColor, lights));
             }
         }
         shootTimer.update();

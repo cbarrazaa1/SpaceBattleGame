@@ -8,7 +8,7 @@ package better.enemies;
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Util;
-import better.game.Bullet;
+import better.bullets.Bullet;
 import better.game.Light2D;
 import better.game.Player;
 import better.scenes.LevelScreen;
@@ -150,8 +150,8 @@ public class Enemy1 extends Enemy {
            checkColision();
             // checks when its time for the next shot
             if (shootTimer <= 0){
-                bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 5,
-                            theta, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+                bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 8, 17, 5,
+                            theta, 6, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
                 shootTimer = (int)(Math.random() * 170);
             }
             shootTimer--;

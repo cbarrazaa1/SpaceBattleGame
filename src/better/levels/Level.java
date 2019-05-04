@@ -13,7 +13,7 @@ import better.enemies.Boss1;
 import better.enemies.Enemy;
 import better.enemies.Enemy1;
 import better.enemies.OGEnemy1;
-import better.game.Bullet;
+import better.bullets.Bullet;
 import better.game.Coin;
 import better.game.Light2D;
 import better.game.Player;

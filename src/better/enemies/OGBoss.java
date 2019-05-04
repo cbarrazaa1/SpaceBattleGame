@@ -9,8 +9,8 @@ import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
 import better.core.Util;
-import better.game.Bullet;
-import better.game.GuidedBullet;
+import better.bullets.Bullet;
+import better.bullets.GuidedBullet;
 import better.game.Light2D;
 import better.game.Player;
 import better.game.StatusBar;
@@ -66,14 +66,14 @@ public class OGBoss extends Enemy {
     }
     
     private void shoot(){
-        bullets.add(new Bullet(getX() + getWidth()*1 / 5, getY() + getHeight() / 2, 10, 10, 5,
-                    theta, 5, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-        bullets.add(new GuidedBullet(getX() + getWidth()*2 / 5, getY() + getHeight() / 2, 10, 10, 5,
-                    theta, 7, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
-        bullets.add(new GuidedBullet(getX() + getWidth()*3 / 5, getY() + getHeight() / 2, 10, 10, 5,
-                    theta, 7, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
-        bullets.add(new Bullet(getX() + getWidth()*4 / 5, getY() + getHeight() / 2, 10, 10, 5,
-                    theta, 5, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+        bullets.add(new Bullet(getX() + getWidth()*1 / 5, getY() + getHeight() / 2, 8, 17, 5,
+                    theta, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+        bullets.add(new GuidedBullet(getX() + getWidth()*2 / 5, getY() + getHeight() / 2, 8, 17, 5,
+                    theta, 7, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        bullets.add(new GuidedBullet(getX() + getWidth()*3 / 5, getY() + getHeight() / 2, 8, 17, 5,
+                    theta, 7, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        bullets.add(new Bullet(getX() + getWidth()*4 / 5, getY() + getHeight() / 2, 8, 17, 5,
+                    theta, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
     }
     
     private void move(){
@@ -109,10 +109,10 @@ public class OGBoss extends Enemy {
     }
     
     private void shootGuided(){
-        bullets.add(new GuidedBullet(getX() + getWidth()*1 / 5, getY() + getHeight() / 2, 10, 10, 5,
-                    theta, 7, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
-        bullets.add(new GuidedBullet(getX() + getWidth()*4 / 5, getY() + getHeight() / 2, 10, 10, 5,
-                    theta, 7, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        bullets.add(new GuidedBullet(getX() + getWidth()*1 / 5, getY() + getHeight() / 2, 8, 17, 5,
+                    theta, 7, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        bullets.add(new GuidedBullet(getX() + getWidth()*4 / 5, getY() + getHeight() / 2, 8, 17, 5,
+                    theta, 7, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
     }
     
     @Override
