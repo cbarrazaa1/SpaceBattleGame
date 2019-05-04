@@ -10,6 +10,7 @@ import better.core.Game;
 import better.core.Timer;
 import better.core.Util;
 import better.game.Bullet;
+import better.game.GuidedBullet;
 import better.game.Light2D;
 import better.game.Player;
 import better.scenes.LevelScreen;
@@ -32,6 +33,7 @@ public class OGBoss extends Enemy {
     private Timer shootTimer;
     private Timer stop;
     private Timer move;
+    private Timer guidedTimer;
     
     // Level Bullet List //
     private ArrayList<Bullet> bullets;
@@ -48,8 +50,9 @@ public class OGBoss extends Enemy {
         xSpeed = -3;
         moveTimer = new Timer(0);
         shootTimer = new Timer(1);
-        stop = new Timer(3);
-        move = new Timer(6);
+        stop = new Timer(6);
+        move = new Timer(0);
+        guidedTimer = new Timer(0.3);
     }
 
     private void spawnEnemy(){
@@ -60,14 +63,14 @@ public class OGBoss extends Enemy {
     }
     
     private void shoot(){
-        bullets.add(new Bullet(getX() + getWidth()*1 / 4, getY() + getHeight() / 2, 10, 10, 5,
-                    theta, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-        bullets.add(new Bullet(getX() + getWidth()*2 / 4, getY() + getHeight() / 2, 10, 10, 5,
-                    theta, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-        bullets.add(new Bullet(getX() + getWidth()*3 / 4, getY() + getHeight() / 2, 10, 10, 5,
-                    theta, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-        bullets.add(new Bullet(getX() + getWidth()*4 / 4, getY() + getHeight() / 2, 10, 10, 5,
-                    theta, 6, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+        bullets.add(new Bullet(getX() + getWidth()*1 / 5, getY() + getHeight() / 2, 10, 10, 5,
+                    theta, 5, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+        bullets.add(new GuidedBullet(getX() + getWidth()*2 / 5, getY() + getHeight() / 2, 10, 10, 5,
+                    theta, 7, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        bullets.add(new GuidedBullet(getX() + getWidth()*3 / 5, getY() + getHeight() / 2, 10, 10, 5,
+                    theta, 7, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        bullets.add(new Bullet(getX() + getWidth()*4 / 5, getY() + getHeight() / 2, 10, 10, 5,
+                    theta, 5, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
     }
     
     private void move(){
@@ -95,14 +98,20 @@ public class OGBoss extends Enemy {
             y = 10;
         }
         if (x < 0){
-            
             x = 0;
         }
         if (x > Game.getDisplay().getWidth() - width){
-            
             x= Game.getDisplay().getWidth() - width;
         }
     }
+    
+    private void shootGuided(){
+        bullets.add(new GuidedBullet(getX() + getWidth()*2 / 4, getY() + getHeight() / 2, 10, 10, 5,
+                    theta, 7, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        bullets.add(new GuidedBullet(getX() + getWidth()*3 / 4, getY() + getHeight() / 2, 10, 10, 5,
+                    theta, 7, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+    }
+    
     @Override
     public void update(){
         super.update();
@@ -112,23 +121,38 @@ public class OGBoss extends Enemy {
                 spawning = false;
             }
         }else{
-            // moves the object
-            setX(getX() + xSpeed);
-            setY(getY() + ySpeed);
             
-            if (moveTimer.isActivated()){
-                moveTimer.restart(0.1);
-                move();
+            if (move.isActivated()){
+                // moves the object
+                setX(getX() + xSpeed);
+                setY(getY() + ySpeed);
+                
+                if (moveTimer.isActivated()){
+                    moveTimer.restart(0.1);
+                    move();
+                }
+
+                if (shootTimer.isActivated()){
+                    shootTimer.restart();
+                    shoot();
+                }
+                stop.update();
+            }else{
+                if (guidedTimer.isActivated()){
+                    guidedTimer.restart();
+                    this.shootGuided();
+                }
+                guidedTimer.update();
             }
-            
-            if (shootTimer.isActivated()){
-                shootTimer.restart();
-                shoot();
+            if (stop.isActivated()){
+                move.restart(3);
+                stop.restart(6);
             }
             this.checkCollision();
             
             moveTimer.update();
             shootTimer.update();
+            move.update();
             
         }  
         
