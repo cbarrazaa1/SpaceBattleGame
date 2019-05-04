@@ -46,7 +46,7 @@ public class Enemy2 extends Enemy {
         shouldRenderBar = false;
         theta = -Math.PI/2;
         spawning = true;
-        img = Assets.images.get("EnemyShip1");
+        img = Assets.images.get("Enemy02Blue");
         spawnEnemy();
         this.moveTimer = new Timer(0);
         this.shootTimer = new Timer(2);
