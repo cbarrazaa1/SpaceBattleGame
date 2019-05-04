@@ -141,7 +141,7 @@ public class LevelSelectScreen extends Screen {
         UILabel lblSelectedPlanet = new UILabel(0, 45, "NEPTUNE", new Color(255f / 255f, 237f / 255f, 211f / 255f, 1f), UILabel.DEFAULT_FONT);
         lblSelectedPlanet.setFontSize(29);
         
-        UILabel lblLevel = new UILabel(3, 410, "Lv. " + player.getLevel(), Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblLevel = new UILabel(3, 410, "Lv. " + (player.getArmorLvl() + player.getEnergyLvl()), Color.WHITE, UILabel.DEFAULT_FONT);
         lblLevel.setFontSize(11);
         UILabel lblCoins = new UILabel(75, 410, String.valueOf(player.getCoins()), Color.WHITE, UILabel.DEFAULT_FONT);
         lblCoins.setFontSize(11);

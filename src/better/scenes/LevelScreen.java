@@ -21,6 +21,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -39,44 +40,27 @@ public class LevelScreen extends Screen {
     private int selectedLevel;
     private boolean gameOver;
     private boolean victory;
+    private boolean paused;
     private Timer fadeTimer;
     private float fadeAlpha;
     private Player player;
     
     @Override
     public void init() {
-        switch(selectedLevel) {
-            case 1:
-                level = new Level1(player);
-                break;
-            case 2:
-                level = new Level2(player);
-                break;
-            case 3:
-                level = new Level3(player);
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 7:
-                break;
-            case 8:
-                break;
-            case 9:
-                break;
-        }
+        player.setX(Game.getDisplay().getWidth() / 2 - player.getWidth() / 2);
+        player.setY(Game.getDisplay().getWidth() / 2 - player.getHeight() / 2);
+        
+        chooseLevel();
         fadeTimer = new Timer(0.1d);
         fadeAlpha = 0;
         gameOver = false;
         victory = false;
+        paused = false;
         
         // Game over buttons
         UIButton btnTryAgain = new UIButton(297, 237, 205, 56, Assets.images.get("GameOverTryAgain"));
         btnTryAgain.setOnClickListener(() -> {
-            level = new Level1(player);
+            chooseLevel();
             gameOver = false;
             fadeAlpha = 0;
             fadeTimer = new Timer(0.1d);
@@ -93,7 +77,7 @@ public class LevelScreen extends Screen {
         // Victory UI
         UIButton btnPlayAgain = new UIButton(429, 252, 205, 56, Assets.images.get("VictoryPlayAgain"));
         btnPlayAgain.setOnClickListener(() -> {
-            level = new Level1(player);
+            chooseLevel();
             victory = false;
             fadeAlpha = 0;
             fadeTimer = new Timer(0.1d);
@@ -126,6 +110,27 @@ public class LevelScreen extends Screen {
         uiControls.put("lblPB", lblPB);
         uiControls.put("lblCoins", lblCoins);
         uiControls.put("lblNewSkin", lblNewSkin);
+        
+        // Pause UI
+        UIButton btnResume = new UIButton(297, 215, 205, 56, Assets.images.get("PauseResume"));
+        btnResume.setOnClickListener(() -> {
+            paused = false;
+        });
+        
+        UIButton btnRestart = new UIButton(297, 284, 205, 56, Assets.images.get("PauseRestart"));
+        btnRestart.setOnClickListener(() -> {
+            chooseLevel();
+            paused = false;
+        });
+        
+        UIButton btnExitLevel = new UIButton(297, 353, 205, 56, Assets.images.get("PauseExit"));
+        btnExitLevel.setOnClickListener(() -> {
+            Game.setCurrentScreen(LevelSelectScreen.getInstance());
+        });
+        
+        uiControls.put("btnResume", btnResume);
+        uiControls.put("btnRestart", btnRestart);
+        uiControls.put("btnExitLevel", btnExitLevel);
     }
 
     @Override
@@ -184,6 +189,13 @@ public class LevelScreen extends Screen {
             // set back composite to original
             g.setComposite(orig);
         }
+        
+        if(paused) {
+            g.drawImage(Assets.images.get("PauseScreen"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
+            uiControls.get("btnResume").render(g);
+            uiControls.get("btnRestart").render(g);
+            uiControls.get("btnExitLevel").render(g);
+        }
     }
 
     @Override
@@ -209,6 +221,16 @@ public class LevelScreen extends Screen {
                 uiControls.get("btnContinue").update();
             }
         }
+        
+        if(paused) {
+            uiControls.get("btnResume").update();
+            uiControls.get("btnRestart").update();
+            uiControls.get("btnExitLevel").update();
+        }
+        
+        if(Game.getKeyManager().isKeyPressed(KeyEvent.VK_ESCAPE)) {
+            paused = !paused;
+        }
     } 
     
     public boolean isGameOver() {
@@ -233,11 +255,41 @@ public class LevelScreen extends Screen {
         }
     }
     
+    public boolean isPaused() {
+        return paused;
+    }
+    
     public void setPlayer(Player player) {
         this.player = player;
     }
     
     public void setSelectedLevel(int selectedLevel) {
         this.selectedLevel = selectedLevel;
+    }
+    
+    public void chooseLevel() {
+        switch(selectedLevel) {
+            case 1:
+                level = new Level1(player);
+                break;
+            case 2:
+                level = new Level2(player);
+                break;
+            case 3:
+                level = new Level3(player);
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+        }
     }
 }

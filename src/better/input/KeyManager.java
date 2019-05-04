@@ -43,6 +43,7 @@ public class KeyManager implements KeyListener {
         keysInUse.add(KeyEvent.VK_C);
         keysInUse.add(KeyEvent.VK_G);
         keysInUse.add(KeyEvent.VK_SPACE);
+        keysInUse.add(KeyEvent.VK_ESCAPE);
     }
 
     /**
