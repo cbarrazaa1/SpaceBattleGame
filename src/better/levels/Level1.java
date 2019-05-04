@@ -35,6 +35,10 @@ public class Level1 extends Level {
     
     @Override
     public void update() {
+        if(LevelScreen.getInstance().isPaused()) {
+            return;
+        }
+        
         super.update();
         if(spawnTimer.isActivated()) {
             enemies.add(new Enemy1(64, 64, 25, 10, 40, player, bullets, lights));
@@ -50,13 +54,14 @@ public class Level1 extends Level {
     @Override
     public void onEnemyDead(Enemy enemy) {
         if(enemy instanceof Boss1) {
-            player.setCoins(player.getCoins() + 45);
+            collectedCoins += 45;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));
             
             UILabel lblCoins = (UILabel)LevelScreen.getInstance().getUIControl("lblCoins");
-            lblCoins.setText(String.valueOf(player.getCoins()));
+            lblCoins.setText(String.valueOf(collectedCoins));
+            player.setCoins(player.getCoins() + collectedCoins);
         }
         
         defeated++;

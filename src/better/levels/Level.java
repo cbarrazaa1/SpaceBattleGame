@@ -40,6 +40,7 @@ public abstract class Level implements LevelEventListener {
     protected ArrayList<Coin> coins;
     protected Player player;
     protected int score;
+    protected int collectedCoins;
     protected StatusBar armorBar;
     protected StatusBar energyBar;
     protected LevelEventListener eventListener;
@@ -53,6 +54,7 @@ public abstract class Level implements LevelEventListener {
         bullets = new ArrayList<>();
         coins = new ArrayList<>();
         score = 0;
+        collectedCoins = 0;
         
         this.player = player;
         player.recoverStats();
@@ -113,7 +115,7 @@ public abstract class Level implements LevelEventListener {
     }
     
     public void update() {
-        if(!(LevelScreen.getInstance().isGameOver() || LevelScreen.getInstance().hasVictory())) {
+        if(!(LevelScreen.getInstance().isGameOver() || LevelScreen.getInstance().hasVictory() || LevelScreen.getInstance().isPaused())) {
             // update player
             player.update();
             armorBar.setValue(player.getArmor());
@@ -191,7 +193,7 @@ public abstract class Level implements LevelEventListener {
                 coin.update();
                 
                 if(player.intersects(coin)) {
-                    player.setCoins(player.getCoins() + 1);
+                    collectedCoins++;
                     coins.remove(i);
                 }
             }
