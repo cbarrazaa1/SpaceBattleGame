@@ -22,7 +22,12 @@ import java.util.ArrayList;
 public class Bullet extends GameObject {
     public static final int BULLET_TYPE_PLAYER = 0;
     public static final int BULLET_TYPE_ENEMY = 1;
+    public static final int BULLET_TYPE_PLAYER_PROTON = 2;
     
+    public static final int BULLET_DOUBLE_SHOT = 0;
+    public static final int BULLET_HEAVY_SHOT = 1;
+    public static final int BULLET_PROTON_SHOT = 2;
+    public static final int BULLET_TRIPLE_SHOT = 3;
     protected int damage;
     protected double theta;
     protected double speed;
