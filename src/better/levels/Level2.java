@@ -18,10 +18,13 @@ import better.enemies.Enemy3;
 import better.game.Player;
 import better.enemies.Enemy4;
 import better.game.Powerup;
+import better.scenes.LevelScreen;
+import better.ui.UILabel;
 
 /**
  *
  * @author Cesar Barraza
+ * @author Rogelio Martinez
  */
 public class Level2 extends Level {
     private static final int TO_DEFEAT = 15;
@@ -62,16 +65,16 @@ public class Level2 extends Level {
         spawnTimer2.update();
     }
     
-    //TEST ASTEROID///CODE FOR ASTEROID DEATH, USE FOR LEVELS WITH ASTEROIDS
     private void asteroidDeath(Enemy enemy){
-        if (enemy instanceof Asteroid1){
-            Enemy e = enemy;
-            Asteroid1 a = (Asteroid1)e;
-            a.explode();
-            if (a.getWidth() > 32){
-                enemies.add(new Asteroid1(a.getX(), a.getY(), a.getWidth()/2, a.getHeight()/2, 100, 0, 10, player, bullets, lights));
-                enemies.add(new Asteroid1(a.getX(), a.getY(), a.getWidth()/2, a.getHeight()/2, 100, 0, 10, player, bullets, lights));
-            }
+        if (enemy instanceof Boss2){
+            collectedCoins += 100;
+            LevelScreen.getInstance().setVictory();
+            UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
+            lblScore.setText(String.valueOf(score));
+            
+            UILabel lblCoins = (UILabel)LevelScreen.getInstance().getUIControl("lblCoins");
+            lblCoins.setText(String.valueOf(collectedCoins));
+            player.setCoins(player.getCoins() + collectedCoins);
         }
     }
     

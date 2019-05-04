@@ -54,9 +54,9 @@ public class Asteroid1 extends Enemy {
     
     public void explode(){
         if (width < 64) return;
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < 2; i++){
         bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 32, 32, 5,
-                    theta*i/2, 10, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+                    theta*i/2, 7, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
         }
     }
     
@@ -68,7 +68,7 @@ public class Asteroid1 extends Enemy {
         health = 0;
         for (int i = 0; i < 6; i++){
         bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 32, 32, 5,
-                    theta*i/2, 10, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+                    theta*i/2, 7, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
         }
     }
     
