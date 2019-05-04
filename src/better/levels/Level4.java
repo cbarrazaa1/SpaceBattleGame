@@ -28,59 +28,88 @@ import better.ui.UILabel;
  * @author Cesar Barraza
  * @author Rogelio Martinez
  */
-public class Level3 extends Level {
-    private static final int TO_DEFEAT = 15;
+public class Level4 extends Level {
+    private static final int TO_DEFEAT = 10;
     private int defeated;
     private Timer spawnTimer;
     private Timer spawnTimer2;
+    private Timer asteroidTimer;
+    private Timer endTimer;
+    private int enemyCounter;
     
-    public Level3(Player player) {
+    public Level4(Player player) {
         super(player);
         defeated = 0;
         spawnTimer = new Timer(1f);
         spawnTimer2 = new Timer(1f);
+        asteroidTimer = new Timer(2);
+        endTimer = new Timer(5);
         eventListener = this;
+        enemyCounter = 0;
     }
     
     @Override
     public void update() {
         super.update();
-        if(spawnTimer.isActivated()) {
+        if(spawnTimer.isActivated() && enemyCounter < 10) {
             //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
-            enemies.add(new OGEnemy1(64, 64, 100, 10, 40, player, bullets, lights));
+            enemies.add(new Enemy1(64, 64, 100, 10, 50, player, bullets, lights));
+            enemyCounter++;
             
-            if(defeated < TO_DEFEAT) {
-                spawnTimer.restart(Util.randNumF(0.5f, 2f));
-            } else {
-                spawnTimer.restart(Util.randNumF(2f, 4f));
-            }
+            spawnTimer.restart(Util.randNumF(0.5f, 2f));
+            
         }
         spawnTimer.update();
-        if(spawnTimer2.isActivated()) {
+        if(spawnTimer2.isActivated() && enemyCounter < 10) {
             //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
+            enemies.add(new Enemy2(64, 64, 100, 10, 40, player, bullets, lights));
+            enemyCounter++;
             
-            enemies.add(new OGEnemy2(64, 64, 100, 10, 20, player, bullets, lights));
-            if(defeated < TO_DEFEAT) {
-                spawnTimer2.restart(Util.randNumF(1.5f, 2.5f));
-            } else {
-                spawnTimer2.restart(Util.randNumF(2f, 4f));
-            }
+            spawnTimer2.restart(Util.randNumF(1.5f, 3f));
+            
         }
         spawnTimer2.update();
+        if(defeated >= TO_DEFEAT && enemyCounter < 50){
+            if(asteroidTimer.isActivated()) {
+                enemies.add(new Asteroid1(0, 0, 128, 128, 10, 0, 20, player, bullets, lights));
+                
+                enemyCounter++;
+
+                asteroidTimer.restart(Util.randNumF(0.5f, 2.5f));
+
+            }
+            asteroidTimer.update();
+        }
+        if (enemyCounter >= 50){
+            endTimer.update();
+        }
+        
     }
     
-
+    private void asteroidDeath(Enemy enemy){
+        if (enemy instanceof Asteroid1){
+            Enemy e = enemy;
+            Asteroid1 a = (Asteroid1)e;
+            a.explode();
+            if (a.getWidth() > 32){
+                enemies.add(new Asteroid1(a.getX(), a.getY(), a.getWidth()/2, a.getHeight()/2, 0, 0, 10, player, bullets, lights));
+                enemies.add(new Asteroid1(a.getX(), a.getY(), a.getWidth()/2, a.getHeight()/2, 0, 0, 10, player, bullets, lights));
+            }
+        }
+    }
     
     @Override
     public void onEnemyDead(Enemy enemy) {
         defeated++;
-
-        if(defeated == TO_DEFEAT) {
-            enemies.add(new OGBoss(128, 128, 100, 10, 200, player, bullets, lights));
-        }
         
-        if (enemy instanceof OGBoss){
-            collectedCoins += 150;
+        asteroidDeath(enemy);
+        //if(defeated == TO_DEFEAT) {
+        //    enemies.add(new OGBoss(128, 128, 100, 10, 200, player, bullets, lights));
+        //}
+
+        // spawn powerup
+        if (endTimer.isActivated()){
+            collectedCoins += 45;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));
@@ -89,8 +118,10 @@ public class Level3 extends Level {
             lblCoins.setText(String.valueOf(collectedCoins));
             player.setCoins(player.getCoins() + collectedCoins);
         }
-
-        // spawn powerup
+        
+        if (enemy instanceof Asteroid1){
+            return;
+        }
         int p = Util.randNum(1, 9);
         if(p == 2) {
             float x = enemy.getX();

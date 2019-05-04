@@ -20,6 +20,7 @@ import better.ui.UILabel;
 /**
  *
  * @author Cesar Barraza
+ * @author Rogelio Martinez
  */
 public class Level1 extends Level {
     private static final int TO_DEFEAT = 15;
