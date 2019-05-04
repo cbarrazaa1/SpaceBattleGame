@@ -183,7 +183,7 @@ public class Boss2 extends Enemy {
             this.move();
         }else if (health > 300){
             // rotate
-            theta += Math.PI/256;
+            theta += Math.PI/320;
             // second shooting pattern
             this.shoot2();
             // Movement function
