@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashSet;
 /**
  *
  * @author rogel
@@ -50,6 +51,7 @@ public class Player extends GameObject {
     private int energy;
     private int maxEnergy;
     private int currLevel;
+    private int selectedBullet;
     
     private Timer energyTimer; // timer for energy regeneration
     
@@ -69,13 +71,14 @@ public class Player extends GameObject {
         energyTimer = new Timer(0.1);
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
-        coins = 0;
+        coins = 15000;
         level = 3;
         currLevel = 0;
         skin = 0;
-        currBullet = 0;
+        currBullet = Bullet.BULLET_DOUBLE_SHOT;
         selectedPal = 0;
         bulletTypes = "";
+        selectedBullet = -1;
     }
 
     @Override
@@ -121,12 +124,65 @@ public class Player extends GameObject {
         }
         
         // this controls the shots of the player
-        if (Game.getMouseManager().isButtonDown(MouseEvent.BUTTON1)&& !isShooting()){
-            bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 7, 19, 10,
-                        theta - Math.PI, 10, Assets.images.get("BulletNormal"), Bullet.BULLET_TYPE_PLAYER, new Color(215, 234, 209), lights));      
-            Assets.playerShoot.play();
-            setShooting(true);
-            shotTimer.restart();
+        if (Game.getMouseManager().isButtonDown(MouseEvent.BUTTON1)&& !isShooting()) {
+            boolean didShoot = true;
+            boolean autoRestart = true;
+            
+            if(selectedBullet == -1) {
+                bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 7, 19, 10,
+                        theta - Math.PI, 10, Assets.images.get("BulletNormal"), Bullet.BULLET_TYPE_PLAYER, new Color(215, 234, 209), lights)); 
+            } else if(currBullet == Bullet.BULLET_DOUBLE_SHOT) {
+                if(energy > 2) {
+                    float xF = (float)Math.cos(theta) * 10;
+                    float yF = (float)Math.sin(theta) * 10;
+
+                    bullets.add(new Bullet(getX() + getWidth() / 2 + xF, getY() + getHeight() / 2 + yF, 7, 19, 10,
+                            theta - Math.PI, 10, Assets.images.get("DoubleShot"), Bullet.BULLET_TYPE_PLAYER, Color.GREEN, lights)); 
+                    bullets.add(new Bullet(getX() + getWidth() / 2 - xF, getY() + getHeight() / 2 - yF, 7, 19, 10,
+                            theta - Math.PI, 10, Assets.images.get("DoubleShot"), Bullet.BULLET_TYPE_PLAYER, Color.GREEN, lights));
+                    energy -= 2;   
+                } else {
+                    didShoot = false;
+                }
+            } else if(selectedBullet == Bullet.BULLET_HEAVY_SHOT) {
+                bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 7, 19, 25 + (energy / 3),
+                        theta - Math.PI, 5, Assets.images.get("HeavyShot"), Bullet.BULLET_TYPE_PLAYER, new Color(170, 67, 10), lights)); 
+                autoRestart = false;
+                shotTimer.restart(0.7);
+            } else if(selectedBullet == Bullet.BULLET_PROTON_SHOT) {
+                if(energy > 10) {
+                    bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 14, 13, 20,
+                            theta - Math.PI, 11, Assets.images.get("ProtonShot"), Bullet.BULLET_TYPE_PLAYER_PROTON, new Color(39, 171, 205), lights)); 
+                    autoRestart = false;
+                    shotTimer.restart(0.5);
+                    energy -= 10; 
+                } else {
+                    didShoot = false;
+                }
+            } else if(selectedBullet == Bullet.BULLET_TRIPLE_SHOT) {
+                if(energy > 4) {
+                    float xF = (float)Math.cos(theta) * 13;
+                    float yF = (float)Math.sin(theta) * 13;
+
+                    bullets.add(new Bullet(getX() + getWidth() / 2 + xF, getY() + getHeight() / 2 + yF, 7, 19, 10,
+                            theta - Math.PI, 10, Assets.images.get("TripleShot"), Bullet.BULLET_TYPE_PLAYER, new Color(167, 20, 173), lights)); 
+                    bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 7, 19, 10,
+                            theta - Math.PI, 10, Assets.images.get("TripleShot"), Bullet.BULLET_TYPE_PLAYER, new Color(167, 20, 173), lights)); 
+                    bullets.add(new Bullet(getX() + getWidth() / 2 - xF, getY() + getHeight() / 2 - yF, 7, 19, 10,
+                            theta - Math.PI, 10, Assets.images.get("TripleShot"), Bullet.BULLET_TYPE_PLAYER, new Color(167, 20, 173), lights));
+                    energy -= 4;   
+                } else {
+                    didShoot = false;
+                }
+            }
+     
+            if(didShoot) {
+                Assets.playerShoot.play();
+                setShooting(true);   
+            }
+            if(autoRestart) {
+                shotTimer.restart(0.2);
+            }
         }
         // checks if the player can shoot again
         if (shotTimer.isActivated()){
@@ -144,8 +200,11 @@ public class Player extends GameObject {
             speed = 3;
             setDashing(false);
             if (energyTimer.isActivated()){
-                // adding energy when not dashing
-                setEnergy(getEnergy() + 1);
+                if(!(isShooting() && (selectedBullet == Bullet.BULLET_DOUBLE_SHOT || selectedBullet == Bullet.BULLET_TRIPLE_SHOT || selectedBullet == Bullet.BULLET_PROTON_SHOT))) {
+                    // adding energy when not dashing
+                    setEnergy(getEnergy() + 1);                    
+                }
+
                 energyTimer.restart();
                 if (getEnergy() >= maxEnergy){
                     setEnergy(maxEnergy);
@@ -261,6 +320,18 @@ public class Player extends GameObject {
 
     public void setCurrBullet(int currBullet) {
         this.currBullet = currBullet;
+    }
+    
+    public int getSelectedBullet() {
+        return selectedBullet;
+    }
+    
+    public void switchSelectedBullet() {
+        if(selectedBullet == -1) {
+            selectedBullet = currBullet;
+        } else {
+            selectedBullet = -1;
+        }
     }
 
     public int getSelectedPal() {
@@ -391,6 +462,27 @@ public class Player extends GameObject {
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
+    }
+    
+    public HashSet<Integer> bulletsToHashSet() {
+        if(bulletTypes.length() == 0) {
+            return new HashSet<>();
+        }
+        
+        String[] s = bulletTypes.split(",");
+        HashSet<Integer> res = new HashSet<>();
+        for(int i = 0; i < s.length; i++) {
+            res.add(Integer.parseInt(s[i]));
+        }
+        
+        return res;
+    }
+    
+    public void hashSetToBullets(HashSet<Integer> set) {
+        bulletTypes = "";
+        for(Integer i : set) {
+            bulletTypes += String.valueOf(i) + ",";
+        }
     }
     
     @Override

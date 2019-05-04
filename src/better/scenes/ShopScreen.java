@@ -6,6 +6,7 @@
 package better.scenes;
 
 import better.assets.Assets;
+import better.bullets.Bullet;
 import better.core.Game;
 import better.game.MessageBox;
 import better.game.Player;
@@ -14,9 +15,11 @@ import better.ui.UIButton;
 import better.ui.UILabel;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.HashSet;
 
 /**
  *
@@ -36,6 +39,7 @@ public class ShopScreen extends Screen {
     private int energyCost;
     private BufferedImage descImg;
     private MessageBox msgBox;
+    private HashSet<Integer> bullets;
     
     // Shop Rectangles
     private Rectangle2D.Float rect1;
@@ -48,6 +52,7 @@ public class ShopScreen extends Screen {
     @Override
     public void init() {
         calculateCosts();
+        bullets = player.bulletsToHashSet();
         
         UIButton btnGoBack = new UIButton(573, 515, 205, 56, Assets.images.get("ShopGoBack"));
         btnGoBack.setOnClickListener(() -> {
@@ -67,12 +72,21 @@ public class ShopScreen extends Screen {
         UILabel lblEnergyLvl = new UILabel(128, 546, "Energy Level: " + player.getEnergyLvl(), Color.WHITE, UILabel.DEFAULT_FONT);
         lblEnergyLvl.setFontSize(13);
         
+        UILabel lblDoubleShot = new UILabel(156, 238, "BOUGHT", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblHeavyShot = new UILabel(297, 238, "BOUGHT", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblProtonShot = new UILabel(437, 238, "BOUGHT", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblTripleShot = new UILabel(578, 238, "BOUGHT", Color.WHITE, UILabel.DEFAULT_FONT);
+        
         uiControls.put("btnGoBack", btnGoBack);
         uiControls.put("lblArmorCost", lblArmorCost);
         uiControls.put("lblEnergyCost", lblEnergyCost);
         uiControls.put("lblCoins", lblCoins);
         uiControls.put("lblArmorLvl", lblArmorLvl);
         uiControls.put("lblEnergyLvl", lblEnergyLvl);
+        uiControls.put("lblDoubleShot", lblDoubleShot);
+        uiControls.put("lblHeavyShot", lblHeavyShot);
+        uiControls.put("lblProtonShot", lblProtonShot);
+        uiControls.put("lblTripleShot", lblTripleShot);
         
         // initialize rectangles
         rect1 = new Rectangle2D.Float(157, 170, 64, 64);
@@ -133,11 +147,36 @@ public class ShopScreen extends Screen {
         lblEnergyLvl.render(g);
         lblEnergyLvl.calculateDimensions(g);
         lblEnergyLvl.setX(121 + (68 - lblEnergyLvl.getWidth() / 2));
+           
+        // render bought states
+        if(bullets.contains(Bullet.BULLET_DOUBLE_SHOT)) {
+            g.setColor(new Color(0, 0, 0, 200));
+            g.fillRect((int)rect1.x, (int)rect1.y, (int)rect1.width, (int)rect1.height);
+            uiControls.get("lblDoubleShot").render(g);
+        }
         
+        if(bullets.contains(Bullet.BULLET_HEAVY_SHOT)) {
+            g.setColor(new Color(0, 0, 0, 200));
+            g.fillRect((int)rect2.x, (int)rect2.y, (int)rect2.width, (int)rect2.height);
+            uiControls.get("lblHeavyShot").render(g);
+        }
+        
+        if(bullets.contains(Bullet.BULLET_PROTON_SHOT)) {
+            g.setColor(new Color(0, 0, 0, 200));
+            g.fillRect((int)rect3.x, (int)rect3.y, (int)rect3.width, (int)rect3.height);
+            uiControls.get("lblProtonShot").render(g);
+        }
+        
+        if(bullets.contains(Bullet.BULLET_TRIPLE_SHOT)) {
+            g.setColor(new Color(0, 0, 0, 200));
+            g.fillRect((int)rect4.x, (int)rect4.y, (int)rect4.width, (int)rect4.height);
+            uiControls.get("lblTripleShot").render(g);
+        }
+     
         // render desc img
         if(descImg != null) {
             g.drawImage(descImg, (int)Game.getMouseManager().getX() + 12, (int)Game.getMouseManager().getY() - 4, descImg.getWidth(), descImg.getHeight(), null);
-        }
+        }        
         
         // render msgbox
         if(msgBox != null && msgBox.isVisible()) {
@@ -155,29 +194,77 @@ public class ShopScreen extends Screen {
             uiControls.get("btnGoBack").update();
 
             // check for rectangle collisions
-            if(Game.getMouseManager().intersects(rect1)) {
-                descImg = Assets.images.get("ShopDoubleShotDesc");
-                if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
-                    descImg = null;
-                    msgBox = new MessageBox("Not available yet LOL", MessageBox.MSG_TYPE_OK, null);
+            if(Game.getMouseManager().intersects(rect1)) {             
+                if(!bullets.contains(Bullet.BULLET_DOUBLE_SHOT)) { 
+                    descImg = Assets.images.get("ShopDoubleShotDesc");
+                    if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
+                        descImg = null;
+                        if(coins >= 1000) {
+                            msgBox = new MessageBox("Do you want to buy the double shot?", MessageBox.MSG_TYPE_YESNO, () -> {
+                                msgBox.hide();
+                                player.setCoins(player.getCoins() - 1000);
+                                bullets.add(Bullet.BULLET_DOUBLE_SHOT);
+                                player.hashSetToBullets(bullets);
+                                updateLabels();
+                            });
+                        } else {
+                            msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null);
+                        }
+                    }
                 }
-            } else if(Game.getMouseManager().intersects(rect2)) {
-                descImg = Assets.images.get("ShopHeavyShotDesc");
-                if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
-                    descImg = null;
-                    msgBox = new MessageBox("Not available yet LOL", MessageBox.MSG_TYPE_OK, null);
+            } else if(Game.getMouseManager().intersects(rect2)) {            
+                if(!bullets.contains(Bullet.BULLET_HEAVY_SHOT)) {
+                    descImg = Assets.images.get("ShopHeavyShotDesc");
+                    if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
+                        descImg = null;
+                        if(coins >= 1500) {
+                            msgBox = new MessageBox("Do you want to buy the double shot?", MessageBox.MSG_TYPE_YESNO, () -> {
+                                msgBox.hide();
+                                player.setCoins(player.getCoins() - 1500);
+                                bullets.add(Bullet.BULLET_HEAVY_SHOT);
+                                player.hashSetToBullets(bullets);
+                                updateLabels();
+                            });
+                        } else {
+                            msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null);
+                        }
+                    }                    
                 }
-            } else if(Game.getMouseManager().intersects(rect3)) {
-                descImg = Assets.images.get("ShopProtonShotDesc");
-                if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
-                    descImg = null;
-                    msgBox = new MessageBox("Not available yet LOL", MessageBox.MSG_TYPE_OK, null);
-                }
-            } else if(Game.getMouseManager().intersects(rect4)) {
-                descImg = Assets.images.get("ShopTripleShotDesc");
-                if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
-                    descImg = null;
-                    msgBox = new MessageBox("Not available yet LOL", MessageBox.MSG_TYPE_OK, null);
+            } else if(Game.getMouseManager().intersects(rect3)) {              
+                if(!bullets.contains(Bullet.BULLET_PROTON_SHOT)) {
+                    descImg = Assets.images.get("ShopProtonShotDesc");
+                    if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
+                        descImg = null;
+                        if(coins >= 2200) {
+                            msgBox = new MessageBox("Do you want to buy the double shot?", MessageBox.MSG_TYPE_YESNO, () -> {
+                                msgBox.hide();
+                                player.setCoins(player.getCoins() - 2200);
+                                bullets.add(Bullet.BULLET_PROTON_SHOT);
+                                player.hashSetToBullets(bullets);
+                                updateLabels();
+                            });
+                        } else {
+                            msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null);
+                        }
+                    }
+                }             
+            } else if(Game.getMouseManager().intersects(rect4)) {                
+                if(!bullets.contains(Bullet.BULLET_TRIPLE_SHOT)) {
+                    descImg = Assets.images.get("ShopTripleShotDesc");
+                    if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
+                        descImg = null;
+                        if(coins >= 3000) {
+                            msgBox = new MessageBox("Do you want to buy the double shot?", MessageBox.MSG_TYPE_YESNO, () -> {
+                                msgBox.hide();
+                                player.setCoins(player.getCoins() - 3000);
+                                bullets.add(Bullet.BULLET_TRIPLE_SHOT);
+                                player.hashSetToBullets(bullets);
+                                updateLabels();
+                            });
+                        } else {
+                            msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null);
+                        }
+                    }                  
                 }
             } else if(Game.getMouseManager().intersects(rect5)) {
                 descImg = Assets.images.get("ShopArmorDesc");

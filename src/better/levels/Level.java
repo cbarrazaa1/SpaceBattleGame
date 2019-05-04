@@ -26,6 +26,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
@@ -73,7 +74,26 @@ public abstract class Level implements LevelEventListener {
         g.drawImage(Assets.images.get("LevelBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
         
         // render current bullet (temp)
-        g.drawImage(Assets.images.get("BulletGreen"), 28, 561, 16, 16, null);
+        switch(player.getSelectedBullet()) {
+            case -1:
+                g.drawImage(Assets.images.get("BulletNormal"), 33, 558, 7, 19, null);
+                break;
+            case Bullet.BULLET_DOUBLE_SHOT:
+                g.drawImage(Assets.images.get("DoubleShot"), 24, 556, 8, 24, null);
+                g.drawImage(Assets.images.get("DoubleShot"), 39, 556, 8, 24, null);
+                break;
+            case Bullet.BULLET_HEAVY_SHOT:
+                g.drawImage(Assets.images.get("HeavyShot"), 32, 555, 9, 28, null);
+                break;
+            case Bullet.BULLET_PROTON_SHOT:
+                g.drawImage(Assets.images.get("ProtonShot"), 29, 561, 14, 13, null);
+                break;
+            case Bullet.BULLET_TRIPLE_SHOT:
+                g.drawImage(Assets.images.get("TripleShot"), 17, 555, 9, 26, null);
+                g.drawImage(Assets.images.get("TripleShot"), 31, 555, 9, 26, null);
+                g.drawImage(Assets.images.get("TripleShot"), 45, 555, 9, 26, null);
+                break;
+        }  
          
         // render bullets
         for(Bullet bullet : bullets) {
@@ -125,6 +145,11 @@ public abstract class Level implements LevelEventListener {
                 LevelScreen.getInstance().setGameOver();
             }   
 
+            // check for switching bullet
+            if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON3)) {
+                player.switchSelectedBullet();
+            }
+            
             // update bullets
             for(int i = 0; i < bullets.size(); i++) {
                 Bullet bullet = bullets.get(i);
@@ -152,12 +177,25 @@ public abstract class Level implements LevelEventListener {
                 // check bullets collision
                 for(int j = 0; j < bullets.size(); j++) {
                     Bullet bullet = bullets.get(j);
-                    if(bullet.getType() == Bullet.BULLET_TYPE_PLAYER) {
+                    if(bullet.getType() == Bullet.BULLET_TYPE_PLAYER || bullet.getType() == Bullet.BULLET_TYPE_PLAYER_PROTON) {
                         if(bullet.intersects(enemy)) {
+                            if(enemy.getInvulnerableTo().contains(bullet)) {
+                                continue;
+                            }
                             enemy.setHealth(enemy.getHealth() - bullet.getDamage());
                             lightsToRemove.add(bullet.getLight());
                             Assets.damage.play();
-                            bullets.remove(j);
+                            if(bullet.getType() == Bullet.BULLET_TYPE_PLAYER_PROTON) {
+                                double theta = 0;
+                                for(int n = 0; n <= 9; n++) {
+                                    Bullet b = new Bullet(bullet.getX() + bullet.getWidth() / 2, bullet.getY() + bullet.getHeight() / 2, 7, 19, 10,
+                                                theta, 6, Assets.images.get("BulletNormal"), Bullet.BULLET_TYPE_PLAYER, new Color(215, 234, 209), lights);
+                                    bullets.add(b); 
+                                    theta += 0.6108;
+                                    enemy.addInvulnerableTo(b);
+                                }
+                            }
+                            bullets.remove(j);                            
                         }
                     }
                 }

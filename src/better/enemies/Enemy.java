@@ -6,6 +6,7 @@
 package better.enemies;
 
 import better.assets.Assets;
+import better.bullets.Bullet;
 import better.game.GameObject;
 import better.game.Light2D;
 import better.game.Player;
@@ -14,6 +15,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  *
@@ -28,6 +30,7 @@ public abstract class Enemy extends GameObject {
     protected StatusBar healthBar;
     protected Player player;
     protected BufferedImage img;
+    protected HashSet<Bullet> invulnerableTo;
     
     // Lights Screen //
     protected ArrayList<Light2D> lights;
@@ -41,6 +44,7 @@ public abstract class Enemy extends GameObject {
         this.player = player;
         this.healthBar = new StatusBar(x, y, 6, 11, Assets.images.get("ArmorBar"), health, health, width / health);
         this.lights = lights;
+        invulnerableTo = new HashSet<>();
     }
 
     public int getHealth() {
@@ -107,4 +111,12 @@ public abstract class Enemy extends GameObject {
 
     @Override
     public void mouseUp() { }
+    
+    public void addInvulnerableTo(Bullet bullet) {
+        invulnerableTo.add(bullet);
+    }
+    
+    public HashSet<Bullet> getInvulnerableTo() {
+        return invulnerableTo;
+    }
 }
