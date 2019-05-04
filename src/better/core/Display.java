@@ -4,6 +4,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
@@ -109,15 +111,27 @@ public class Display {
         canvas.setMaximumSize(new Dimension(getWidth(), getHeight()));
         canvas.setFocusable(false);
 
-        
         // add the canvas to the window
         window.add(canvas);
         window.pack();
+        
+        // add close listener
+        window.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Game.stop();
+                System.exit(0);
+            }
+        });
     }
     
     public void clear(Graphics2D g, Color color) {
         g.clearRect(0, 0, width, height);
         g.setColor(color);
         g.fillRect(0, 0, width, height);
+    }
+    
+    public void close() {
+        window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
     }
 }

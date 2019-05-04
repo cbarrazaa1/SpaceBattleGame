@@ -30,8 +30,8 @@ public class Game implements Runnable {
     private static MouseManager mouseManager; // the mouse manager
     private static Screen currentScreen; // the current screen of the game
     
-    private Thread thread; // the main game running thread
-    private boolean isRunning; // denotes whether the game is running or not
+    private static Thread thread; // the main game running thread
+    private static boolean isRunning; // denotes whether the game is running or not
     
     private Timer screenTimer; // timer for screen fading
     private static boolean isChangingScreen; // flag to determine if screen is fading or not
@@ -121,12 +121,13 @@ public class Game implements Runnable {
     /**
      * Stops the game thread execution.
      */
-    public synchronized void stop() {
+    public static synchronized void stop() {
         if (isRunning) {
             isRunning = false;
             try {
                 thread.join();
                 TinySound.shutdown();
+                System.out.println("Closed");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -223,8 +224,5 @@ public class Game implements Runnable {
                 delta--;
             }
         }
-
-        // once game loop is over, close the game
-        stop();
     }
 }
