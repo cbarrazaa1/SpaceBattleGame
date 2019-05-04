@@ -12,6 +12,7 @@ import better.enemies.Asteroid1;
 import better.enemies.Boss1;
 import better.enemies.Enemy;
 import better.enemies.Enemy1;
+import better.enemies.OGEnemy1;
 import better.game.Bullet;
 import better.game.Coin;
 import better.game.Light2D;
@@ -169,6 +170,15 @@ public abstract class Level implements LevelEventListener {
                     if(a.getWidth() < 64){
                         player.setArmor(player.getArmor()-10);
                     }
+                  }
+                }
+                
+                if(enemy instanceof OGEnemy1){
+                  Enemy e = enemy;
+                  OGEnemy1 a = (OGEnemy1)e;
+                  if (a.intersects(player)){
+                    a.setHealth(0);
+                    player.setArmor(player.getArmor() - 20);
                   }
                 }
                 
