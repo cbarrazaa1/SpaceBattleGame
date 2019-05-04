@@ -11,6 +11,7 @@ import better.core.Util;
 import better.enemies.Asteroid1;
 import better.enemies.Boss1;
 import better.enemies.Boss2;
+import better.enemies.Boss3;
 import better.enemies.Enemy;
 import better.enemies.Enemy1;
 import better.enemies.Enemy2;
@@ -26,13 +27,13 @@ import better.ui.UILabel;
  * @author Cesar Barraza
  * @author Rogelio Martinez
  */
-public class Level2 extends Level {
-    private static final int TO_DEFEAT = 15;
+public class Level5 extends Level {
+    private static final int TO_DEFEAT = 1;
     private int defeated;
     private Timer spawnTimer;
     private Timer spawnTimer2;
     
-    public Level2(Player player) {
+    public Level5(Player player) {
         super(player);
         defeated = 0;
         spawnTimer = new Timer(1f);
@@ -45,17 +46,18 @@ public class Level2 extends Level {
         super.update();
         if(spawnTimer.isActivated()) {
             //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
-            enemies.add(new Enemy2(64, 64, 100, 10, 30, player, bullets, lights));
+            enemies.add(new Enemy3(64, 64, 100, 10, 30, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(2.5f, 5.5f));
             } else {
-                spawnTimer.restart(Util.randNumF(15f, 25f));
+                spawnTimer.restart(Util.randNumF(25f, 35f));
             }
         }
         spawnTimer.update();
+        /*
         if(spawnTimer2.isActivated()) {
             //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
-            enemies.add(new Enemy1(64, 64, 100, 10, 40, player, bullets, lights));
+            enemies.add(new Enemy3(64, 64, 100, 10, 40, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer2.restart(Util.randNumF(1.5f, 4.5f));
             }else{
@@ -63,13 +65,14 @@ public class Level2 extends Level {
             }
         }
         spawnTimer2.update();
+¨*/
     }
     
     @Override
     public void onEnemyDead(Enemy enemy) {
         defeated++;
         
-        if (enemy instanceof Boss2){
+        if (enemy instanceof Boss3){
             collectedCoins += 100;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
@@ -80,7 +83,7 @@ public class Level2 extends Level {
             player.setCoins(player.getCoins() + collectedCoins);
         }
         if(defeated == TO_DEFEAT) {
-            enemies.add(new Boss2(Game.getDisplay().getWidth() / 2 - 75, -300, 192, 192, 200, 100, 1000, player, bullets, lights));
+            enemies.add(new Boss3(Game.getDisplay().getWidth() / 2 - 75, -300, 64, 64, 200, 100, 400, player, bullets, lights));
         }
 
         // spawn powerup

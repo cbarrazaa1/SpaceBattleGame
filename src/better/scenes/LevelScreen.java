@@ -16,6 +16,7 @@ import better.ui.UIButton;
 import better.levels.Level2;
 import better.levels.Level3;
 import better.levels.Level4;
+import better.levels.Level5;
 import better.ui.UIControl;
 import better.ui.UILabel;
 import java.awt.AlphaComposite;
@@ -283,6 +284,7 @@ public class LevelScreen extends Screen {
                 level = new Level4(player);
                 break;
             case 5:
+                level = new Level5(player);
                 break;
             case 6:
                 break;
