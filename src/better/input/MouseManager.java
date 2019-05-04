@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Rectangle2D;
 
 /**
  * MouseManager
@@ -147,6 +148,10 @@ public class MouseManager implements MouseListener, MouseMotionListener {
     public boolean intersects(float x, float y, float w, float h) {
         return ((getX() >= x && getX() <= x + w) &&
                 (getY() >= y && getY() <= y + h));
+    }
+    
+    public boolean intersects(Rectangle2D.Float rect) {
+        return intersects(rect.x, rect.y, rect.width, rect.height);
     }
     
     /**

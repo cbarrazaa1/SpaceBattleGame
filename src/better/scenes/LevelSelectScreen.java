@@ -110,8 +110,6 @@ public class LevelSelectScreen extends Screen {
     
     // Game objects
     private ArrayList<SelectablePlanet> selectablePlanets;
-    private StatusBar armorBar;
-    private StatusBar energyBar;
     private Player player;
     private int selectedPlanet;
     private String funFactPlanet;
@@ -135,6 +133,12 @@ public class LevelSelectScreen extends Screen {
         UIButton btnHighscores = new UIButton(48, 154, 205, 56, Assets.images.get("LevelSelectHighscores"));
         UIButton btnCustomize = new UIButton(132, 294, 160, 46, Assets.images.get("LevelSelectCustomize"));
         UIButton btnShop = new UIButton(132, 349, 160, 46, Assets.images.get("LevelSelectShop"));
+        btnShop.setOnClickListener(() -> {
+            Game.setCurrentScreen(ShopScreen.getInstance());
+            ShopScreen.getInstance().setPlayer(player);
+            ShopScreen.getInstance().init();
+        });
+        
         UIButton btnSave = new UIButton(58, 478, 188, 51, Assets.images.get("LevelSelectSave"));
         UIButton btnMainMenu = new UIButton(58, 539, 188, 51, Assets.images.get("LevelSelectMainMenu"));
         
@@ -149,10 +153,10 @@ public class LevelSelectScreen extends Screen {
         lblBullet1.setFontSize(11);
         UILabel lblBullet2 = new UILabel(0, 452, "No Bullet", Color.WHITE, UILabel.DEFAULT_FONT);
         lblBullet2.setFontSize(11);
-        UILabel lblArmor = new UILabel(0, 410, "Armor: " + player.getArmorLvl(), Color.WHITE, UILabel.DEFAULT_FONT);
-        lblArmor.setFontSize(11);
-        UILabel lblEnergy = new UILabel(0, 440, "Energy: " + player.getEnergyLvl(), Color.WHITE, UILabel.DEFAULT_FONT);
-        lblEnergy.setFontSize(11);
+        UILabel lblArmor = new UILabel(0, 418, "Armor Level: " + player.getArmorLvl(), Color.WHITE, UILabel.DEFAULT_FONT);
+        lblArmor.setFontSize(13);
+        UILabel lblEnergy = new UILabel(0, 440, "Energy Level: " + player.getEnergyLvl(), Color.WHITE, UILabel.DEFAULT_FONT);
+        lblEnergy.setFontSize(13);
         
         uiControls.put("btnPlayLevel", btnPlayLevel);
         uiControls.put("btnHighscores", btnHighscores);
@@ -266,12 +270,7 @@ public class LevelSelectScreen extends Screen {
             } else if(neptune.getState() == PlanetState.SELECTED) {
                 neptune.setState(PlanetState.NORMAL);
             }
-        });
-                
-        armorBar = new StatusBar(175, 421, 6, 11, Assets.images.get("ArmorBar"), player.getMaxArmor(), player.getMaxArmor(), 0.67f);
-        energyBar = new StatusBar(175, 453, 6, 11, Assets.images.get("EnergyBar"), player.getMaxEnergy(), player.getMaxEnergy(), 1f);
-        armorBar.setX(120 + (92 - armorBar.getWidth() / 2));
-        energyBar.setX(120 + (92 - energyBar.getWidth() / 2));
+        });              
         
         selectablePlanets.add(sun);
         selectablePlanets.add(mercury);
@@ -370,9 +369,6 @@ public class LevelSelectScreen extends Screen {
         for(SelectablePlanet planet : selectablePlanets) {
             planet.render(g);
         }
-        
-        armorBar.render(g);
-        energyBar.render(g);
     }
 
     @Override
@@ -385,9 +381,6 @@ public class LevelSelectScreen extends Screen {
         for(SelectablePlanet planet : selectablePlanets) {
             planet.update();
         }
-        
-        armorBar.update();
-        energyBar.update();
     }
     
     public void setPlayer(Player player) {

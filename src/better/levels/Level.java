@@ -61,8 +61,8 @@ public abstract class Level implements LevelEventListener {
         player.recoverStats();
         player.setBullets(bullets);
         player.setLights(lights);
-        armorBar = new StatusBar(59, 571, 6, 11, Assets.images.get("ArmorBar"), 100, 100, 0.67f);
-        energyBar = new StatusBar(59, 581, 6, 11, Assets.images.get("EnergyBar"), 50, 50, 1f);   
+        armorBar = new StatusBar(59, 571, 6, 11, Assets.images.get("ArmorBar"), player.getMaxArmor(), player.getMaxArmor(), 0.67f);
+        energyBar = new StatusBar(59, 581, 6, 11, Assets.images.get("EnergyBar"), player.getMaxEnergy(), player.getMaxEnergy(), 1f);   
         
         // UI
         lblScore = new UILabel(15, 544, "Score: 0", Color.WHITE, UILabel.DEFAULT_FONT);
