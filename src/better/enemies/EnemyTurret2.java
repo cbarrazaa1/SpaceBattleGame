@@ -26,25 +26,29 @@ import java.util.ArrayList;
  * @author Cesar Barraza and Rogelio Martinez
  * Enemy that moves slowly and shoots guided bullets
  */
-public class EnemyTurret extends Enemy {
+public class EnemyTurret2 extends Enemy {
     private boolean shouldRenderBar;
     private int xSpeed;
     private int ySpeed;
     private Timer shootTimer;
+    private Timer noShootTimer;
+    private Timer burstTimer;
     private boolean shouldShoot;
 
     
     // Level Bullet List //
     private ArrayList<Bullet> bullets;
     
-    public EnemyTurret(float width, float height, int score, int coins, int health, Player player, ArrayList<Bullet> bullets, ArrayList<Light2D> lights) {
+    public EnemyTurret2(float width, float height, int score, int coins, int health, Player player, ArrayList<Bullet> bullets, ArrayList<Light2D> lights) {
         super(0, 0, width, height, score, coins, health, player, lights);
         this.bullets = bullets;
         shouldRenderBar = false;
         theta = 0;
         img = Assets.images.get("GunTurret_Red");
         spawnEnemy();
-        shootTimer = new Timer(0.6);
+        shootTimer = new Timer(0);
+        noShootTimer = new Timer(0);
+        burstTimer = new Timer(0.2);
         shouldShoot = true;
     }
 
@@ -60,12 +64,12 @@ public class EnemyTurret extends Enemy {
     }
     
     private void shoot(){
-        if(shootTimer.isActivated()){
-            shootTimer.restart();
+        if(burstTimer.isActivated()){
+            burstTimer.restart();
             bullets.add(new GuidedBullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 5,
                         theta, 6, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
         }
-        shootTimer.update();
+        burstTimer.update();
      }
     
     private void turn(){
@@ -87,7 +91,15 @@ public class EnemyTurret extends Enemy {
         checkColision();
         move();
         if (shouldShoot){
-            shoot();
+            if(shootTimer.isActivated()){
+                shoot();
+                noShootTimer.update();
+            }
+            if(noShootTimer.isActivated()){
+                shootTimer.restart(Util.randNumF(1f, 1.5f));
+                noShootTimer.restart(Util.randNumF(1f, 3f));
+            }
+            shootTimer.update();
             turn();
         }
 

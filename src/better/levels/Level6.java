@@ -18,7 +18,8 @@ import better.enemies.Enemy2;
 import better.enemies.Enemy3;
 import better.game.Player;
 import better.enemies.Enemy4;
-import better.enemies.EnemyTurret;
+import better.enemies.EnemyTurret1;
+import better.enemies.EnemyTurret2;
 import better.game.Powerup;
 import better.scenes.LevelScreen;
 import better.ui.UILabel;
@@ -29,7 +30,7 @@ import better.ui.UILabel;
  * @author Rogelio Martinez
  */
 public class Level6 extends Level {
-    private static final int TO_DEFEAT = 15;
+    private static final int TO_DEFEAT = 25;
     private int defeated;
     private Timer spawnTimer;
     private Timer spawnTimer2;
@@ -46,27 +47,27 @@ public class Level6 extends Level {
     public void update() {
         super.update();
         if(spawnTimer.isActivated()) {
-            //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
-            enemies.add(new EnemyTurret(32, 32, 100, 10, 30, player, bullets, lights));
+            
+            enemies.add(new EnemyTurret1(32, 32, 100, 10, 30, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
-                spawnTimer.restart(Util.randNumF(1.5f, 3.5f));
+                spawnTimer.restart(Util.randNumF(3f, 3.5f));
             } else {
                 spawnTimer.restart(Util.randNumF(25f, 35f));
             }
         }
         spawnTimer.update();
-        /*
+        
         if(spawnTimer2.isActivated()) {
-            //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
-            enemies.add(new Enemy3(64, 64, 100, 10, 40, player, bullets, lights));
+            
+            enemies.add(new EnemyTurret2(32, 32, 100, 10, 30, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
-                spawnTimer2.restart(Util.randNumF(1.5f, 4.5f));
+                spawnTimer2.restart(Util.randNumF(1.5f, 3.5f));
             }else{
                 spawnTimer2.restart(Util.randNumF(25f, 35f));
             }
         }
         spawnTimer2.update();
-¨       */
+      
     }
     
     @Override
