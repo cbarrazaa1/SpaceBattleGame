@@ -42,7 +42,7 @@ public class EnemyTurret1 extends Enemy {
         this.bullets = bullets;
         shouldRenderBar = false;
         theta = 0;
-        img = Assets.images.get("GunTurret_Red");
+        img = Assets.images.get("GunTurret_Teal");
         spawnEnemy();
         shootTimer = new Timer(0.6);
         shouldShoot = true;
@@ -61,9 +61,9 @@ public class EnemyTurret1 extends Enemy {
     
     private void shoot(){
         if(shootTimer.isActivated()){
-            shootTimer.restart();
+            shootTimer.restart(Util.randNumF(0.4f, 0.8f));
             bullets.add(new GuidedBullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 5,
-                        theta, 6, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+                        theta, 6, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights, player));
         }
         shootTimer.update();
      }
