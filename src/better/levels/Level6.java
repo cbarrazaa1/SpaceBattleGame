@@ -12,6 +12,7 @@ import better.enemies.Asteroid1;
 import better.enemies.Boss1;
 import better.enemies.Boss2;
 import better.enemies.Boss3;
+import better.enemies.BossTurret1;
 import better.enemies.Enemy;
 import better.enemies.Enemy1;
 import better.enemies.Enemy2;
@@ -30,51 +31,60 @@ import better.ui.UILabel;
  * @author Rogelio Martinez
  */
 public class Level6 extends Level {
-    private static final int TO_DEFEAT = 25;
+    private static final int TO_DEFEAT = 1;
     private int defeated;
     private Timer spawnTimer;
     private Timer spawnTimer2;
+    private Timer bossSpawn;
+    private boolean shouldSpawnBoss;
     
     public Level6(Player player) {
         super(player);
         defeated = 0;
         spawnTimer = new Timer(1f);
         spawnTimer2 = new Timer(3);
+        bossSpawn = new Timer(15);
         eventListener = this;
+        shouldSpawnBoss = false;
     }
     
     @Override
     public void update() {
         super.update();
-        if(spawnTimer.isActivated()) {
+        if(spawnTimer.isActivated() && defeated <= TO_DEFEAT) {
             
             enemies.add(new EnemyTurret1(32, 32, 100, 10, 30, player, bullets, lights));
-            if(defeated < TO_DEFEAT) {
-                spawnTimer.restart(Util.randNumF(3f, 3.5f));
-            } else {
-                spawnTimer.restart(Util.randNumF(25f, 35f));
-            }
+            
+            spawnTimer.restart(Util.randNumF(3f, 3.5f));
+            
         }
         spawnTimer.update();
         
-        if(spawnTimer2.isActivated()) {
+        if(spawnTimer2.isActivated() && defeated <= TO_DEFEAT) {
             
             enemies.add(new EnemyTurret2(32, 32, 100, 10, 30, player, bullets, lights));
-            if(defeated < TO_DEFEAT) {
-                spawnTimer2.restart(Util.randNumF(1.5f, 3.5f));
-            }else{
-                spawnTimer2.restart(Util.randNumF(25f, 35f));
-            }
+            
+            spawnTimer2.restart(Util.randNumF(1.5f, 3.5f));
+            
         }
         spawnTimer2.update();
-      
+        
+        if (shouldSpawnBoss){
+            bossSpawn.update();
+        }
+        
+        if (bossSpawn.isActivated()){
+            enemies.add(new BossTurret1(128, 128, 100, 10, 1500, player, bullets, lights));
+            bossSpawn.restart();
+            shouldSpawnBoss = false;
+        }
     }
     
     @Override
     public void onEnemyDead(Enemy enemy) {
         defeated++;
         
-        if (enemy instanceof Boss3){
+        if (enemy instanceof BossTurret1){
             collectedCoins += 100;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
@@ -85,9 +95,9 @@ public class Level6 extends Level {
             player.setCoins(player.getCoins() + collectedCoins);
         }
         if(defeated == TO_DEFEAT) {
-            //enemies.add(new Boss3(Game.getDisplay().getWidth() / 2 - 75, -300, 64, 64, 200, 100, 400, player, bullets, lights));
+            shouldSpawnBoss = true;
         }
-
+        
         // spawn powerup
         int p = Util.randNum(1, 9);
         if(p == 2) {

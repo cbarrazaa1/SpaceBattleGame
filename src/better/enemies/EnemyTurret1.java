@@ -28,8 +28,7 @@ import java.util.ArrayList;
  */
 public class EnemyTurret1 extends Enemy {
     private boolean shouldRenderBar;
-    private int xSpeed;
-    private int ySpeed;
+    
     private Timer shootTimer;
     private boolean shouldShoot;
 
