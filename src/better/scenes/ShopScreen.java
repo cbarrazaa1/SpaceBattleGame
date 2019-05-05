@@ -72,10 +72,17 @@ public class ShopScreen extends Screen {
         UILabel lblEnergyLvl = new UILabel(128, 546, "Energy Level: " + player.getEnergyLvl(), Color.WHITE, UILabel.DEFAULT_FONT);
         lblEnergyLvl.setFontSize(13);
         
-        UILabel lblDoubleShot = new UILabel(156, 238, "BOUGHT", Color.WHITE, UILabel.DEFAULT_FONT);
-        UILabel lblHeavyShot = new UILabel(297, 238, "BOUGHT", Color.WHITE, UILabel.DEFAULT_FONT);
-        UILabel lblProtonShot = new UILabel(437, 238, "BOUGHT", Color.WHITE, UILabel.DEFAULT_FONT);
-        UILabel lblTripleShot = new UILabel(578, 238, "BOUGHT", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblDoubleShot = new UILabel(156, 239, "1000", Color.WHITE, UILabel.DEFAULT_FONT);
+        lblDoubleShot.setFontSize(11);
+        
+        UILabel lblHeavyShot = new UILabel(297, 239, "1500", Color.WHITE, UILabel.DEFAULT_FONT);
+        lblHeavyShot.setFontSize(11);
+        
+        UILabel lblProtonShot = new UILabel(437, 239, "2200", Color.WHITE, UILabel.DEFAULT_FONT);
+        lblProtonShot.setFontSize(11);
+        
+        UILabel lblTripleShot = new UILabel(578, 239, "3000", Color.WHITE, UILabel.DEFAULT_FONT);
+        lblTripleShot.setFontSize(11);
         
         uiControls.put("btnGoBack", btnGoBack);
         uiControls.put("lblArmorCost", lblArmorCost);
@@ -152,25 +159,53 @@ public class ShopScreen extends Screen {
         if(bullets.contains(Bullet.BULLET_DOUBLE_SHOT)) {
             g.setColor(new Color(0, 0, 0, 200));
             g.fillRect((int)rect1.x, (int)rect1.y, (int)rect1.width, (int)rect1.height);
-            uiControls.get("lblDoubleShot").render(g);
+        } else {
+            UILabel lblDoubleShot = (UILabel)uiControls.get("lblDoubleShot");
+            lblDoubleShot.render(g);
+            lblDoubleShot.calculateDimensions(g);
+
+            coinX = 158 + (32 - (coinW / 2 + (int)lblDoubleShot.getWidth() / 2)) - coinW + 2;
+            g.drawImage(coin, coinX, 238, coinW, coinH, null);
+            lblDoubleShot.setX(coinX + coinW + 10);
         }
         
         if(bullets.contains(Bullet.BULLET_HEAVY_SHOT)) {
             g.setColor(new Color(0, 0, 0, 200));
             g.fillRect((int)rect2.x, (int)rect2.y, (int)rect2.width, (int)rect2.height);
-            uiControls.get("lblHeavyShot").render(g);
+        } else {
+            UILabel lblHeavyShot = (UILabel)uiControls.get("lblHeavyShot");
+            lblHeavyShot.render(g);
+            lblHeavyShot.calculateDimensions(g);
+
+            coinX = 299 + (32 - (coinW / 2 + (int)lblHeavyShot.getWidth() / 2)) - coinW + 2;
+            g.drawImage(coin, coinX, 238, coinW, coinH, null);
+            lblHeavyShot.setX(coinX + coinW + 10);
         }
         
         if(bullets.contains(Bullet.BULLET_PROTON_SHOT)) {
             g.setColor(new Color(0, 0, 0, 200));
             g.fillRect((int)rect3.x, (int)rect3.y, (int)rect3.width, (int)rect3.height);
-            uiControls.get("lblProtonShot").render(g);
+        } else {
+            UILabel lblProtonShot = (UILabel)uiControls.get("lblProtonShot");
+            lblProtonShot.render(g);
+            lblProtonShot.calculateDimensions(g);
+
+            coinX = 439 + (32 - (coinW / 2 + (int)lblProtonShot.getWidth() / 2)) - coinW + 2;
+            g.drawImage(coin, coinX, 238, coinW, coinH, null);
+            lblProtonShot.setX(coinX + coinW + 10);
         }
         
         if(bullets.contains(Bullet.BULLET_TRIPLE_SHOT)) {
             g.setColor(new Color(0, 0, 0, 200));
             g.fillRect((int)rect4.x, (int)rect4.y, (int)rect4.width, (int)rect4.height);
-            uiControls.get("lblTripleShot").render(g);
+        } else {
+            UILabel lblTripleShot = (UILabel)uiControls.get("lblTripleShot");
+            lblTripleShot.render(g);
+            lblTripleShot.calculateDimensions(g);
+
+            coinX = 580 + (32 - (coinW / 2 + (int)lblTripleShot.getWidth() / 2)) - coinW + 2;
+            g.drawImage(coin, coinX, 238, coinW, coinH, null);
+            lblTripleShot.setX(coinX + coinW + 10);
         }
      
         // render desc img

@@ -15,6 +15,7 @@ import better.ui.UIButton;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -25,7 +26,8 @@ class SelectableRectangle extends GameObject {
     
     private Rectangle2D.Float rect;
     private int state;
-
+    private boolean hovering;
+    
     public SelectableRectangle(float x, float y, float width, float height, int state) {
         super(x, y, width, height);
         this.state = state;
@@ -50,10 +52,14 @@ class SelectableRectangle extends GameObject {
     public void onClick() { }
 
     @Override
-    public void mouseEnter() { }
+    public void mouseEnter() { 
+        hovering = true;
+    }
 
     @Override
-    public void mouseLeave() { }
+    public void mouseLeave() {
+        hovering = false;
+    }
 
     @Override
     public void mouseDown() { }
@@ -67,6 +73,10 @@ class SelectableRectangle extends GameObject {
     
     public void setState(int state) {
         this.state = state;
+    }
+    
+    public boolean isHovering() {
+        return hovering;
     }
 }
 /**
@@ -92,6 +102,7 @@ public class CustomizeScreen extends Screen {
     private ArrayList<SelectableRectangle> shipRects;
     private ArrayList<SelectableRectangle> bulletRects;
     private HashSet<Integer> bullets;
+    private BufferedImage descImg;
     
     @Override
     public void init() {
@@ -113,6 +124,7 @@ public class CustomizeScreen extends Screen {
                     msgBox.hide();
                     player.setSkin(selectedShip);
                     player.setCurrBullet(selectedBullet);
+                    Game.setCurrentScreen(LevelSelectScreen.getInstance());
                 }, () -> {
                     msgBox.hide();
                     changeShipSelection(origShip);
@@ -217,7 +229,7 @@ public class CustomizeScreen extends Screen {
         
         if(selectedBullet != -1) {
             bulletRects.get(selectedBullet).setState(SelectableRectangle.RECT_STATE_SELECTED);
-        }
+        }  
     }
 
     @Override
@@ -261,6 +273,11 @@ public class CustomizeScreen extends Screen {
                 break;
         }  
         
+        // render desc img
+        if(descImg != null) {
+            g.drawImage(descImg, (int)Game.getMouseManager().getX() + 12, (int)Game.getMouseManager().getY() - 20, descImg.getWidth(), descImg.getHeight(), null);
+        }       
+        
         // render msgbox
         if(msgBox != null && msgBox.isVisible()) {
             msgBox.render(g);
@@ -284,6 +301,27 @@ public class CustomizeScreen extends Screen {
             // update bullet rectangles
             for(SelectableRectangle rect : bulletRects) {
                 rect.update();
+            }
+            
+            // check for showing desc imgs
+            if(bulletRects.get(0).isHovering()) {
+                if(bullets.contains(0)) {
+                    descImg = Assets.images.get("ShopDoubleShotDesc");
+                }      
+            } else if(bulletRects.get(1).isHovering()) {
+                if(bullets.contains(1)) {
+                    descImg = Assets.images.get("ShopHeavyShotDesc");
+                }        
+            } else if(bulletRects.get(2).isHovering()) {
+                if(bullets.contains(2)) {
+                    descImg = Assets.images.get("ShopProtonShotDesc");
+                }
+            } else if(bulletRects.get(3).isHovering()) {
+                if(bullets.contains(3)) {
+                    descImg = Assets.images.get("ShopTripleShotDesc");
+                }
+            } else {
+                descImg = null;
             }
         }
     } 

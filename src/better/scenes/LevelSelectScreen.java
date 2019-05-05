@@ -178,98 +178,63 @@ public class LevelSelectScreen extends Screen {
         SelectablePlanet sun = new SelectablePlanet(503, 18, 94, 89, Assets.images.get("sun"), "Sun");
         sun.setOnClickListener(() -> {
             if(sun.getState() == PlanetState.NORMAL) {
-                selectedPlanet = 9;
                 selectPlanet("Sun");
-            } else if(sun.getState() == PlanetState.SELECTED) {
-                sun.setState(PlanetState.NORMAL);
             }
         });
         
         SelectablePlanet mercury = new SelectablePlanet(650, 110, 31, 29, Assets.images.get("mercury"), "Mercury");
         mercury.setOnClickListener(() -> {
             if(mercury.getState() == PlanetState.NORMAL) {
-                selectedPlanet = 8;
                 selectPlanet("Mercury");
-                lblSelectedPlanet.setText("MERCURY");
-            } else if(mercury.getState() == PlanetState.SELECTED) {
-                mercury.setState(PlanetState.NORMAL);
             }
         });
         
         SelectablePlanet venus = new SelectablePlanet(413, 126, 44, 42, Assets.images.get("venus"), "Venus");
         venus.setOnClickListener(() -> {
             if(venus.getState() == PlanetState.NORMAL) {
-                selectedPlanet = 7;
                 selectPlanet("Venus");
-                lblSelectedPlanet.setText("VENUS");
-            } else if(venus.getState() == PlanetState.SELECTED) {
-                venus.setState(PlanetState.NORMAL);
             }
         });
         
         SelectablePlanet earth = new SelectablePlanet(551, 193, 53, 48, Assets.images.get("earth"), "Earth");
         earth.setOnClickListener(() -> {
             if(earth.getState() == PlanetState.NORMAL) {
-                selectedPlanet = 6;
                 selectPlanet("Earth");
-                lblSelectedPlanet.setText("EARTH");
-            } else if(earth.getState() == PlanetState.SELECTED) {
-                earth.setState(PlanetState.NORMAL);
             }
         });
         
         SelectablePlanet mars = new SelectablePlanet(735, 229, 41, 39, Assets.images.get("mars"), "Mars");
         mars.setOnClickListener(() -> {
             if(mars.getState() == PlanetState.NORMAL) {
-                selectedPlanet = 5;
                 selectPlanet("Mars");
-                lblSelectedPlanet.setText("MARS");
-            } else if(mars.getState() == PlanetState.SELECTED) {
-                mars.setState(PlanetState.NORMAL);
             }
         });
         
         SelectablePlanet jupiter = new SelectablePlanet(339, 269, 72, 71, Assets.images.get("jupiter"), "Jupiter");
         jupiter.setOnClickListener(() -> {
             if(jupiter.getState() == PlanetState.NORMAL) {
-                selectedPlanet = 4;
                 selectPlanet("Jupiter");
-                lblSelectedPlanet.setText("JUPITER");
-            } else if(jupiter.getState() == PlanetState.SELECTED) {
-                jupiter.setState(PlanetState.NORMAL);
             }
         });
         
         SelectablePlanet saturn = new SelectablePlanet(506, 331, 66, 69, Assets.images.get("saturn"), "Saturn");
         saturn.setOnClickListener(() -> {
             if(saturn.getState() == PlanetState.NORMAL) {
-                selectedPlanet = 3;
                 selectPlanet("Saturn");
-                lblSelectedPlanet.setText("SATURN");
-            } else if(saturn.getState() == PlanetState.SELECTED) {
-                saturn.setState(PlanetState.NORMAL);
             }
         });
         
         SelectablePlanet uranus = new SelectablePlanet(713, 378, 47, 47, Assets.images.get("uranus"), "Uranus");
         uranus.setOnClickListener(() -> {
             if(uranus.getState() == PlanetState.NORMAL) {
-                selectedPlanet = 2;
                 selectPlanet("Uranus");
-                lblSelectedPlanet.setText("URANUS");
-            } else if(uranus.getState() == PlanetState.SELECTED) {
-                uranus.setState(PlanetState.NORMAL);
             }
         });
         
         SelectablePlanet neptune = new SelectablePlanet(397, 433, 52, 49, Assets.images.get("neptune"), "Neptune");
         neptune.setOnClickListener(() -> {
             if(neptune.getState() == PlanetState.NORMAL) {
-                selectedPlanet = 1;
                 selectPlanet("Neptune");
-                lblSelectedPlanet.setText("NEPTUNE");
-            } else if(neptune.getState() == PlanetState.SELECTED) {
-                neptune.setState(PlanetState.NORMAL);
             }
         });              
         
@@ -288,8 +253,7 @@ public class LevelSelectScreen extends Screen {
         for(int i = 0; i < player.getLevel(); i++) {
             selectablePlanets.get(8 - i).setState(PlanetState.NORMAL);
         }
-        selectedPlanet = 1;
-        neptune.setState(PlanetState.SELECTED);
+        selectPlanet(selectablePlanets.get(8 - player.getLevel() + 1).getName());
     }
 
     @Override
@@ -408,7 +372,7 @@ public class LevelSelectScreen extends Screen {
     }
   
     private String getPlanetString() {
-        return planets[9 - selectedPlanet];
+        return planets[8 - selectedPlanet + 1];
     }
     
     private void selectPlanet(String planet) {
@@ -416,6 +380,10 @@ public class LevelSelectScreen extends Screen {
             SelectablePlanet p = selectablePlanets.get(i);
             if(p.getName().equals(planet)) {
                 p.setState(PlanetState.SELECTED);
+                selectedPlanet = 8 - i + 1;
+                UILabel lblSelectedPlanet = (UILabel)uiControls.get("lblSelectedPlanet");
+                lblSelectedPlanet.setText(planet.toUpperCase());
+                lblSelectedPlanet.setDimensions(false);
             } else {
                 if(p.getState() != PlanetState.LOCKED) {
                     p.setState(PlanetState.NORMAL);

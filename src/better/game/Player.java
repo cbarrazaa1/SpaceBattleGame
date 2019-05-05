@@ -195,18 +195,20 @@ public class Player extends GameObject {
             speed = 25;
             dashTimer.restart();
             setDashing(true);
-            setEnergy(getEnergy() - 20);
+            setEnergy(getEnergy() - (19 + energyLvl));
         }
         if(dashTimer.isActivated()){
             speed = 3;
             setDashing(false);
             if (energyTimer.isActivated()){
                 if(!(isShooting() && (selectedBullet == Bullet.BULLET_DOUBLE_SHOT || selectedBullet == Bullet.BULLET_TRIPLE_SHOT || selectedBullet == Bullet.BULLET_PROTON_SHOT))) {
+                    int regenRate = 1 + energyLvl / 4;
+                    
                     // adding energy when not dashing
-                    setEnergy(getEnergy() + 1);                    
+                    setEnergy(getEnergy() + regenRate);                    
                 }
 
-                energyTimer.restart();
+                energyTimer.restart(0.15);
                 if (getEnergy() >= maxEnergy){
                     setEnergy(maxEnergy);
                 }
@@ -325,6 +327,10 @@ public class Player extends GameObject {
     
     public int getSelectedBullet() {
         return selectedBullet;
+    }
+    
+    public void setSelectedBullet(int selected) {
+        this.selectedBullet = selected;
     }
     
     public void switchSelectedBullet() {

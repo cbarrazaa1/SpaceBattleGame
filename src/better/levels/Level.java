@@ -59,6 +59,7 @@ public abstract class Level implements LevelEventListener {
         collectedCoins = 0;
         
         this.player = player;
+        player.setSelectedBullet(-1);
         player.recoverStats();
         player.setBullets(bullets);
         player.setLights(lights);
@@ -253,7 +254,7 @@ public abstract class Level implements LevelEventListener {
                 if(powerup.intersects(player)) {
                     switch(powerup.getType()) {
                         case Powerup.TYPE_HEALTH:
-                            player.setArmor(player.getArmor() + 15);
+                            player.setArmor(player.getArmor() + player.getMaxArmor() / 4);
                             break;
                     }
                     Assets.powerup.play();
