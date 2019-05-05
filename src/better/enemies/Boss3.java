@@ -55,7 +55,7 @@ public class Boss3 extends Enemy {
         hasSpawned = false;
         img = Assets.images.get("EnemyShip1");
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
-        lblName = new UILabel(10, 4, "Boss #1", Color.WHITE, UILabel.DEFAULT_FONT);
+        lblName = new UILabel(10, 4, "Sonic The Movie", Color.WHITE, UILabel.DEFAULT_FONT);
         xSpeed = 0;
         ySpeed = 0;
     }
@@ -107,8 +107,8 @@ public class Boss3 extends Enemy {
             shootTimer.restart(health > 300 ? Util.randNumF(0.2f, 2) : (health > 100 ? Util.randNumF(0.2f, 1) : Util.randNumF(0.1f, 0.5f)));
             float xF = (float)Math.cos(theta) * 30;
             float yF = (float)Math.sin(theta) * 30;
-            bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 12, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-            bullets.add(new Bullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 12, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+            bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 12, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+            bullets.add(new Bullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 12, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
         } else {
             shootTimer.update();
         }

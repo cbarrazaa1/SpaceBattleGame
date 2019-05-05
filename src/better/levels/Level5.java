@@ -28,7 +28,7 @@ import better.ui.UILabel;
  * @author Rogelio Martinez
  */
 public class Level5 extends Level {
-    private static final int TO_DEFEAT = 1;
+    private static final int TO_DEFEAT = 15;
     private int defeated;
     private Timer spawnTimer;
     private Timer spawnTimer2;
@@ -48,7 +48,7 @@ public class Level5 extends Level {
             //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
             enemies.add(new Enemy3(64, 64, 100, 10, 30, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
-                spawnTimer.restart(Util.randNumF(2.5f, 5.5f));
+                spawnTimer.restart(Util.randNumF(1.5f, 3.5f));
             } else {
                 spawnTimer.restart(Util.randNumF(25f, 35f));
             }
