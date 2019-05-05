@@ -17,6 +17,7 @@ import static java.awt.event.KeyEvent.VK_SPACE;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashSet;
 /**
@@ -75,7 +76,7 @@ public class Player extends GameObject {
         level = 4;
         currLevel = 0;
         skin = 0;
-        currBullet = Bullet.BULLET_DOUBLE_SHOT;
+        currBullet = -1;
         selectedPal = 0;
         bulletTypes = "";
         selectedBullet = -1;
@@ -87,10 +88,10 @@ public class Player extends GameObject {
         g.translate(getX(), getY());
         g.rotate(theta, getWidth() / 2, getHeight() / 2);
         if (!isDashing()){
-            g.drawImage(Assets.images.get("PlayerDefault"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
+            g.drawImage(getSkinImg(skin), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         }else{
             // Should be a dashing image
-            g.drawImage(Assets.images.get("PlayerDefault"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
+            g.drawImage(getSkinImg(skin), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         }
         g.setTransform(orig);    
     }
@@ -327,6 +328,10 @@ public class Player extends GameObject {
     }
     
     public void switchSelectedBullet() {
+        if(currBullet == -1) {
+            return;
+        }
+        
         if(selectedBullet == -1) {
             selectedBullet = currBullet;
         } else {
@@ -483,6 +488,45 @@ public class Player extends GameObject {
         for(Integer i : set) {
             bulletTypes += String.valueOf(i) + ",";
         }
+    }
+    
+    public BufferedImage getSkinImg(int skin) {
+        if(skin == -1) {
+            skin = this.skin;
+        }
+        
+        BufferedImage img = Assets.images.get("PlayerDefault");
+        switch(skin) {
+            case 1:
+                img = Assets.images.get("PlayerBlue");
+                break;
+            case 2:
+                img = Assets.images.get("PlayerCyan");
+                break;
+            case 3:
+                img = Assets.images.get("PlayerYellow");
+                break;
+            case 4:
+                img = Assets.images.get("PlayerOrange");
+                break;
+            case 5:
+                img = Assets.images.get("PlayerRed");
+                break;
+            case 6:
+                img = Assets.images.get("PlayerGreen");
+                break;
+            case 7:
+                img = Assets.images.get("PlayerPurple");
+                break;
+            case 8:
+                img = Assets.images.get("PlayerBrown");
+                break;
+            case 9:
+                img = Assets.images.get("PlayerPremium");
+                break;
+        }
+        
+        return img;
     }
     
     @Override
