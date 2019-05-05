@@ -73,7 +73,7 @@ public abstract class Level implements LevelEventListener {
         // render background
         g.drawImage(Assets.images.get("LevelBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
         
-        // render current bullet (temp)
+        // render current bullet
         switch(player.getSelectedBullet()) {
             case -1:
                 g.drawImage(Assets.images.get("BulletNormal"), 33, 558, 7, 19, null);

@@ -23,12 +23,13 @@ public class MessageBox extends GameObject {
     private int msgType;
     private boolean visible;
     private OnClickListener yesAction;
+    private OnClickListener noAction;
     private UILabel lblMsg;
     private UIButton btnOK;
     private UIButton btnAccept;
     private UIButton btnCancel;
     
-    public MessageBox(String msg, int msgType, OnClickListener action) {
+    public MessageBox(String msg, int msgType, OnClickListener yesAction, OnClickListener noAction) {
         super(Game.getDisplay().getWidth() / 2 - 460 / 2, Game.getDisplay().getHeight() / 2 - 187 / 2, 460, 187);
         visible = true;
         this.msgType = msgType;
@@ -40,11 +41,15 @@ public class MessageBox extends GameObject {
             });
         } else {
             btnAccept = new UIButton(x + 12, y + 120, 205, 56, Assets.images.get("MessageAccept"));
-            btnAccept.setOnClickListener(action);
+            btnAccept.setOnClickListener(yesAction);
             btnCancel = new UIButton(x + 243, y + 120, 205, 56, Assets.images.get("MessageCancel"));
-            btnCancel.setOnClickListener(() -> {
-                visible = false;
-            });
+            if(noAction != null) {
+                btnCancel.setOnClickListener(noAction);
+            } else {
+                btnCancel.setOnClickListener(() -> {
+                    visible = false;
+                });
+            }
         }
     }
     

@@ -6,6 +6,7 @@
 package better.scenes;
 
 import better.assets.Assets;
+import better.bullets.Bullet;
 import better.core.Game;
 import better.core.Util;
 import better.game.GameObject;
@@ -132,6 +133,12 @@ public class LevelSelectScreen extends Screen {
         
         UIButton btnHighscores = new UIButton(48, 154, 205, 56, Assets.images.get("LevelSelectHighscores"));
         UIButton btnCustomize = new UIButton(132, 294, 160, 46, Assets.images.get("LevelSelectCustomize"));
+        btnCustomize.setOnClickListener(() -> {
+            Game.setCurrentScreen(CustomizeScreen.getInstance());
+            CustomizeScreen.getInstance().setPlayer(player);
+            CustomizeScreen.getInstance().init();
+        });
+        
         UIButton btnShop = new UIButton(132, 349, 160, 46, Assets.images.get("LevelSelectShop"));
         btnShop.setOnClickListener(() -> {
             Game.setCurrentScreen(ShopScreen.getInstance());
@@ -145,14 +152,10 @@ public class LevelSelectScreen extends Screen {
         UILabel lblSelectedPlanet = new UILabel(0, 45, "NEPTUNE", new Color(255f / 255f, 237f / 255f, 211f / 255f, 1f), UILabel.DEFAULT_FONT);
         lblSelectedPlanet.setFontSize(29);
         
-        UILabel lblLevel = new UILabel(3, 410, "Lv. " + (player.getArmorLvl() + player.getEnergyLvl()), Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblLevel = new UILabel(3, 410, "Lv. " + (player.getArmorLvl() + player.getEnergyLvl() - 1), Color.WHITE, UILabel.DEFAULT_FONT);
         lblLevel.setFontSize(11);
         UILabel lblCoins = new UILabel(75, 410, String.valueOf(player.getCoins()), Color.WHITE, UILabel.DEFAULT_FONT);
         lblCoins.setFontSize(11);
-        UILabel lblBullet1 = new UILabel(0, 452, "Basic", Color.WHITE, UILabel.DEFAULT_FONT);
-        lblBullet1.setFontSize(11);
-        UILabel lblBullet2 = new UILabel(0, 452, "No Bullet", Color.WHITE, UILabel.DEFAULT_FONT);
-        lblBullet2.setFontSize(11);
         UILabel lblArmor = new UILabel(0, 418, "Armor Level: " + player.getArmorLvl(), Color.WHITE, UILabel.DEFAULT_FONT);
         lblArmor.setFontSize(13);
         UILabel lblEnergy = new UILabel(0, 440, "Energy Level: " + player.getEnergyLvl(), Color.WHITE, UILabel.DEFAULT_FONT);
@@ -167,8 +170,6 @@ public class LevelSelectScreen extends Screen {
         uiControls.put("lblSelectedPlanet", lblSelectedPlanet);
         uiControls.put("lblLevel", lblLevel);
         uiControls.put("lblCoins", lblCoins);
-        uiControls.put("lblBullet1", lblBullet1);
-        uiControls.put("lblBullet2", lblBullet2);
         uiControls.put("lblArmor", lblArmor);
         uiControls.put("lblEnergy", lblEnergy);
         
@@ -320,14 +321,33 @@ public class LevelSelectScreen extends Screen {
         String s = getPlanetString();
         g.drawImage(Assets.images.get(s + "Fact" + funFactIndex), 336, 524, 346, 61, null);
         
-        // render ship (temp)
-        g.drawImage(Assets.images.get("PlayerShip"), 16, 308, 87, 91, null);
+        // render ship 
+        g.drawImage(player.getSkinImg(player.getSkin()), 29, 318, 64, 64, null);
         
         // render coin icon
         g.drawImage(Assets.images.get("coin"), 64, 411, 7, 7, null);
         
-        // render first bullet (temp)
-        g.drawImage(Assets.images.get("BulletGreen"), 22, 431, 13, 19, null);
+        // render first bullet
+        g.drawImage(Assets.images.get("BulletNormal"), 24, 435, 7, 19, null);
+        
+        // render second bullet
+        switch(player.getCurrBullet()) {
+            case Bullet.BULLET_DOUBLE_SHOT:
+                g.drawImage(Assets.images.get("DoubleShot"), 78, 432, 8, 24, null);
+                g.drawImage(Assets.images.get("DoubleShot"), 93, 432, 8, 24, null);
+                break;
+            case Bullet.BULLET_HEAVY_SHOT:
+                g.drawImage(Assets.images.get("HeavyShot"), 85, 433, 9, 28, null);
+                break;
+            case Bullet.BULLET_PROTON_SHOT:
+                g.drawImage(Assets.images.get("ProtonShot"), 82, 439, 14, 13, null);
+                break;
+            case Bullet.BULLET_TRIPLE_SHOT:
+                g.drawImage(Assets.images.get("TripleShot"), 68, 432, 9, 26, null);
+                g.drawImage(Assets.images.get("TripleShot"), 83, 432, 9, 26, null);
+                g.drawImage(Assets.images.get("TripleShot"), 98, 432, 9, 26, null);
+                break;
+        }  
         
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
             String key = entry.getKey();

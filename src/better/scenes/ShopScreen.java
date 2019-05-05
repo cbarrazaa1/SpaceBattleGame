@@ -206,9 +206,9 @@ public class ShopScreen extends Screen {
                                 bullets.add(Bullet.BULLET_DOUBLE_SHOT);
                                 player.hashSetToBullets(bullets);
                                 updateLabels();
-                            });
+                            }, null);
                         } else {
-                            msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null);
+                            msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null, null);
                         }
                     }
                 }
@@ -224,9 +224,9 @@ public class ShopScreen extends Screen {
                                 bullets.add(Bullet.BULLET_HEAVY_SHOT);
                                 player.hashSetToBullets(bullets);
                                 updateLabels();
-                            });
+                            }, null);
                         } else {
-                            msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null);
+                            msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null, null);
                         }
                     }                    
                 }
@@ -242,9 +242,9 @@ public class ShopScreen extends Screen {
                                 bullets.add(Bullet.BULLET_PROTON_SHOT);
                                 player.hashSetToBullets(bullets);
                                 updateLabels();
-                            });
+                            }, null);
                         } else {
-                            msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null);
+                            msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null, null);
                         }
                     }
                 }             
@@ -260,9 +260,9 @@ public class ShopScreen extends Screen {
                                 bullets.add(Bullet.BULLET_TRIPLE_SHOT);
                                 player.hashSetToBullets(bullets);
                                 updateLabels();
-                            });
+                            }, null);
                         } else {
-                            msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null);
+                            msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null, null);
                         }
                     }                  
                 }
@@ -277,9 +277,9 @@ public class ShopScreen extends Screen {
                             player.setArmorLvl(player.getArmorLvl() + 1);
                             calculateCosts();
                             updateLabels();
-                        });
+                        }, null);
                     } else {
-                        msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null);
+                        msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null, null);
                     }
                 }
             } else if(Game.getMouseManager().intersects(rect6)) {
@@ -293,9 +293,9 @@ public class ShopScreen extends Screen {
                             player.setEnergyLvl(player.getEnergyLvl() + 1);
                             calculateCosts();
                             updateLabels();
-                        });
+                        }, null);
                     } else {
-                        msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null);
+                        msgBox = new MessageBox("You do not have enough coins!", MessageBox.MSG_TYPE_OK, null, null);
                     }
                 }
             } else {
