@@ -18,6 +18,7 @@ import better.enemies.Enemy2;
 import better.enemies.Enemy3;
 import better.game.Player;
 import better.enemies.Enemy4;
+import better.enemies.EnemyTurret;
 import better.game.Powerup;
 import better.scenes.LevelScreen;
 import better.ui.UILabel;
@@ -46,7 +47,7 @@ public class Level6 extends Level {
         super.update();
         if(spawnTimer.isActivated()) {
             //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
-            enemies.add(new Enemy3(64, 64, 100, 10, 30, player, bullets, lights));
+            enemies.add(new EnemyTurret(32, 32, 100, 10, 30, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(1.5f, 3.5f));
             } else {
@@ -65,7 +66,7 @@ public class Level6 extends Level {
             }
         }
         spawnTimer2.update();
-¨*/
+¨       */
     }
     
     @Override
@@ -83,7 +84,7 @@ public class Level6 extends Level {
             player.setCoins(player.getCoins() + collectedCoins);
         }
         if(defeated == TO_DEFEAT) {
-            enemies.add(new Boss3(Game.getDisplay().getWidth() / 2 - 75, -300, 64, 64, 200, 100, 400, player, bullets, lights));
+            //enemies.add(new Boss3(Game.getDisplay().getWidth() / 2 - 75, -300, 64, 64, 200, 100, 400, player, bullets, lights));
         }
 
         // spawn powerup
