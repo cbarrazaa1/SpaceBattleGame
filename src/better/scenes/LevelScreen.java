@@ -17,6 +17,7 @@ import better.levels.Level2;
 import better.levels.Level3;
 import better.levels.Level4;
 import better.levels.Level5;
+import better.levels.LevelTutorial;
 import better.ui.UIControl;
 import better.ui.UILabel;
 import java.awt.AlphaComposite;
@@ -62,7 +63,11 @@ public class LevelScreen extends Screen {
         // Game over buttons
         UIButton btnTryAgain = new UIButton(297, 237, 205, 56, Assets.images.get("GameOverTryAgain"));
         btnTryAgain.setOnClickListener(() -> {
-            chooseLevel();
+            if(selectedLevel != 1) {
+                chooseLevel();
+            } else {
+                level = new LevelTutorial(player);
+            }
             gameOver = false;
             fadeAlpha = 0;
             fadeTimer = new Timer(0.1d);
@@ -272,7 +277,8 @@ public class LevelScreen extends Screen {
     public void chooseLevel() {
         switch(selectedLevel) {
             case 1:
-                level = new Level1(player);
+                LevelTutorial.State = LevelTutorial.TutorialState.Dummy;
+                level = new LevelTutorial(player);
                 break;
             case 2:
                 level = new Level2(player);

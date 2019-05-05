@@ -53,7 +53,7 @@ public class Player extends GameObject {
     private int maxEnergy;
     private int currLevel;
     private int selectedBullet;
-    
+    private boolean canAct;
     private Timer energyTimer; // timer for energy regeneration
     
     public Player(float x, float y, float width, float height, int armorLvl, int energyLvl) {
@@ -73,7 +73,7 @@ public class Player extends GameObject {
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
         coins = 15000;
-        level = 5;
+        level = 1;
         currLevel = 0;
         skin = 0;
         currBullet = -1;
@@ -98,7 +98,7 @@ public class Player extends GameObject {
     
     @Override
     public void update() {
-        if(getArmor() <= 0) {
+        if(!canAct || getArmor() <= 0) {
             return;
         }
         
@@ -487,6 +487,14 @@ public class Player extends GameObject {
         }
         
         return res;
+    }
+    
+    public void setAct(boolean canAct) {
+        this.canAct = canAct;
+    }
+    
+    public boolean canAct() {
+        return canAct;
     }
     
     public void hashSetToBullets(HashSet<Integer> set) {
