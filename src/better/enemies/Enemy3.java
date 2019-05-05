@@ -161,8 +161,12 @@ public class Enemy3 extends Enemy {
     }
     
     private void shoot(){
-        bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 5,
-                        theta, 10, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+            float xMID = getX() + getWidth()/2;
+            float yMID = getY() + getHeight()/2;
+            float xF = (float)Math.cos(theta) * 30;
+            float yF = (float)Math.sin(theta) * 30;
+            bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+            bullets.add(new Bullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
     }
     @Override
     public void update(){

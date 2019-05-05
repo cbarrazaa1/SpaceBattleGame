@@ -72,7 +72,7 @@ public class Player extends GameObject {
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
         coins = 15000;
-        level = 4;
+        level = 5;
         currLevel = 0;
         skin = 0;
         currBullet = Bullet.BULLET_DOUBLE_SHOT;
