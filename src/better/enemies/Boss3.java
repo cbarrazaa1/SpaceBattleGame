@@ -54,7 +54,7 @@ public class Boss3 extends Enemy {
         endDash = new Timer(4);
         startDash = new Timer(8);
         hasSpawned = false;
-        img = Assets.images.get("EnemyShip1");
+        img = Assets.images.get("TheHedgeShip");
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
         lblName = new UILabel(10, 4, "The Hedge", Color.WHITE, UILabel.DEFAULT_FONT);
         xSpeed = 0;
@@ -113,10 +113,10 @@ public class Boss3 extends Enemy {
         
         if (shootTimer.isActivated()) {
             shootTimer.restart(health > 300 ? Util.randNumF(0.2f, 2) : (health > 100 ? Util.randNumF(0.2f, 1) : Util.randNumF(0.1f, 0.5f)));
-            float xF = (float)Math.cos(theta) * 30;
-            float yF = (float)Math.sin(theta) * 30;
-            bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 12, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
-            bullets.add(new Bullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 12, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+            float xF = (float)Math.cos(theta) * 15;
+            float yF = (float)Math.sin(theta) * 15;
+            bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta-Math.PI, 12, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+            bullets.add(new Bullet(xMID - xF, yMID - yF, 8, 17, 10, theta-Math.PI, 12, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
         } else {
             shootTimer.update();
         }
@@ -130,17 +130,17 @@ public class Boss3 extends Enemy {
         double deltaY = (player.getY()+player.getHeight()/2) - ( y + getWidth() / 2);
         
         // boss follows the player
-        if (theta + Math.PI/2 < Math.atan2(deltaY, deltaX)-.01){
+        if (theta - Math.PI/2 < Math.atan2(deltaY, deltaX)-.01){
             theta += Math.PI/20;
-        }if (theta + Math.PI/2 > Math.atan2(deltaY, deltaX)+.01){
+        }if (theta - Math.PI/2 > Math.atan2(deltaY, deltaX)+.01){
             theta -= Math.PI/20;
         }
         
         // for when the diference in angles is more the 180 degrees
-        if (theta + Math.PI/2 - Math.atan2(deltaY, deltaX) > Math.PI){
+        if (theta - Math.PI/2 - Math.atan2(deltaY, deltaX) > Math.PI){
             theta -= 2*Math.PI;
         }
-        if (theta + Math.PI/2 - Math.atan2(deltaY, deltaX) < -Math.PI){
+        if (theta - Math.PI/2 - Math.atan2(deltaY, deltaX) < -Math.PI){
             theta += 2*Math.PI;
         }
     }
@@ -159,16 +159,16 @@ public class Boss3 extends Enemy {
         x += xSpeed;
         y += ySpeed;
         // boss follows the direction it is going
-        if (theta + Math.PI/2 < Math.atan2(ySpeed, xSpeed)-.01){
+        if (theta - Math.PI/2 < Math.atan2(ySpeed, xSpeed)-.01){
             theta += Math.PI/10;
-        }if (theta + Math.PI/2 > Math.atan2(ySpeed, xSpeed)+.01){
+        }if (theta - Math.PI/2 > Math.atan2(ySpeed, xSpeed)+.01){
             theta -= Math.PI/10;
         }
         // for when the diference in angles is more the 180 degrees
-        if (theta + Math.PI/2 - Math.atan2(ySpeed, xSpeed) > Math.PI){
+        if (theta - Math.PI/2 - Math.atan2(ySpeed, xSpeed) > Math.PI){
             theta -= 2*Math.PI;
         }
-        if (theta + Math.PI/2 - Math.atan2(ySpeed, xSpeed) < -Math.PI){
+        if (theta - Math.PI/2 - Math.atan2(ySpeed, xSpeed) < -Math.PI){
             theta += 2*Math.PI;
         }
         

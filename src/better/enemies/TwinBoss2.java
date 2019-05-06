@@ -51,7 +51,7 @@ public class TwinBoss2 extends Enemy {
         shootTimer2 = new Timer(2);
         shootTimer3 = new Timer(3);
         hasSpawned = false;
-        img = Assets.images.get("EnemyShip1");
+        img = Assets.images.get("ShipWaluigi");
         healthBar = new StatusBar(10, 53, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
         lblName = new UILabel(10, 34, "Luigi", Color.WHITE, UILabel.DEFAULT_FONT);
         angry = false;

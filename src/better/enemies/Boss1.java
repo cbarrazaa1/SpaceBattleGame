@@ -43,7 +43,7 @@ public class Boss1 extends Enemy {
         moveTimer = new Timer(0);
         shootTimer = new Timer(1);
         hasSpawned = false;
-        img = Assets.images.get("EnemyShip1");
+        img = Assets.images.get("LudexGondirShip");
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
         lblName = new UILabel(10, 4, "Ludex Gondir", Color.WHITE, UILabel.DEFAULT_FONT);
     }
