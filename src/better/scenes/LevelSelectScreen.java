@@ -11,6 +11,7 @@ import better.core.Game;
 import better.core.Util;
 import better.game.GameObject;
 import better.game.Player;
+import better.game.StarBackground;
 import better.game.StatusBar;
 import better.scenes.SelectablePlanet.PlanetState;
 import better.ui.UIButton;
@@ -120,9 +121,11 @@ public class LevelSelectScreen extends Screen {
     private final String[] planets = { "Sun", "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"};
     private boolean showStats;
     private ArrayList<UIControl> statsControls;
+    private StarBackground sb;
     
     @Override
     public void init() {
+        sb = new StarBackground(0, 0.5f);
         int w = Game.getDisplay().getWidth();
         
         // UI
@@ -289,6 +292,8 @@ public class LevelSelectScreen extends Screen {
 
     @Override
     public void render(Graphics2D g) {
+        g.drawImage(Assets.images.get("ExpBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
+        sb.render(g);
         g.drawImage(Assets.images.get("LevelSelectBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
         
         // render pal
@@ -418,6 +423,8 @@ public class LevelSelectScreen extends Screen {
                 control.update();
             }
         }
+        
+        sb.update();
     }
     
     public void setPlayer(Player player) {

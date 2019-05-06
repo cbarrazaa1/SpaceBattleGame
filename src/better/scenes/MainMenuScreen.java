@@ -8,6 +8,7 @@ package better.scenes;
 import better.assets.Assets;
 import better.core.Game;
 import better.game.Player;
+import better.game.StarBackground;
 import better.ui.UIButton;
 import better.ui.UIControl;
 import better.ui.UILabel;
@@ -34,6 +35,8 @@ public class MainMenuScreen extends Screen {
         return instance;
     }
     
+    private StarBackground sb;
+    
     @Override
     public void init() {
         UIButton btnNewGame = new UIButton(302, 160, 205, 56, Assets.images.get("NewGameButton"));
@@ -51,15 +54,17 @@ public class MainMenuScreen extends Screen {
         uiControls.put("btnLoadGame", btnLoadGame);
         uiControls.put("btnOptions", btnOptions);
         uiControls.put("btnExitGame", btnExit);
-        System.out.println(new File("test.ogg").exists());
         
         Assets.playMusic(Assets.mainMenu);
+        sb = new StarBackground(0, 0.6f);
     }
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(Assets.images.get("MenuBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
-        
+        g.drawImage(Assets.images.get("ExpBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
+        sb.render(g);
+        g.drawImage(Assets.images.get("logo"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
+        g.drawImage(Assets.images.get("backgroundBorder"), 0, 575, 800, 25, null);
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
             String key = entry.getKey();
             UIControl val = entry.getValue();
@@ -73,6 +78,8 @@ public class MainMenuScreen extends Screen {
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
             entry.getValue().update();
         }
+        
+        sb.update();
     }
 
 }

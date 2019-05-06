@@ -77,7 +77,7 @@ public abstract class Level implements LevelEventListener {
         velX = (Util.randNum(1, 2) == 1 ? velX : velX * -1);
         float velY = Util.randNumF(0.3f, 0.7f);
         velY = (Util.randNum(1, 2) == 1 ? velY : velY * -1);        
-        sb = new StarBackground(velX, velY, false);
+        sb = new StarBackground(velX, velY);
         
         tmrPlayTime = new Timer(1d);
     }

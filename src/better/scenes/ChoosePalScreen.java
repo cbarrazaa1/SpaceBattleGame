@@ -9,6 +9,7 @@ import better.assets.Assets;
 import better.core.Game;
 import better.game.GameObject;
 import better.game.Player;
+import better.game.StarBackground;
 import better.ui.UIButton;
 import better.ui.UIControl;
 import better.ui.UILabel;
@@ -76,6 +77,8 @@ public class ChoosePalScreen extends Screen {
     private SelectablePal yothPal;
     private SelectablePal lakPal;
     private SelectablePal adaPal;
+    
+    private StarBackground sb;
     
     @Override
     public void init() {
@@ -152,11 +155,18 @@ public class ChoosePalScreen extends Screen {
             lbl.setColor(Color.WHITE);
             btnConfirm.setEnabled(true);
         });
+        
+        sb = new StarBackground(0, 0.5f);
     }
 
     @Override
     public void render(Graphics2D g) {
+        g.drawImage(Assets.images.get("ExpBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
+        sb.render(g);
+        
         g.drawImage(Assets.images.get("ChoosePalBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
+        g.drawImage(Assets.images.get("ChoosePalTitle"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
+        g.drawImage(Assets.images.get("backgroundBorder"), 0, 575, 800, 25, null);
         
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
             String key = entry.getKey();
@@ -188,6 +198,8 @@ public class ChoosePalScreen extends Screen {
         yothPal.update();
         lakPal.update();
         adaPal.update();
+        
+        sb.update();
     }
     
 }
