@@ -186,7 +186,7 @@ public class Enemy4 extends Enemy {
         
     }
     /**
-     * renders the object
+     * renders the healthbar
      * @param g 
      */
     @Override

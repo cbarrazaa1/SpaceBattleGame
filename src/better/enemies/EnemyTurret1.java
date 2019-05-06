@@ -23,8 +23,9 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Cesar Barraza and Rogelio Martinez
- * Enemy that moves slowly and shoots guided bullets
+ * @author Cesar Barraza
+ * @author Rogelio Martinez
+ * Enemy turret that moves only one direction and shoots guided bullets
  */
 public class EnemyTurret1 extends Enemy {
     private boolean shouldRenderBar;
@@ -46,18 +47,25 @@ public class EnemyTurret1 extends Enemy {
         shootTimer = new Timer(0.6);
         shouldShoot = true;
     }
-
+    /**
+     * spaewn the enemy
+     */
     private void spawnEnemy(){
         x = Game.getDisplay().getWidth() + width;
         y = Util.randNum(0, Game.getDisplay().getHeight() - (int)height);
     }
-    
+    /**
+     * checks if out of bounds
+     */
     private void checkColision(){
         if (x < 0){
             shouldShoot = false;
         }
     }
     
+    /**
+     * shoots a new guided bullet when timer is activated
+     */
     private void shoot(){
         if(shootTimer.isActivated()){
             shootTimer.restart(Util.randNumF(0.4f, 0.8f));
@@ -66,17 +74,24 @@ public class EnemyTurret1 extends Enemy {
         }
         shootTimer.update();
      }
-    
+    /**
+     * turns to the player
+     */
     private void turn(){
         // theta is calculated
         theta = this.getThetaTo(player);
         theta -= Math.PI / 2;
     }
-    
+    /**
+     * moves to the left
+     */
     private void move(){
         x -= 1.5;
     }
     
+    /**
+     * updates the object
+     */
     @Override
     public void update(){
         super.update();
@@ -98,7 +113,10 @@ public class EnemyTurret1 extends Enemy {
         
         
     }
-    
+    /**
+     * render the object's base and healthbar
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) { 
         //GunTurretMount
@@ -112,17 +130,24 @@ public class EnemyTurret1 extends Enemy {
             healthBar.render(g);
         }
     }
-    
+    /**
+     * creates hitbox
+     * @return rect
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
     }
-    
+    /**
+     * checks if mouse is on top of the object to render healthbar
+     */
     @Override
     public void mouseEnter() {
         shouldRenderBar = true;
     }
-    
+    /**
+     * checks if mouse is no longer on top of the object
+     */
     @Override
     public void mouseLeave() {
         shouldRenderBar = false;

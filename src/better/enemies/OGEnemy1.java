@@ -21,6 +21,7 @@ import java.util.ArrayList;
 /**
  *
  * @author Cesar Barraza
+ * @author Rogelio Martinez
  */
 public class OGEnemy1 extends Enemy {
     private boolean shouldRenderBar;
@@ -41,7 +42,9 @@ public class OGEnemy1 extends Enemy {
         ySpeed = 4;
         xSpeed = 0;
     }
-
+    /**
+     * spawns the enemy
+     */
     private void spawnEnemy(){
         int WIDTH = Game.getDisplay().getWidth();
         int HEIGHT = Game.getDisplay().getHeight();
@@ -49,7 +52,9 @@ public class OGEnemy1 extends Enemy {
         y = (int)(0 - height);
     }
     
-
+    /**
+     * updates the enemy
+     */
     @Override
     public void update(){
         super.update();
@@ -64,7 +69,10 @@ public class OGEnemy1 extends Enemy {
         healthBar.setY(y - 10);
 
     }
-    
+    /**
+     * renders the enemy
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) { 
         super.render(g);
@@ -73,17 +81,24 @@ public class OGEnemy1 extends Enemy {
             healthBar.render(g);
         }
     }
-    
+    /**
+     * creates the hitbox
+     * @return 
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
     }
-    
+    /**
+     * checks if mouse is on top of the object to render healthbar
+     */
     @Override
     public void mouseEnter() {
         shouldRenderBar = true;
     }
-    
+    /**
+     * checks if mouse is no longer on top of the object
+     */
     @Override
     public void mouseLeave() {
         shouldRenderBar = false;

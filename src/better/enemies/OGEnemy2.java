@@ -22,6 +22,7 @@ import java.util.ArrayList;
 /**
  *
  * @author Cesar Barraza
+ * @author Rogelio Martinez
  */
 public class OGEnemy2 extends Enemy {
     private boolean shouldRenderBar;
@@ -47,23 +48,32 @@ public class OGEnemy2 extends Enemy {
         moveTimer = new Timer(0);
         shootTimer = new Timer(1);
     }
-
+    /**
+     * spawns the enemy
+     */
     private void spawnEnemy(){
         int WIDTH = Game.getDisplay().getWidth();
         int HEIGHT = Game.getDisplay().getHeight();
         x = WIDTH + width;
         y = 10;
     }
-    
+    /**
+     * shoots a new bullet
+     */
     private void shoot(){
         bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 8, 17, 5,
                     theta, 6, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
     }
-    
+    /**
+     * moves the enemy randomly
+     */
     private void move(){
         ySpeed = Util.randNum(-3, 3);
         
     }
+    /**
+     * checks if enemy collided with its limits
+     */
     private void checkCollision(){
         if (y > Game.getDisplay().getHeight()/2-height){
             ySpeed *= -1;
@@ -82,6 +92,9 @@ public class OGEnemy2 extends Enemy {
             x= Game.getDisplay().getWidth() - width;
         }
     }
+    /**
+     * updates the enemy
+     */
     @Override
     public void update(){
         super.update();
@@ -117,7 +130,10 @@ public class OGEnemy2 extends Enemy {
 
 
     }
-    
+    /**
+     * render the healthbar
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) { 
         super.render(g);
@@ -126,17 +142,24 @@ public class OGEnemy2 extends Enemy {
             healthBar.render(g);
         }
     }
-    
+    /**
+     * creates the hitbox
+     * @return rect
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
     }
-    
+    /**
+     * checks if mouse is on top of the object to render healthbar
+     */
     @Override
     public void mouseEnter() {
         shouldRenderBar = true;
     }
-    
+    /**
+     * checks if mouse is no longer on top of the object
+     */
     @Override
     public void mouseLeave() {
         shouldRenderBar = false;

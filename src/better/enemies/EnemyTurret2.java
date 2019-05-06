@@ -23,8 +23,9 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Cesar Barraza and Rogelio Martinez
- * Enemy that moves slowly and shoots guided bullets
+ * @author Cesar Barraza
+ * @author Rogelio Martinez
+ * Enemy turret that moves only one direction and shoots a burst of bullets
  */
 public class EnemyTurret2 extends Enemy {
     private boolean shouldRenderBar;
@@ -50,37 +51,50 @@ public class EnemyTurret2 extends Enemy {
         burstTimer = new Timer(0.2);
         shouldShoot = true;
     }
-
+    /**
+     * spawns the enemy
+     */
     private void spawnEnemy(){
         x = Game.getDisplay().getWidth() + width;
         y = Util.randNum(0, Game.getDisplay().getHeight() - (int)height);
     }
-    
+    /**
+     * checks if out of bounds
+     */
     private void checkColision(){
         if (x < 0){
             shouldShoot = false;
         }
     }
-    
+    /**
+     * shoots a burst of bullets
+     */
     private void shoot(){
         if(burstTimer.isActivated()){
             burstTimer.restart();
-            bullets.add(new GuidedBullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 5,
-                        theta, 6, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+            bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 5,
+                        theta, 6, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
         }
         burstTimer.update();
      }
     
+    /**
+     * turns towards the player
+     */
     private void turn(){
         // theta is calculated
         theta = this.getThetaTo(player);
         theta -= Math.PI / 2;
     }
-    
+    /**
+     * moves to the left
+     */
     private void move(){
         x -= 1.5;
     }
-    
+    /**
+     * updates the object
+     */
     @Override
     public void update(){
         super.update();
@@ -110,7 +124,10 @@ public class EnemyTurret2 extends Enemy {
         
         
     }
-    
+    /**
+     * renders the base and the healthbar
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) { 
         //GunTurretMount
@@ -124,17 +141,24 @@ public class EnemyTurret2 extends Enemy {
             healthBar.render(g);
         }
     }
-    
+    /**
+     * creates the hitbox
+     * @return rect
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
     }
-    
+    /**
+     * checks if mouse is on top of the object to render healthbar
+     */
     @Override
     public void mouseEnter() {
         shouldRenderBar = true;
     }
-    
+    /**
+     * checks if mouse is no longer on top of the object
+     */
     @Override
     public void mouseLeave() {
         shouldRenderBar = false;

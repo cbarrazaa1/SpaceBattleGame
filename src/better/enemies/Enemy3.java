@@ -220,7 +220,7 @@ public class Enemy3 extends Enemy {
         
     }
     /**
-     * renders the object
+     * renders the healthbar
      * @param g 
      */
     @Override
