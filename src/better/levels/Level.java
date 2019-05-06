@@ -19,6 +19,7 @@ import better.game.Coin;
 import better.game.Light2D;
 import better.game.Player;
 import better.game.Powerup;
+import better.game.StarBackground;
 import better.game.StatusBar;
 import better.scenes.LevelScreen;
 import better.scenes.LevelSelectScreen;
@@ -48,6 +49,7 @@ public abstract class Level implements LevelEventListener {
     protected StatusBar energyBar;
     protected LevelEventListener eventListener;
     private UILabel lblScore;
+    private StarBackground sb;
     
     private Timer tmrPlayTime;
     
@@ -71,36 +73,20 @@ public abstract class Level implements LevelEventListener {
         
         // UI
         lblScore = new UILabel(15, 544, "Score: 0", Color.WHITE, UILabel.DEFAULT_FONT);
+        float velX = Util.randNumF(0.3f, 0.7f);
+        velX = (Util.randNum(1, 2) == 1 ? velX : velX * -1);
+        float velY = Util.randNumF(0.3f, 0.7f);
+        velY = (Util.randNum(1, 2) == 1 ? velY : velY * -1);        
+        sb = new StarBackground(velX, velY, false);
         
         tmrPlayTime = new Timer(1d);
     }
     
     public void render(Graphics2D g) {
         // render background
-        g.drawImage(Assets.images.get("LevelBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
-        
-        // render current bullet
-        switch(player.getSelectedBullet()) {
-            case -1:
-                g.drawImage(Assets.images.get("BulletNormal"), 33, 558, 7, 19, null);
-                break;
-            case Bullet.BULLET_DOUBLE_SHOT:
-                g.drawImage(Assets.images.get("DoubleShot"), 24, 556, 8, 24, null);
-                g.drawImage(Assets.images.get("DoubleShot"), 39, 556, 8, 24, null);
-                break;
-            case Bullet.BULLET_HEAVY_SHOT:
-                g.drawImage(Assets.images.get("HeavyShot"), 32, 555, 9, 28, null);
-                break;
-            case Bullet.BULLET_PROTON_SHOT:
-                g.drawImage(Assets.images.get("ProtonShot"), 29, 561, 14, 13, null);
-                break;
-            case Bullet.BULLET_TRIPLE_SHOT:
-                g.drawImage(Assets.images.get("TripleShot"), 17, 555, 9, 26, null);
-                g.drawImage(Assets.images.get("TripleShot"), 31, 555, 9, 26, null);
-                g.drawImage(Assets.images.get("TripleShot"), 45, 555, 9, 26, null);
-                break;
-        }  
-         
+        g.drawImage(Assets.images.get("ExpBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
+        sb.render(g);
+           
         // render bullets
         for(Bullet bullet : bullets) {
             bullet.render(g);
@@ -139,10 +125,34 @@ public abstract class Level implements LevelEventListener {
         armorBar.render(g);
         energyBar.render(g);
         lblScore.render(g);  
+        
+        // render current bullet
+        g.drawImage(Assets.images.get("bulletSlot"), 12, 544, 48, 48, null);
+        switch(player.getSelectedBullet()) {
+            case -1:
+                g.drawImage(Assets.images.get("BulletNormal"), 33, 558, 7, 19, null);
+                break;
+            case Bullet.BULLET_DOUBLE_SHOT:
+                g.drawImage(Assets.images.get("DoubleShot"), 24, 556, 8, 24, null);
+                g.drawImage(Assets.images.get("DoubleShot"), 39, 556, 8, 24, null);
+                break;
+            case Bullet.BULLET_HEAVY_SHOT:
+                g.drawImage(Assets.images.get("HeavyShot"), 32, 555, 9, 28, null);
+                break;
+            case Bullet.BULLET_PROTON_SHOT:
+                g.drawImage(Assets.images.get("ProtonShot"), 29, 561, 14, 13, null);
+                break;
+            case Bullet.BULLET_TRIPLE_SHOT:
+                g.drawImage(Assets.images.get("TripleShot"), 17, 555, 9, 26, null);
+                g.drawImage(Assets.images.get("TripleShot"), 31, 555, 9, 26, null);
+                g.drawImage(Assets.images.get("TripleShot"), 45, 555, 9, 26, null);
+                break;
+        }  
     }
     
     public void update() {
         if(!(LevelScreen.getInstance().isGameOver() || LevelScreen.getInstance().hasVictory() || LevelScreen.getInstance().isPaused())) {
+            sb.update();
             // update player
             player.update();
             armorBar.setValue(player.getArmor());
