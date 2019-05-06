@@ -64,6 +64,7 @@ public abstract class Level implements LevelEventListener {
         collectedCoins = 0;
         
         this.player = player;
+        player.setAct(true);
         player.setSelectedBullet(-1);
         player.recoverStats();
         player.setBullets(bullets);

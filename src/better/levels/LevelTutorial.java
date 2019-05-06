@@ -96,6 +96,10 @@ public class LevelTutorial extends Level {
     
     @Override
     public void update() {
+        if(LevelScreen.getInstance().isPaused()) {
+            return;
+        }
+        
         super.update();
         
         if(shouldShow) {

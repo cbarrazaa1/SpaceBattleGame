@@ -45,6 +45,10 @@ public class Level5 extends Level {
      */
     @Override
     public void update() {
+        if(LevelScreen.getInstance().isPaused()) {
+            return;
+        }
+        
         super.update();
         if(spawnTimer.isActivated()) {
             //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
