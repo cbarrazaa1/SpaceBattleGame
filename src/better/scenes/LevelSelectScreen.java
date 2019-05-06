@@ -254,6 +254,12 @@ public class LevelSelectScreen extends Screen {
             selectablePlanets.get(8 - i).setState(PlanetState.NORMAL);
         }
         selectPlanet(selectablePlanets.get(8 - player.getLevel() + 1).getName());
+        
+        // music
+        if(Assets.currMusic != Assets.mainMenu) {
+            Assets.unloadMusic();
+            Assets.loadMusic(Assets.MusicType.MainMenu);    
+        }
     }
 
     @Override

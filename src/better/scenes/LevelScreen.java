@@ -219,12 +219,12 @@ public class LevelScreen extends Screen {
             }
             fadeTimer.update();
             
-            if(gameOver) {
+            if(gameOver && fadeAlpha >= 0.7f) {
                 uiControls.get("btnTryAgain").update();
                 uiControls.get("btnLevelSelect").update();   
             }
             
-            if(victory) {
+            if(victory && fadeAlpha >= 0.7f) {
                 uiControls.get("btnPlayAgain").update();
                 uiControls.get("btnContinue").update();
             }
@@ -278,29 +278,48 @@ public class LevelScreen extends Screen {
     public void chooseLevel() {
         switch(selectedLevel) {
             case 1:
+                Assets.unloadMusic();
+                Assets.loadMusic(Assets.MusicType.Level1);
                 LevelTutorial.State = LevelTutorial.TutorialState.Dummy;
                 level = new LevelTutorial(player);
                 break;
             case 2:
+                Assets.unloadMusic();
+                Assets.loadMusic(Assets.MusicType.Level2);
                 level = new Level1(player);
                 break;
             case 3:
-                level = new Level3(player);
+                Assets.unloadMusic();
+                Assets.loadMusic(Assets.MusicType.Level3);
+                level = new Level2(player);
                 break;
             case 4:
-                level = new Level4(player);
+                Assets.unloadMusic();
+                Assets.loadMusic(Assets.MusicType.Level4);
+                level = new Level3(player);
                 break;
             case 5:
-                level = new Level5(player);
+                Assets.unloadMusic();
+                Assets.loadMusic(Assets.MusicType.Level5);
+                level = new Level4(player);
                 break;
             case 6:
-                level = new Level6(player);
+                Assets.unloadMusic();
+                Assets.loadMusic(Assets.MusicType.Level6);
+                level = new Level5(player);
                 break;
             case 7:
+                Assets.unloadMusic();
+                Assets.loadMusic(Assets.MusicType.Level9);
+                level = new Level6(player);
                 break;
             case 8:
+                Assets.unloadMusic();
+                Assets.loadMusic(Assets.MusicType.Level8);
                 break;
             case 9:
+                Assets.unloadMusic();
+                Assets.loadMusic(Assets.MusicType.Level9);
                 break;
         }
     }

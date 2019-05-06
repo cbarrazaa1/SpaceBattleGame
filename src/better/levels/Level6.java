@@ -106,4 +106,8 @@ public class Level6 extends Level {
             powerups.add(new Powerup(x, y, 48, 30, Powerup.TYPE_HEALTH, player));
         }
     }
+
+    @Override
+    public void onGameOver() {
+    }
 }

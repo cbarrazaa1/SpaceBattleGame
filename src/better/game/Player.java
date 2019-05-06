@@ -73,7 +73,7 @@ public class Player extends GameObject {
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
         coins = 15000;
-        level = 6;
+        level = 7;
         currLevel = 0;
         skin = 0;
         currBullet = -1;
@@ -239,7 +239,7 @@ public class Player extends GameObject {
             setY(0);
         }
         
-        if(currLevel == 3){
+        if(currLevel == 4){
             y = Game.getDisplay().getHeight() - height - 10;
         }
     }
