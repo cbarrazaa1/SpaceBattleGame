@@ -31,7 +31,7 @@ import better.ui.UILabel;
  * @author Rogelio Martinez
  */
 public class Level6 extends Level {
-    private static final int TO_DEFEAT = 1;
+    private static final int TO_DEFEAT = 15;
     private int defeated;
     private Timer spawnTimer;
     private Timer spawnTimer2;
