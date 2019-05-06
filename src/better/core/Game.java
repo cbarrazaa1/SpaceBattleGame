@@ -11,6 +11,7 @@ import better.ui.UIButton;
 import better.ui.UILabel;
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
@@ -185,10 +186,15 @@ public class Game implements Runnable {
                     screenTimer.restart();
                 }
                 
+                Composite orig = g.getComposite();
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, fadeAlpha));
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, getDisplay().getWidth(), getDisplay().getHeight());
+                g.setComposite(orig);
             }
+            
+            // render pointer
+            g.drawImage(Assets.images.get("pointer"), (int)getMouseManager().getX(), (int)getMouseManager().getY(), 17, 22, null);
             
             // actually render the whole scene
             bs.show();

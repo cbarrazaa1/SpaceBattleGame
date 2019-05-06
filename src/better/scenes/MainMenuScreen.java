@@ -53,8 +53,7 @@ public class MainMenuScreen extends Screen {
         uiControls.put("btnExitGame", btnExit);
         System.out.println(new File("test.ogg").exists());
         
-        Assets.unloadMusic();
-        Assets.loadMusic(Assets.MusicType.MainMenu);
+        Assets.playMusic(Assets.mainMenu);
     }
 
     @Override

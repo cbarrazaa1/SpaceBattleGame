@@ -201,7 +201,7 @@ public class LevelTutorial extends Level {
         
         // Spawn Enemies
         if(spawnEnemies) {
-            if(spawnTimer.isActivated()) {
+            if(spawnTimer.isActivated() && defeated < 7) {
                 enemies.add(new Enemy1(64, 64, 25, 10, 50, player, bullets, lights));
                 spawnTimer.restart(Util.randNumF(1.5f, 3f));
             }
@@ -252,6 +252,7 @@ public class LevelTutorial extends Level {
         
         if(defeated == 7) {
             enemies.clear();
+            bullets.clear();
             spawnEnemies = false;
             shouldShow = true;
             nextState(true);

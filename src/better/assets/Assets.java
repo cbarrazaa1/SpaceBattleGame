@@ -96,40 +96,29 @@ public class Assets {
         powerup = TinySound.loadSound("powerup.wav");
         dash = TinySound.loadSound("dash.wav");
         buy = TinySound.loadSound("buy.wav");
+        mainMenu = TinySound.loadMusic("MainMenu.ogg");
+        victory = TinySound.loadMusic("Victory.ogg");
+        gameOver = TinySound.loadMusic("GameOver.ogg");
+        level1 = TinySound.loadMusic("Level1.ogg", true);
+        level2 = TinySound.loadMusic("Level2.ogg", true);
+        level3 = TinySound.loadMusic("Level3.ogg", true);
+        level4 = TinySound.loadMusic("Level4.ogg", true);
+        level5 = TinySound.loadMusic("Level5.ogg", true);
+        level6 = level2;
+        level7 = TinySound.loadMusic("Level7.ogg", true);
+        level8 = TinySound.loadMusic("Level8.ogg", true);
+        level9 = TinySound.loadMusic("Level9.ogg", true);
     }
     
-    public static void loadMusic(MusicType music) {
-        if(music == MusicType.MainMenu) {
-            currMusic = TinySound.loadMusic("MainMenu.ogg");
-        } else if(music == MusicType.Victory) {
-            currMusic = TinySound.loadMusic("Victory.ogg");
-        } else if(music == MusicType.GameOver) {
-            currMusic = TinySound.loadMusic("GameOver.ogg");
-        } else if(music == MusicType.Level1) {
-            currMusic = TinySound.loadMusic("Level1.ogg");
-        } else if(music == MusicType.Level2) {
-            currMusic = TinySound.loadMusic("Level2.ogg");
-        } else if(music == MusicType.Level3) {
-            currMusic = TinySound.loadMusic("Level3.ogg");
-        } else if(music == MusicType.Level4) {
-            currMusic = TinySound.loadMusic("Level4.ogg");
-        } else if(music == MusicType.Level5) {
-            currMusic = TinySound.loadMusic("Level5.ogg");
-        } else if(music == MusicType.Level6) {
-            currMusic = TinySound.loadMusic("Level6.ogg");
-        } else if(music == MusicType.Level7) {
-            currMusic = TinySound.loadMusic("Level7.ogg");
-        } else if(music == MusicType.Level8) {
-            currMusic = TinySound.loadMusic("Level8.ogg");
-        } else if(music == MusicType.Level9) {
-            currMusic = TinySound.loadMusic("Level9.ogg");
+    public static void playMusic(Music music) {
+        if(music == currMusic) {
+            return;
         }
-        currMusic.play(true);
-    }
-    
-    public static void unloadMusic() {
+        
         if(currMusic != null) {
             currMusic.stop();
         }
+        currMusic = music;
+        currMusic.play(true);
     }
 }
