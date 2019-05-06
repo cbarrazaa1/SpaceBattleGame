@@ -23,8 +23,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
- *
+ *  
+ * @author Rogelio Martinez
  * @author Cesar Barraza
+ * Boss that follows the player and shoots guided and normal proyectiles
  */
 public class OGBoss extends Enemy {
     private int xSpeed;
@@ -57,14 +59,18 @@ public class OGBoss extends Enemy {
         lblName = new UILabel(10, 4, "Pointiff Sulivhan", Color.WHITE, UILabel.DEFAULT_FONT);
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 1.0f);
     }
-
+    /**
+     * Boss is spawned
+     */
     private void spawnEnemy(){
         int WIDTH = Game.getDisplay().getWidth();
         int HEIGHT = Game.getDisplay().getHeight();
         x = WIDTH + width;
         y = 10;
     }
-    
+    /**
+     * shoots normal and guided bullets
+     */
     private void shoot(){
         bullets.add(new Bullet(getX() + getWidth()*1 / 5, getY() + getHeight() / 2, 8, 17, 5,
                     theta, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
@@ -75,7 +81,9 @@ public class OGBoss extends Enemy {
         bullets.add(new Bullet(getX() + getWidth()*4 / 5, getY() + getHeight() / 2, 8, 17, 5,
                     theta, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
     }
-    
+    /**
+     * moves folowing the player
+     */
     private void move(){
         if (player.getX() > x){
             xSpeed += 1;
@@ -91,6 +99,10 @@ public class OGBoss extends Enemy {
             xSpeed = -5;
         }
     }
+    
+    /**
+     * checks if collided with outer limits
+     */
     private void checkCollision(){
         if (y > Game.getDisplay().getHeight()/2-height){
             ySpeed *= -1;
@@ -107,14 +119,18 @@ public class OGBoss extends Enemy {
             x= Game.getDisplay().getWidth() - width;
         }
     }
-    
+    /**
+     * shoots guided bullets
+     */
     private void shootGuided(){
         bullets.add(new GuidedBullet(getX() + getWidth()*1 / 5, getY() + getHeight() / 2, 8, 17, 5,
                     theta, 10, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
         bullets.add(new GuidedBullet(getX() + getWidth()*4 / 5, getY() + getHeight() / 2, 8, 17, 5,
                     theta, 10, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
     }
-    
+    /**
+     * updates the object
+     */
     @Override
     public void update(){
         super.update();
@@ -164,7 +180,10 @@ public class OGBoss extends Enemy {
         
 
     }
-    
+    /**
+     * renders the healthbar
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) { 
         super.render(g);
@@ -173,19 +192,12 @@ public class OGBoss extends Enemy {
         healthBar.render(g);
         
     }
-    
+    /**
+     * creates hitbox
+     * @return rect
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 32, y + 32, 64, 64);
-    }
-    
-    @Override
-    public void mouseEnter() {
-
-    }
-    
-    @Override
-    public void mouseLeave() {
-
     }
 }

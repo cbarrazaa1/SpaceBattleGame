@@ -27,6 +27,7 @@ import java.util.ArrayList;
  *
  * @author Cesar Barraza
  * @author Rogelio Martinez
+ * Boss with twin that moves and shoot semirandomly
  */
 public class TwinBoss1 extends Enemy {
     private Timer moveTimer;
@@ -52,11 +53,14 @@ public class TwinBoss1 extends Enemy {
         hasSpawned = false;
         img = Assets.images.get("EnemyShip1");
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
-        lblName = new UILabel(10, 4, "WTC", Color.WHITE, UILabel.DEFAULT_FONT);
+        lblName = new UILabel(10, 4, "Mario", Color.WHITE, UILabel.DEFAULT_FONT);
         angry = false;
         healthfull = false;
     }
-    
+    /**
+     * render healthbar
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         super.render(g);
@@ -64,7 +68,9 @@ public class TwinBoss1 extends Enemy {
         lblName.render(g);
         healthBar.render(g);
     }
-    
+    /**
+     * moves to random position
+     */
     int xPos = 0, yPos = 0; 
     double movTheta = 0;
     public void move(){
@@ -97,6 +103,9 @@ public class TwinBoss1 extends Enemy {
         }
     }
     
+    /**
+     * shoots normal bullets
+     */
     public void shoot(){
         if(!hasSpawned) {
             return;
@@ -110,7 +119,9 @@ public class TwinBoss1 extends Enemy {
         bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
         bullets.add(new Bullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
     }
-    
+    /**
+     * shoots buided bullets
+     */
     public void shoot2(){
         if(!hasSpawned) {
             return;
@@ -127,6 +138,9 @@ public class TwinBoss1 extends Enemy {
         bullets.add(new GuidedBullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
         
     }
+    /**
+     * turns towards the player
+     */
     public void turn(){
         // delta X and Y are calculated
         double deltaX = (player.getX()+player.getWidth()/2) - ( x + getHeight() / 2);
@@ -147,7 +161,9 @@ public class TwinBoss1 extends Enemy {
             theta += 2*Math.PI;
         }
     }
-    
+    /**
+     * gets angry if twin is killed, recuperates health and shoots in all directions
+     */
     public void angry(){
         float xMID = getX() + getWidth()/2;
         float yMID = getY() + getHeight()/2;
@@ -165,7 +181,9 @@ public class TwinBoss1 extends Enemy {
             bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/6, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
         }
     }
-    
+    /**
+     * shoots in all direcions
+     */
     private void shoot3(){
         float xMID = getX() + getWidth()/2;
         float yMID = getY() + getHeight()/2;
@@ -183,6 +201,9 @@ public class TwinBoss1 extends Enemy {
             bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/6, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
         }
     }
+    /**
+     * update the object
+     */
     @Override
     public void update(){
         
@@ -232,7 +253,10 @@ public class TwinBoss1 extends Enemy {
         }
         
     }  
-  
+  /**
+   * crates hitbox
+   * @return rect
+   */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 32, y + 32, 64, 64);
