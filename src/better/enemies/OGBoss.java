@@ -110,9 +110,9 @@ public class OGBoss extends Enemy {
     
     private void shootGuided(){
         bullets.add(new GuidedBullet(getX() + getWidth()*1 / 5, getY() + getHeight() / 2, 8, 17, 5,
-                    theta, 7, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+                    theta, 10, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
         bullets.add(new GuidedBullet(getX() + getWidth()*4 / 5, getY() + getHeight() / 2, 8, 17, 5,
-                    theta, 7, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+                    theta, 10, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
     }
     
     @Override

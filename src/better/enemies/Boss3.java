@@ -55,7 +55,7 @@ public class Boss3 extends Enemy {
         hasSpawned = false;
         img = Assets.images.get("EnemyShip1");
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
-        lblName = new UILabel(10, 4, "Sonic The Movie", Color.WHITE, UILabel.DEFAULT_FONT);
+        lblName = new UILabel(10, 4, "The Hedge", Color.WHITE, UILabel.DEFAULT_FONT);
         xSpeed = 0;
         ySpeed = 0;
     }

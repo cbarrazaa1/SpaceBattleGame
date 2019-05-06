@@ -214,7 +214,7 @@ public class Player extends GameObject {
                     setEnergy(getEnergy() + regenRate);                    
                 }
 
-                energyTimer.restart(0.15);
+                energyTimer.restart(0.1);
                 if (getEnergy() >= maxEnergy){
                     setEnergy(maxEnergy);
                 }
