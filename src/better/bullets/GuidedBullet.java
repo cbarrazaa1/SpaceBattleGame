@@ -39,9 +39,9 @@ public class GuidedBullet extends Bullet{
         }     
         // boss follows the player
         if (theta + Math.PI/2 < Math.atan2(deltaY, deltaX)-.01){
-            theta += Math.PI/240;
+            theta += Math.PI/210;
         }if (theta + Math.PI/2 > Math.atan2(deltaY, deltaX)+.01){
-            theta -= Math.PI/240;
+            theta -= Math.PI/210;
         }
     
     }
