@@ -52,6 +52,10 @@ public class Level6 extends Level {
      */
     @Override
     public void update() {
+        if(LevelScreen.getInstance().isPaused()) {
+            return;
+        }
+        
         super.update();
         if(spawnTimer.isActivated() && defeated <= TO_DEFEAT) {
             

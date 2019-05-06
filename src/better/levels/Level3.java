@@ -46,6 +46,10 @@ public class Level3 extends Level {
      */
     @Override
     public void update() {
+        if(LevelScreen.getInstance().isPaused()) {
+            return;
+        }
+        
         super.update();
         if(spawnTimer.isActivated()) {
             
