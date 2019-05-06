@@ -167,11 +167,13 @@ public class TwinBoss2 extends Enemy {
         float xMID = getX() + getWidth()/2;
         float yMID = getY() + getHeight()/2;
         angry = true;
+        maxHealth = 1000;
+        healthBar = new StatusBar(10, 53, 6, 11, Assets.images.get("ArmorBar"), health, maxHealth, 0.40f);
         for (int i = 1; i <= 12; i++){
-            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/12, 5, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/12, 7, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
         }
         for (int i = 0; i <= 12; i++){
-            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/12, 5, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/12, 7, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
         }
         for (int i = 1; i <= 6; i++){
             bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/6, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
@@ -188,10 +190,10 @@ public class TwinBoss2 extends Enemy {
         float yMID = getY() + getHeight()/2;
         
         for (int i = 1; i <= 12; i++){
-            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/12, 5, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/12, 7, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
         }
         for (int i = 0; i <= 12; i++){
-            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/12, 5, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/12, 7, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
         }
         for (int i = 1; i <= 6; i++){
             bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/6, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
