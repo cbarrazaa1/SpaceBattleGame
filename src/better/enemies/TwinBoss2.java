@@ -31,6 +31,8 @@ import java.util.ArrayList;
 public class TwinBoss2 extends Enemy {
     private Timer moveTimer;
     private Timer shootTimer;
+    private Timer shootTimer2;
+    private Timer shootTimer3;
     private boolean hasSpawned;
     private UILabel lblName; 
     private boolean angry;
@@ -45,10 +47,12 @@ public class TwinBoss2 extends Enemy {
         theta = 0;
         moveTimer = new Timer(0);
         shootTimer = new Timer(1);
+        shootTimer2 = new Timer(2);
+        shootTimer3 = new Timer(3);
         hasSpawned = false;
         img = Assets.images.get("EnemyShip1");
-        healthBar = new StatusBar(10, 46, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
-        lblName = new UILabel(10, 27, "WTC", Color.WHITE, UILabel.DEFAULT_FONT);
+        healthBar = new StatusBar(10, 53, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
+        lblName = new UILabel(10, 34, "WTC", Color.WHITE, UILabel.DEFAULT_FONT);
         angry = false;
         healthfull = false;
     }
@@ -80,7 +84,7 @@ public class TwinBoss2 extends Enemy {
             }
 
             if((getX() < xPos - 10 || getX() > xPos + 10) && (getY() < yPos - 10 || getY() > yPos + 10)){
-                float speed = (health > 350 ? 2 : 3);
+                float speed = (health > 350 ? 4 : (health > 100 ? 5.5f : 6.5f));
                 setX(getX() + ((float)(Math.cos(movTheta+Math.PI))*speed));
                 setY(getY() + ((float)(Math.sin(movTheta+Math.PI))*speed));
             }
@@ -101,23 +105,29 @@ public class TwinBoss2 extends Enemy {
         float xMID = getX() + getWidth()/2;
         float yMID = getY() + getHeight()/2;
         
-        if (shootTimer.isActivated()) {
-            shootTimer.restart(health > 350 ? Util.randNumF(0.5f,2.5f) : (health > 100 ? Util.randNumF(0.5f,2) : Util.randNumF(0.5f, 1)));
-            float xF = (float)Math.cos(theta) * 30;
-            float yF = (float)Math.sin(theta) * 30;
-            bullets.add(new GuidedBullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
-            bullets.add(new GuidedBullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
-        } else {
-            shootTimer.update();
+        float xF = (float)Math.cos(theta) * 30;
+        float yF = (float)Math.sin(theta) * 30;
+        bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+        bullets.add(new Bullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+    }
+    
+    public void shoot2(){
+        if(!hasSpawned) {
+            return;
         }
+        
+        float xMID = getX() + getWidth()/2;
+        float yMID = getY() + getHeight()/2;
+        
+       
+        
+        float xF = (float)Math.cos(theta) * 30;
+        float yF = (float)Math.sin(theta) * 30;
+        bullets.add(new GuidedBullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        bullets.add(new GuidedBullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        
     }
-    
-    public void angry(){
-        angry = true;
-    }
-    
-    @Override
-    public void update(){
+    public void turn(){
         // delta X and Y are calculated
         double deltaX = (player.getX()+player.getWidth()/2) - ( x + getHeight() / 2);
         double deltaY = (player.getY()+player.getHeight()/2) - ( y + getWidth() / 2);
@@ -136,19 +146,83 @@ public class TwinBoss2 extends Enemy {
         if (theta + Math.PI/2 - Math.atan2(deltaY, deltaX) < -Math.PI){
             theta += 2*Math.PI;
         }
+    }
+    
+    public void angry(){
+        float xMID = getX() + getWidth()/2;
+        float yMID = getY() + getHeight()/2;
+        angry = true;
+        for (int i = 1; i <= 12; i++){
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/12, 5, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+        }
+        for (int i = 0; i <= 12; i++){
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/12, 5, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+        }
+        for (int i = 1; i <= 6; i++){
+            bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/6, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        }
+        for (int i = 0; i <= 6; i++){
+            bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/6, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        }
+    }
+    
+    private void shoot3(){
+        float xMID = getX() + getWidth()/2;
+        float yMID = getY() + getHeight()/2;
         
+        for (int i = 1; i <= 12; i++){
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/12, 5, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+        }
+        for (int i = 0; i <= 12; i++){
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/12, 5, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+        }
+        for (int i = 1; i <= 6; i++){
+            bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/6, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        }
+        for (int i = 0; i <= 6; i++){
+            bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/6, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        }
+    }
+    @Override
+    public void update(){
+        
+        turn();
         // Movement function
         move();
         
         // shooting function
-        shoot();
-
+        // shooting function
+        if (!angry){
+            if (shootTimer.isActivated()) {
+                shootTimer.restart(health > 350 ? Util.randNumF(0.5f,2.5f) : (health > 100 ? Util.randNumF(0.5f,2) : Util.randNumF(0.5f, 1)));
+                shoot();
+            }
+            shootTimer.update();
+        }else{
+            if (shootTimer.isActivated()) {
+                shootTimer.restart(0.3);
+                shoot();
+            }
+            shootTimer.update();
+            if (shootTimer2.isActivated()) {
+                shootTimer2.restart(Util.randNumF(0.3f, 3));
+                shoot2();
+            }
+            shootTimer2.update();
+            if (shootTimer3.isActivated()){
+                shootTimer3.restart(Util.randNumF(5, 10));
+                shoot3();
+            }
+            shootTimer3.update();
+        }
+        
         if (angry && !healthfull){
             health += 2;
-            if (health == maxHealth){
+            if (health >= maxHealth){
                 healthfull = true;
             }
         }
+        
         // update healtbar
         healthBar.setValue(health);
         
