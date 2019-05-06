@@ -54,7 +54,7 @@ public class BossTurret1 extends Enemy {
         shootTimer3 = new Timer(0.6);
         shouldShoot = false;
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
-        lblName = new UILabel(10, 4, "Need new Sprite lol", Color.WHITE, UILabel.DEFAULT_FONT);
+        lblName = new UILabel(10, 4, "The Great Defender", Color.WHITE, UILabel.DEFAULT_FONT);
     }
     /**
      * the boss is spawned
