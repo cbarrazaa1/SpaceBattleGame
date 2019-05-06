@@ -253,7 +253,7 @@ public class ShopScreen extends Screen {
                     if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
                         descImg = null;
                         if(coins >= 1500) {
-                            msgBox = new MessageBox("Do you want to buy the double shot?", MessageBox.MSG_TYPE_YESNO, () -> {
+                            msgBox = new MessageBox("Do you want to buy the heavy shot?", MessageBox.MSG_TYPE_YESNO, () -> {
                                 msgBox.hide();
                                 player.setCoins(player.getCoins() - 1500);
                                 bullets.add(Bullet.BULLET_HEAVY_SHOT);
@@ -271,7 +271,7 @@ public class ShopScreen extends Screen {
                     if(Game.getMouseManager().isButtonPressed(MouseEvent.BUTTON1)) {
                         descImg = null;
                         if(coins >= 2200) {
-                            msgBox = new MessageBox("Do you want to buy the double shot?", MessageBox.MSG_TYPE_YESNO, () -> {
+                            msgBox = new MessageBox("Do you want to buy the proton shot?", MessageBox.MSG_TYPE_YESNO, () -> {
                                 msgBox.hide();
                                 player.setCoins(player.getCoins() - 2200);
                                 bullets.add(Bullet.BULLET_PROTON_SHOT);
