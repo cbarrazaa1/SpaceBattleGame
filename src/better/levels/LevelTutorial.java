@@ -9,12 +9,14 @@ import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
 import better.enemies.Enemy;
+import better.enemies.EnemyTutorial;
 import better.game.Player;
 import better.ui.UIButton;
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 /**
@@ -60,15 +62,22 @@ public class LevelTutorial extends Level {
     private Timer tmrMovement;
     private boolean startMovementTimer;
     private Timer tmrAiming;
+    private boolean startAimingTimer;
+    private Timer tmrDashing;
+    private boolean startDashingTimer;
+    
+    // Enemy References //
+    private EnemyTutorial enemy1;
     
     public LevelTutorial(Player player) {
         super(player);
+        eventListener = this;
         shouldShow = true;
         player.setAct(false);
         
         btnNext = new UIButton(154 + 314, 0, 160, 46, Assets.images.get("TutorialNext"));
         btnNext.setOnClickListener(() -> {
-            if(State == TutorialState.Movement || State == TutorialState.Aiming) {
+            if(State == TutorialState.Movement || State == TutorialState.Aiming || State == TutorialState.FirstEnemy || State == TutorialState.Dashing) {
                 nextState(false);
             } else {
                 nextState(true);
@@ -85,7 +94,7 @@ public class LevelTutorial extends Level {
             btnNext.update();
         }
         
-        // Timers
+        // Movement Timer //
         if(tmrMovement != null) {
             if(startMovementTimer) {
                 if(tmrMovement.isActivated()) {
@@ -105,15 +114,58 @@ public class LevelTutorial extends Level {
             }
         }
         
+        // Aiming Timer //
         if(tmrAiming != null) {
-            if(tmrAiming.isActivated()) {
-                player.setAct(false);
-                shouldShow = true;
-                nextState(true);
-                tmrAiming = null;
+            if(startAimingTimer) {
+                if(tmrAiming.isActivated()) {
+                    player.setAct(false);
+                    tmrAiming = null;
+                    enemy1 = new EnemyTutorial(368, -100, 64, 64, 0, 10, 100, player, bullets, lights, EnemyTutorial.STATE_ENEMY1);
+                    enemies.add(enemy1);
+                }
+                if(tmrAiming != null) {
+                    tmrAiming.update();
+                }
+            } else {
+                if(Game.getMouseManager().isButtonDown(MouseEvent.BUTTON1)) {
+                    startAimingTimer = true;
+                }
             }
-            if(tmrAiming != null) {
-                tmrAiming.update();
+        }
+        
+        // Enemy1 Timer //
+        if(enemy1 != null) {
+            if(enemy1.getState() == EnemyTutorial.STATE_ENEMY1_FINISHED) {
+                enemy1.setState(EnemyTutorial.STATE_ENEMY1_FIGHT);
+                shouldShow = true;
+                nextState(true);     
+                enemy1.setAct(false);
+            } else if(enemy1.getState() == EnemyTutorial.STATE_ENEMY1_FIGHT) {
+                if(!enemy1.isAlive()) {
+                    enemy1 = null;
+                    shouldShow = true;
+                    nextState(true);
+                    player.setAct(false);
+                }
+            }
+        }
+        
+        // Dashing Timer // 
+        if(tmrDashing != null) {
+            if(startDashingTimer) {
+                if(tmrDashing.isActivated()) {
+                    player.setAct(false);
+                    shouldShow = true;
+                    nextState(true);
+                    tmrDashing = null;
+                }
+                if(tmrDashing != null) {
+                    tmrDashing.update();
+                }
+            } else {
+                if(Game.getKeyManager().isKeyDown(KeyEvent.VK_SPACE)) {
+                    startDashingTimer = true;
+                }
             }
         }
     }
@@ -169,6 +221,12 @@ public class LevelTutorial extends Level {
                 startMovementTimer = false;   
             } else if(State == TutorialState.Aiming) {
                 tmrAiming = new Timer(3d);
+                startAimingTimer = false;
+            } else if(State == TutorialState.FirstEnemy) {
+                enemy1.setAct(true);
+            } else if(State == TutorialState.Dashing) {
+                tmrDashing = new Timer(3d);
+                startDashingTimer = false;
             }
             return;
         }

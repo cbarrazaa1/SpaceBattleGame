@@ -281,7 +281,7 @@ public class LevelScreen extends Screen {
                 level = new LevelTutorial(player);
                 break;
             case 2:
-                level = new Level2(player);
+                level = new Level1(player);
                 break;
             case 3:
                 level = new Level3(player);

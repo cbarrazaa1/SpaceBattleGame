@@ -73,13 +73,14 @@ public class Player extends GameObject {
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
         coins = 15000;
-        level = 1;
+        level = 2;
         currLevel = 0;
         skin = 0;
         currBullet = -1;
         selectedPal = 0;
         bulletTypes = "";
         selectedBullet = -1;
+        canAct = true;
     }
 
     @Override
