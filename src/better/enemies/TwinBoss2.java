@@ -231,7 +231,7 @@ public class TwinBoss2 extends Enemy {
             }
             shootTimer2.update();
             if (shootTimer3.isActivated()){
-                shootTimer3.restart(Util.randNumF(5, 10));
+                shootTimer3.restart(Util.randNumF(1, 7));
                 shoot3();
             }
             shootTimer3.update();

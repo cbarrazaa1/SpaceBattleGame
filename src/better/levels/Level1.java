@@ -21,6 +21,7 @@ import better.ui.UILabel;
  *
  * @author Cesar Barraza
  * @author Rogelio Martinez
+ * First real level, has enemy type 1 and first boss
  */
 public class Level1 extends Level {
     private static final int TO_DEFEAT = 15;
@@ -33,7 +34,9 @@ public class Level1 extends Level {
         spawnTimer = new Timer(1f);
         eventListener = this;
     }
-    
+    /**
+     * update the level
+     */
     @Override
     public void update() {
         if(LevelScreen.getInstance().isPaused()) {
@@ -42,7 +45,7 @@ public class Level1 extends Level {
         
         super.update();
         if(spawnTimer.isActivated()) {
-            enemies.add(new Enemy1(64, 64, 25, 10, 40, player, bullets, lights));
+            enemies.add(new Enemy1(64, 64, 25, 30, 40, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(2.3f, 3.3f));
             } else {
@@ -51,11 +54,15 @@ public class Level1 extends Level {
         }
         spawnTimer.update();
     }
-    
+    /**
+     * for when enemy dies
+     * @param enemy 
+     */
     @Override
     public void onEnemyDead(Enemy enemy) {
+        
         if(enemy instanceof Boss1) {
-            collectedCoins += 45;
+            collectedCoins += 200;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));

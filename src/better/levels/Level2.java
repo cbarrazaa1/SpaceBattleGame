@@ -39,13 +39,14 @@ public class Level2 extends Level {
         spawnTimer2 = new Timer(3);
         eventListener = this;
     }
-    
+    /**
+     * updates the game
+     */
     @Override
     public void update() {
         super.update();
         if(spawnTimer.isActivated()) {
-            //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
-            enemies.add(new Enemy2(64, 64, 100, 10, 30, player, bullets, lights));
+            enemies.add(new Enemy2(64, 64, 50, 50, 30, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(2.5f, 5.5f));
             } else {
@@ -54,8 +55,7 @@ public class Level2 extends Level {
         }
         spawnTimer.update();
         if(spawnTimer2.isActivated()) {
-            //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
-            enemies.add(new Enemy1(64, 64, 100, 10, 40, player, bullets, lights));
+            enemies.add(new Enemy1(64, 64, 25, 30, 40, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer2.restart(Util.randNumF(1.5f, 4.5f));
             }else{
@@ -64,13 +64,16 @@ public class Level2 extends Level {
         }
         spawnTimer2.update();
     }
-    
+    /**
+     * when enemy dies
+     * @param enemy 
+     */
     @Override
     public void onEnemyDead(Enemy enemy) {
         defeated++;
         
         if (enemy instanceof Boss2){
-            collectedCoins += 100;
+            collectedCoins += 200;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));
@@ -80,7 +83,7 @@ public class Level2 extends Level {
             player.setCoins(player.getCoins() + collectedCoins);
         }
         if(defeated == TO_DEFEAT) {
-            enemies.add(new Boss2(Game.getDisplay().getWidth() / 2 - 75, -300, 192, 192, 200, 100, 1000, player, bullets, lights));
+            enemies.add(new Boss2(Game.getDisplay().getWidth() / 2 - 75, -300, 192, 192, 300, 0, 1000, player, bullets, lights));
         }
 
         // spawn powerup

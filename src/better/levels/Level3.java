@@ -41,13 +41,15 @@ public class Level3 extends Level {
         spawnTimer2 = new Timer(1f);
         eventListener = this;
     }
-    
+    /**
+     * updates the level
+     */
     @Override
     public void update() {
         super.update();
         if(spawnTimer.isActivated()) {
-            //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
-            enemies.add(new OGEnemy1(64, 64, 100, 10, 40, player, bullets, lights));
+            
+            enemies.add(new OGEnemy1(64, 64, 50, 20, 40, player, bullets, lights));
             
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(0.5f, 2f));
@@ -57,9 +59,8 @@ public class Level3 extends Level {
         }
         spawnTimer.update();
         if(spawnTimer2.isActivated()) {
-            //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
             
-            enemies.add(new OGEnemy2(64, 64, 100, 10, 20, player, bullets, lights));
+            enemies.add(new OGEnemy2(64, 64, 65, 50, 20, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer2.restart(Util.randNumF(1.5f, 2.5f));
             } else {
@@ -70,17 +71,20 @@ public class Level3 extends Level {
     }
     
 
-    
+    /**
+     * when enemy dies
+     * @param enemy 
+     */
     @Override
     public void onEnemyDead(Enemy enemy) {
         defeated++;
 
         if(defeated == TO_DEFEAT) {
-            enemies.add(new OGBoss(128, 128, 100, 10, 200, player, bullets, lights));
+            enemies.add(new OGBoss(128, 128, 500, 0, 400, player, bullets, lights));
         }
         
         if (enemy instanceof OGBoss){
-            collectedCoins += 150;
+            collectedCoins += 350;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));
