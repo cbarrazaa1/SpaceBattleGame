@@ -53,7 +53,7 @@ public class TwinBoss1 extends Enemy {
         hasSpawned = false;
         img = Assets.images.get("ShipWario");
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
-        lblName = new UILabel(10, 4, "Mario", Color.WHITE, UILabel.DEFAULT_FONT);
+        lblName = new UILabel(10, 4, "Wario", Color.WHITE, UILabel.DEFAULT_FONT);
         angry = false;
         healthfull = false;
     }
@@ -116,11 +116,11 @@ public class TwinBoss1 extends Enemy {
         
         float xF = (float)Math.cos(theta) * 30;
         float yF = (float)Math.sin(theta) * 30;
-        bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
-        bullets.add(new Bullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+        bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 8, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, Color.YELLOW, lights));
+        bullets.add(new Bullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 8, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, Color.YELLOW, lights));
     }
     /**
-     * shoots buided bullets
+     * shoots guided bullets
      */
     public void shoot2(){
         if(!hasSpawned) {
@@ -134,8 +134,9 @@ public class TwinBoss1 extends Enemy {
         
         float xF = (float)Math.cos(theta) * 30;
         float yF = (float)Math.sin(theta) * 30;
-        bullets.add(new GuidedBullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
-        bullets.add(new GuidedBullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        Color c = new Color(167, 20, 173);
+        bullets.add(new GuidedBullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 8, Assets.images.get("TripleShot"), Bullet.BULLET_TYPE_ENEMY, c, lights, player));
+        bullets.add(new GuidedBullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 8, Assets.images.get("TripleShot"), Bullet.BULLET_TYPE_ENEMY, c, lights, player));
         
     }
     /**
@@ -156,7 +157,8 @@ public class TwinBoss1 extends Enemy {
         // for when the diference in angles is more the 180 degrees
         if (theta + Math.PI/2 - Math.atan2(deltaY, deltaX) > Math.PI){
             theta -= 2*Math.PI;
-        }if (theta + Math.PI/2 - Math.atan2(deltaY, deltaX) < -Math.PI){
+        }
+        if (theta + Math.PI/2 - Math.atan2(deltaY, deltaX) < -Math.PI){
             theta += 2*Math.PI;
         }
     }
@@ -168,18 +170,19 @@ public class TwinBoss1 extends Enemy {
         float yMID = getY() + getHeight()/2;
         angry = true;
         maxHealth = 1000;
-        healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), health, maxHealth, 0.40f);
+        healthBar = new StatusBar(10, 53, 6, 11, Assets.images.get("ArmorBar"), health, maxHealth, 0.40f);
+        Color c = new Color(167, 20, 173);
         for (int i = 1; i <= 12; i++){
-            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/12, 7, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/12, 7, Assets.images.get("TripleShot"), Bullet.BULLET_TYPE_ENEMY, c, lights));
         }
         for (int i = 0; i <= 12; i++){
-            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/12, 7, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/12, 7, Assets.images.get("TripleShot"), Bullet.BULLET_TYPE_ENEMY, c, lights));
         }
         for (int i = 1; i <= 6; i++){
-            bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/6, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+            bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/6, 5, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, Color.YELLOW, lights, player));
         }
         for (int i = 0; i <= 6; i++){
-            bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/6, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+            bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/6, 5, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, Color.YELLOW, lights, player));
         }
     }
     /**
@@ -189,17 +192,18 @@ public class TwinBoss1 extends Enemy {
         float xMID = getX() + getWidth()/2;
         float yMID = getY() + getHeight()/2;
         
+        Color c = new Color(167, 20, 173);
         for (int i = 1; i <= 12; i++){
-            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/12, 7, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/12, 7, Assets.images.get("TripleShot"), Bullet.BULLET_TYPE_ENEMY, c, lights));
         }
         for (int i = 0; i <= 12; i++){
-            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/12, 7, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+            bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/12, 7, Assets.images.get("TripleShot"), Bullet.BULLET_TYPE_ENEMY, c, lights));
         }
         for (int i = 1; i <= 6; i++){
-            bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/6, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+            bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/6, 5, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, Color.YELLOW, lights, player));
         }
         for (int i = 0; i <= 6; i++){
-            bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/6, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+            bullets.add(new GuidedBullet(xMID, yMID, 10, 21, 10, theta - Math.PI*i/6, 5, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, Color.YELLOW, lights, player));
         }
     }
     /**
@@ -216,7 +220,7 @@ public class TwinBoss1 extends Enemy {
         if (!angry){
             if (shootTimer.isActivated()) {
                 shootTimer.restart(health > 350 ? Util.randNumF(0.5f,2f) : (health > 100 ? Util.randNumF(0.5f,1) : Util.randNumF(0.5f, 0.7f)));
-                shoot();
+                shoot2();
             }
             shootTimer.update();
         }else{
@@ -240,7 +244,7 @@ public class TwinBoss1 extends Enemy {
         }
         
         if (angry && !healthfull){
-            health += 2;
+            health += 4;
             if (health >= maxHealth){
                 healthfull = true;
             }
