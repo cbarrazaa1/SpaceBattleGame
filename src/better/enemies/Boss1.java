@@ -25,6 +25,7 @@ import java.util.ArrayList;
  *
  * @author Cesar Barraza
  * @author Rogelio Martinez
+ * Boss that moves and shoots randomly
  */
 public class Boss1 extends Enemy {
     private Timer moveTimer;
@@ -46,7 +47,10 @@ public class Boss1 extends Enemy {
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
         lblName = new UILabel(10, 4, "Boss #1", Color.WHITE, UILabel.DEFAULT_FONT);
     }
-    
+    /**
+     * renders the healthbar
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         super.render(g);
@@ -54,7 +58,9 @@ public class Boss1 extends Enemy {
         lblName.render(g);
         healthBar.render(g);
     }
-    
+    /**
+     * moves to a new position
+     */
     int xPos = 0, yPos = 0; 
     double movTheta = 0;
     public void move(){
@@ -86,7 +92,9 @@ public class Boss1 extends Enemy {
             }
         }
     }
-    
+    /**
+     * shoots two bullets at once
+     */
     public void shoot(){
         if(!hasSpawned) {
             return;
@@ -105,7 +113,9 @@ public class Boss1 extends Enemy {
             shootTimer.update();
         }
     }
-    
+    /**
+     * updates the boss
+     */
     @Override
     public void update(){
         // delta X and Y are calculated
@@ -141,7 +151,10 @@ public class Boss1 extends Enemy {
         }
         
     }  
-  
+    /**
+     * creates the hitbox
+     * @return rect
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 32, y + 32, 64, 64);

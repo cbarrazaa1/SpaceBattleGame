@@ -28,6 +28,7 @@ import java.util.ArrayList;
  *
  * @author Cesar Barraza
  * @author Rogelio Martinez
+ * Boss that moves fast and shoots faster
  */
 public class Boss3 extends Enemy {
     private Timer moveTimer;
@@ -59,7 +60,10 @@ public class Boss3 extends Enemy {
         xSpeed = 0;
         ySpeed = 0;
     }
-    
+    /**
+     * render the heelthbar
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         super.render(g);
@@ -67,7 +71,9 @@ public class Boss3 extends Enemy {
         lblName.render(g);
         healthBar.render(g);
     }
-    
+    /**
+     * moves to a random position
+     */
     int xPos = 0, yPos = 0; 
     double movTheta = 0;
     public void move(){
@@ -94,7 +100,9 @@ public class Boss3 extends Enemy {
         moveTimer.update();
         
     }
-    
+    /**
+     * shoots randomly fast bullets
+     */
     public void shoot(){
         if(!hasSpawned) {
             return;
@@ -113,7 +121,9 @@ public class Boss3 extends Enemy {
             shootTimer.update();
         }
     }
-    
+    /**
+     * turns towards the player
+     */
     private void turn(){
         // delta X and Y are calculated
         double deltaX = (player.getX()+player.getWidth()/2) - ( x + getHeight() / 2);
@@ -134,7 +144,9 @@ public class Boss3 extends Enemy {
             theta += 2*Math.PI;
         }
     }
-    
+    /**
+     * moves fast while shooting guided bullets to the player
+     */
     private void dash(){
         if (moveTimer.isActivated()){
             moveTimer.restart(Util.randNumF(0.5f, 1f));
@@ -172,7 +184,9 @@ public class Boss3 extends Enemy {
         }
         shootTimer2.update();
     }
-    
+    /**
+     * checks if collided with outer bounds
+     */
     private void checkColision(){
         //check for out of bounds collision
         if(getX() >= Game.getDisplay().getWidth() - width){
@@ -187,7 +201,9 @@ public class Boss3 extends Enemy {
             setY(0);
         }
     }
-    
+    /**
+     * bounce when collided with outer bounds
+     */
     private void bounceOnColision(){
         //check for out of bounds collision
         if(getX() >= Game.getDisplay().getWidth() - width){
@@ -206,6 +222,9 @@ public class Boss3 extends Enemy {
             ySpeed *= -1;
         }
     }
+    /**
+     * update the boss
+     */
     @Override
     public void update(){
         if (!hasSpawned){
@@ -239,7 +258,10 @@ public class Boss3 extends Enemy {
         }
         
     }  
-  
+    /**
+     * create the hitbox
+     * @return rect
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 12, y + 12, 36, 36);

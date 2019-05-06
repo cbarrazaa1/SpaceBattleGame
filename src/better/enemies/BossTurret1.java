@@ -25,8 +25,9 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Cesar Barraza and Rogelio Martinez
- * Enemy that moves slowly and shoots guided bullets
+ * @author Cesar Barraza
+ * @authir Rogelio Martinez
+ * TurretBoss that does not moves and shoots a lot of proyectiles
  */
 public class BossTurret1 extends Enemy {
     
@@ -55,18 +56,24 @@ public class BossTurret1 extends Enemy {
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
         lblName = new UILabel(10, 4, "Need new Sprite lol", Color.WHITE, UILabel.DEFAULT_FONT);
     }
-
+    /**
+     * the boss is spawned
+     */
     private void spawnEnemy(){
         x = Game.getDisplay().getWidth() + width;
         y = Game.getDisplay().getHeight()/2 - height/2;
     }
-    
+    /**
+     * checks is out of bounds
+     */
     private void checkColision(){
         if (x < 0){
             shouldShoot = false;
         }
     }
-    
+    /**
+     * shoots a lot of bullets in a fan like pattern
+     */
     private void shoot(){
         float xMID = getX() + getWidth()/2;
         float yMID = getY() + getHeight()/2;
@@ -94,7 +101,9 @@ public class BossTurret1 extends Enemy {
         shootTimer.update();
         
     }
-    
+    /**
+     * shoots 4 guided bullets
+     */
     private void shoot2(){
 
         // for shooting in bursts
@@ -119,7 +128,9 @@ public class BossTurret1 extends Enemy {
         }
         shootTimer2.update();
     }
-    
+    /**
+     * shoots a single fast, high damage bullet
+     */
     private void shoot3(){
         float xMID = getX() + getWidth()/2;
         float yMID = getY() + getHeight()/2;
@@ -132,13 +143,17 @@ public class BossTurret1 extends Enemy {
         
         shootTimer3.update();
     }
-    
+    /**
+     * turns towards the player
+     */
     private void turn(){
         // theta is calculated
         theta = this.getThetaTo(player);
         theta -= Math.PI / 2;
     }
-    
+    /**
+     * moves to the left
+     */
     private void move(){
         if (x > Game.getDisplay().getWidth() - width - 20){
             x -= 1.5;
@@ -146,7 +161,9 @@ public class BossTurret1 extends Enemy {
             shouldShoot = true;
         }
     }
-    
+    /**
+     * update the object
+     */
     @Override
     public void update(){
         super.update();
@@ -177,7 +194,10 @@ public class BossTurret1 extends Enemy {
         
         
     }
-    
+    /**
+     * render the base and healthbar
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) { 
         //GunTurretMount
@@ -191,19 +211,13 @@ public class BossTurret1 extends Enemy {
         healthBar.render(g);
         
     }
-    
+    /**
+     * creates hitbox
+     * @return rect
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 16, y + 16, 112, 112);
     }
-    
-    @Override
-    public void mouseEnter() {
-        
-    }
-    
-    @Override
-    public void mouseLeave() {
-        
-    }
+ 
 }

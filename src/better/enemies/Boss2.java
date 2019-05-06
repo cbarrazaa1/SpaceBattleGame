@@ -26,6 +26,7 @@ import java.util.ArrayList;
  *
  * @author Cesar Barraza
  * @author Rogelio Martinez
+ * Boss that rotates and shoots a lot of proyectiles
  */
 public class Boss2 extends Enemy {
     private Timer moveTimer;
@@ -49,7 +50,10 @@ public class Boss2 extends Enemy {
         lblName = new UILabel(10, 4, "Pinweel", Color.WHITE, UILabel.DEFAULT_FONT);
         lightColor = new Color(219, 219, 23);
     }
-    
+    /**
+     * render the healthbar
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         super.render(g);
@@ -58,9 +62,11 @@ public class Boss2 extends Enemy {
         healthBar.render(g);
     }
     
+    /**
+     * moves to a random location
+     */
     int xPos = 0, yPos = 0; 
     double movTheta = 0;
-    
     public void move(){
         if (!hasSpawned) return;
         
@@ -87,6 +93,9 @@ public class Boss2 extends Enemy {
                     
     }
     
+    /**
+     * moves to the center
+     */
     public void moveToCenter(){
         int WIDTH =  Game.getDisplay().getWidth();
         int HEIGHT = Game.getDisplay().getHeight();
@@ -103,7 +112,9 @@ public class Boss2 extends Enemy {
             y--;
         }
     }
-    
+    /**
+     * first shooting pattern
+     */
     public void shoot(){
         if(!hasSpawned) {
             return;
@@ -122,7 +133,9 @@ public class Boss2 extends Enemy {
         shootTimer.update();
         
     }
-    
+    /**
+     * recond shooting pattern
+     */
     public void shoot2(){
         if(!hasSpawned) {
             return;
@@ -141,7 +154,9 @@ public class Boss2 extends Enemy {
         shootTimer.update();
         
     }
-    
+    /**
+     * third shooting pattern
+     */
     public void shoot3(){
         if(!hasSpawned) {
             return;
@@ -163,6 +178,9 @@ public class Boss2 extends Enemy {
         
     }
     
+    /**
+     * updates the boss
+     */
     @Override
     public void update(){
         
@@ -204,7 +222,10 @@ public class Boss2 extends Enemy {
         }
         
     }  
-  
+    /**
+     * creates the hitbox
+     * @return rect
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x+64, y+64, 64, 64);

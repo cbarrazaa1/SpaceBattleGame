@@ -22,6 +22,8 @@ import java.util.ArrayList;
 /**
  *
  * @author Cesar Barraza
+ * @author Rogelio Martinez
+ * Enemy that moves slowly and explodes into many pieces
  */
 public class Asteroid1 extends Enemy {
     private int xSpeed;
@@ -43,7 +45,9 @@ public class Asteroid1 extends Enemy {
         ySpeed = Util.randNumF(-2f, 2f);
         deathTimer = new Timer(Util.randNum(1,5));
     }
-    
+    /**
+     * spawns the object
+     */
     private void spawn(){
         int WIDTH = Game.getDisplay().getWidth();
         int HEIGHT = Game.getDisplay().getHeight();
@@ -51,7 +55,9 @@ public class Asteroid1 extends Enemy {
         x = Util.randNum(WIDTH, WIDTH+100);
         y = Util.randNum((int)getHeight(), (int)(HEIGHT-getHeight()));
     }
-    
+    /**
+     * explodes the object when shot
+     */
     public void explode(){
         if (width < 64) return;
         for (int i = 0; i < 2; i++){
@@ -59,7 +65,9 @@ public class Asteroid1 extends Enemy {
                     theta*i/2, 7, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
         }
     }
-    
+    /**
+     * explodes the object when a timer is activated
+     */
     public void die(){
         if (width < 64){
             health = 0;
@@ -71,7 +79,9 @@ public class Asteroid1 extends Enemy {
                     theta*i/2, 7, Assets.images.get("BulletRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
         }
     }
-    
+    /**
+     * updates the object
+     */
     @Override
     public void update(){
         super.update();
@@ -84,28 +94,5 @@ public class Asteroid1 extends Enemy {
             this.die();
         }
     }
-    
-    @Override
-    public void render(Graphics2D g) { 
-        super.render(g);
 
-    }
-    
-    /*
-    @Override
-    public Rectangle2D.Float getRect() {
-        return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
-    }
-*/
-    
-    
-    @Override
-    public void mouseEnter() {
-       
-    }
-    
-    @Override
-    public void mouseLeave() {
-        
-    }
 }
