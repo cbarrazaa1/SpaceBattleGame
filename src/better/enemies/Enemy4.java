@@ -46,7 +46,9 @@ public class Enemy4 extends Enemy {
         img = Assets.images.get("EnemyShip1");
         spawnEnemy();
     }
-
+    /**
+     * spawns the enemy
+     */
     private void spawnEnemy(){
         float pX = player.getX();
         float pY = player.getY();
@@ -105,7 +107,9 @@ public class Enemy4 extends Enemy {
                 break;      
         }
     }
-    
+    /**
+     * checks if enemy collided with outer limits
+     */
     private void checkColision(){
         //check for out of bounds collision
         if(getX() >= Game.getDisplay().getWidth() - width){
@@ -124,7 +128,9 @@ public class Enemy4 extends Enemy {
             setY(1);
         }
     }
-    
+    /**
+     * updates the enemy
+     */
     @Override
     public void update(){
         super.update();
@@ -179,7 +185,10 @@ public class Enemy4 extends Enemy {
         theta -= Math.PI / 2;
         
     }
-    
+    /**
+     * renders the object
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) { 
         super.render(g);
@@ -188,17 +197,24 @@ public class Enemy4 extends Enemy {
             healthBar.render(g);
         }
     }
-    
+    /**
+     * creates hitbox
+     * @return 
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
     }
-    
+    /**
+     * checks if mouse is on top of the object to render healthbar
+     */
     @Override
     public void mouseEnter() {
         shouldRenderBar = true;
     }
-    
+    /**
+     * checks if mouse is no longer on top of the object
+     */
     @Override
     public void mouseLeave() {
         shouldRenderBar = false;

@@ -57,7 +57,9 @@ public class Enemy2 extends Enemy {
         this.shootFrequency = new Timer(0.05);
         shotColor = new Color(16, 147, 246);
     }
-
+    /**
+     * spawns the enemy
+     */
     private void spawnEnemy(){
         float pX = player.getX();
         float pY = player.getY();
@@ -116,7 +118,10 @@ public class Enemy2 extends Enemy {
                 break;      
         }
     }
-    
+    /**
+     * checks for collision
+     * @return if collided
+     */
     private boolean checkColision(){
         //check for out of bounds collision
         boolean check = false;
@@ -140,11 +145,11 @@ public class Enemy2 extends Enemy {
             check = true;
         }
         
-        if (check) return true;
-        
-        return false;
+        return check;
     }
-    
+    /**
+     * turns the object to follow the players position
+     */
     private void turn(){
         // delta X and Y are calculated
         double deltaX = (player.getX()+player.getWidth()/2) - ( x + getHeight() / 2);
@@ -164,19 +169,27 @@ public class Enemy2 extends Enemy {
             theta += 2*Math.PI;
         }
     }
-    
+    /**
+     * moves the object randomly
+     */
     private void move(){
         do{
         xSpeed = (int) Util.randNumF(-5, 5);
         ySpeed = (int)Util.randNumF(-5, 5);
         }while (abs(xSpeed) < 4 && abs(ySpeed) < 4);
     }
-    
+    /**
+     * shoots a new bullet
+     */
     private void shoot(){
         bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 8, 17, 5,
                     theta, 6, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, shotColor, lights));
                 
     }
+    
+    /** 
+     * updates the object
+     */
     @Override
     public void update(){
         super.update();
@@ -241,7 +254,10 @@ public class Enemy2 extends Enemy {
         turn();
         
     }
-    
+    /**
+     * renders the object
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) { 
         super.render(g);
@@ -250,17 +266,24 @@ public class Enemy2 extends Enemy {
             healthBar.render(g);
         }
     }
-    
+    /**
+     * creates hitbox
+     * @return 
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
     }
-    
+    /**
+     * checks if mouse is on top of the object to render healthbar
+     */
     @Override
     public void mouseEnter() {
         shouldRenderBar = true;
     }
-    
+    /**
+     * checks if mouse is no longer on top of the object
+     */
     @Override
     public void mouseLeave() {
         shouldRenderBar = false;

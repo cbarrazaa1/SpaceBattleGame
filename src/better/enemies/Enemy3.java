@@ -49,7 +49,9 @@ public class Enemy3 extends Enemy {
         shotTimer2 = new Timer(0.2);
         spawnEnemy();
     }
-
+    /**
+     * spawns the object
+     */
     private void spawnEnemy(){
         float pX = player.getX();
         float pY = player.getY();
@@ -108,7 +110,9 @@ public class Enemy3 extends Enemy {
                 break;      
         }
     }
-    
+    /**
+     * checks if collided with outer limits
+     */
     private void checkColision(){
         //check for out of bounds collision
         if(getX() >= Game.getDisplay().getWidth() - width){
@@ -123,7 +127,9 @@ public class Enemy3 extends Enemy {
             setY(0);
         }
     }
-    
+    /**
+     * turns the enemy to the player's position
+     */
     private void turn(){
         // delta X and Y are calculated
         double deltaX = (player.getX()+player.getWidth()/2) - ( x + getHeight() / 2);
@@ -153,13 +159,18 @@ public class Enemy3 extends Enemy {
         shotTimer2.update();
         
     }
-    
+    /**
+     * moves to where the enemy is looking
+     */
     private void move(){
         // moves the way it is looking
         setX(getX() + ((float)(Math.cos(theta + Math.PI / 2)) * 4));
         setY(getY() + ((float)(Math.sin(theta + Math.PI / 2)) * 4));
     }
     
+    /**
+     * shoots when facing the player
+     */
     private void shoot(){
             float xMID = getX() + getWidth()/2;
             float yMID = getY() + getHeight()/2;
@@ -168,6 +179,9 @@ public class Enemy3 extends Enemy {
             bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
             bullets.add(new Bullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
     }
+    /**
+     * updates the object
+     */
     @Override
     public void update(){
         super.update();
@@ -205,7 +219,10 @@ public class Enemy3 extends Enemy {
         healthBar.setY(y - 10);
         
     }
-    
+    /**
+     * renders the object
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) { 
         super.render(g);
@@ -214,17 +231,24 @@ public class Enemy3 extends Enemy {
             healthBar.render(g);
         }
     }
-    
+    /**
+     * creates hitbox
+     * @return 
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
     }
-    
+    /**
+     * checks if mouse is on top of the object to render healthbar
+     */
     @Override
     public void mouseEnter() {
         shouldRenderBar = true;
     }
-    
+    /**
+     * checks if mouse is no longer on top of the object
+     */
     @Override
     public void mouseLeave() {
         shouldRenderBar = false;

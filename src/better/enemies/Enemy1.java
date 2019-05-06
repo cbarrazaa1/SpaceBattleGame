@@ -46,7 +46,9 @@ public class Enemy1 extends Enemy {
         img = Assets.images.get("EnemyShip1");
         spawnEnemy();
     }
-
+    /**
+     * spawns the enemy
+     */
     private void spawnEnemy(){
         float pX = player.getX();
         float pY = player.getY();
@@ -54,7 +56,7 @@ public class Enemy1 extends Enemy {
         // width and heignt of the game
         int WIDTH = Game.getDisplay().getWidth();
         int HEIGHT = Game.getDisplay().getHeight();
-        
+        // checks position of the player
         int cuadrant = 1;
         if (pX < WIDTH / 2 && pY > HEIGHT / 2) cuadrant = 3;
         if (pX > WIDTH / 2 && pY > HEIGHT / 2) cuadrant = 2;
@@ -66,6 +68,7 @@ public class Enemy1 extends Enemy {
         int rY = (int)(Math.random() * (HEIGHT - 100)) + 50;
         int rNum = (int)(Math.random() * 2);
         
+        // depending on player position the enemy spawn is decided
         switch(cuadrant){
             case 1:
                 if(rNum == 0){
@@ -105,7 +108,9 @@ public class Enemy1 extends Enemy {
                 break;      
         }
     }
-    
+    /**
+     * checks for collision with outer limits
+     */
     private void checkColision(){
         //check for out of bounds collision
         if(getX() >= Game.getDisplay().getWidth() - width){
@@ -124,13 +129,17 @@ public class Enemy1 extends Enemy {
             setY(1);
         }
     }
-    
+    /**
+     * updates the object
+     */
     @Override
     public void update(){
         super.update();
+        // gets width and height of the display
         int WIDTH = Game.getDisplay().getWidth();
         int HEIGHT = Game.getDisplay().getHeight();
         
+        // moves the object into the display
         if(spawning) {
             if(getX() > WIDTH - 100) {
                 setX(getX() - 2);
@@ -179,7 +188,10 @@ public class Enemy1 extends Enemy {
         theta -= Math.PI / 2;
         
     }
-    
+    /**
+     * renders the object
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) { 
         super.render(g);
@@ -188,17 +200,24 @@ public class Enemy1 extends Enemy {
             healthBar.render(g);
         }
     }
-    
+    /**
+     * creates hitbox
+     * @return 
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
     }
-    
+    /**
+     * checks if mouse is on top of the object to render healthbar
+     */
     @Override
     public void mouseEnter() {
         shouldRenderBar = true;
     }
-    
+    /**
+     * checks if mouse is no longer on top of the object
+     */
     @Override
     public void mouseLeave() {
         shouldRenderBar = false;
