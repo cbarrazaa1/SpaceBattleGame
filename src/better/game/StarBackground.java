@@ -42,13 +42,11 @@ public class StarBackground extends GameObject {
     private float velX;
     private float velY;
     private ArrayList<Star> stars;
-    private boolean canMove;
     
-    public StarBackground(float velX, float velY, boolean canMove) {
+    public StarBackground(float velX, float velY) {
         super(0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight());
         this.velX = velX;
         this.velY = velY;
-        this.canMove = canMove;
         stars = new ArrayList<>();
         for(int i = 0; i < NUM_STARS; i++) {
             int r = Util.randNum(0, 100);
@@ -72,56 +70,28 @@ public class StarBackground extends GameObject {
 
     @Override
     public void update() {
-        float vX = velX;
-        float vY = velY;
-        boolean moving = false;
-        
-        if(canMove) {
-            if(Game.getKeyManager().isKeyDown(KeyEvent.VK_W)) {
-                vY += 0.2f;
-                moving = true;
-            }
-            if(Game.getKeyManager().isKeyDown(KeyEvent.VK_A)) {
-                vX += 0.2f;
-                moving = true;
-            }
-            if(Game.getKeyManager().isKeyDown(KeyEvent.VK_S)) {
-                vY -= 0.2f;
-                moving = true;
-            }
-            if(Game.getKeyManager().isKeyDown(KeyEvent.VK_D)) {
-                vX -= 0.2f;
-                moving = true;
-            } 
-        }
-        
-        if(!moving) {
-            vX = velX;
-            vY = velY;
-        }
-        
         for(Star star : stars) {
-            float dx = (star.type == 0 ? vX : vX * 1.3f);
-            float dy = (star.type == 0 ? vY : vY * 1.3f);
+            float dx = (star.type == 0 ? velX : velX * 1.3f);
+            float dy = (star.type == 0 ? velY : velY * 1.3f);
             star.x += dx;
             star.y += dy;
             
-            if(vX < 0 && star.x + star.img.getWidth() <= 0) {
+            if(velX < 0 && star.x + star.img.getWidth() <= 0) {
                 star.x = Game.getDisplay().getWidth();
                 star.y = Util.randNum(0, Game.getDisplay().getHeight());
             }
             
-            if(vX > 0 && star.x >= Game.getDisplay().getWidth()) {
+            if(velX > 0 && star.x >= Game.getDisplay().getWidth()) {
                 star.x = -star.img.getWidth();
                 star.y = Util.randNum(0, Game.getDisplay().getHeight());
             }
             
-            if(vY < 0 && star.y + star.img.getHeight() <= 0) {
+            if(velY < 0 && star.y + star.img.getHeight() <= 0) {
                 star.y = Game.getDisplay().getHeight();
                 star.x = Util.randNum(0, Game.getDisplay().getWidth());
             }
             
-            if(vY > 0 && star.y >= Game.getDisplay().getHeight()) {
+            if(velY > 0 && star.y >= Game.getDisplay().getHeight()) {
                 star.y = -star.img.getHeight();
                 star.x = Util.randNum(0, Game.getDisplay().getWidth());
             }
