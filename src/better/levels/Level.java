@@ -14,6 +14,7 @@ import better.enemies.Enemy;
 import better.enemies.Enemy1;
 import better.enemies.OGEnemy1;
 import better.bullets.Bullet;
+import better.core.Timer;
 import better.game.Coin;
 import better.game.Light2D;
 import better.game.Player;
@@ -48,6 +49,8 @@ public abstract class Level implements LevelEventListener {
     protected LevelEventListener eventListener;
     private UILabel lblScore;
     
+    private Timer tmrPlayTime;
+    
     public Level(Player player) {
         lights = new ArrayList<>();
         lightsToRemove = new ArrayList<>();
@@ -68,6 +71,8 @@ public abstract class Level implements LevelEventListener {
         
         // UI
         lblScore = new UILabel(15, 544, "Score: 0", Color.WHITE, UILabel.DEFAULT_FONT);
+        
+        tmrPlayTime = new Timer(1d);
     }
     
     public void render(Graphics2D g) {
@@ -145,6 +150,7 @@ public abstract class Level implements LevelEventListener {
             if(player.getArmor() <= 0) {
                 eventListener.onGameOver();
                 LevelScreen.getInstance().setGameOver();
+                player.getStats().setDeaths(player.getStats().getDeaths() + 1);
             }   
 
             // check for switching bullet
@@ -233,7 +239,8 @@ public abstract class Level implements LevelEventListener {
                     
                     // remove enemy
                     eventListener.onEnemyDead(enemy);
-                    enemies.remove(enemy);                  
+                    enemies.remove(enemy);      
+                    player.getStats().setEnemiesKilled(player.getStats().getEnemiesKilled() + 1);
                 }
             }
 
@@ -244,6 +251,7 @@ public abstract class Level implements LevelEventListener {
                 
                 if(player.intersects(coin)) {
                     collectedCoins++;
+                    player.getStats().setCoins(player.getStats().getCoins() + 1);
                     coins.remove(i);
                 }
             }
@@ -275,6 +283,13 @@ public abstract class Level implements LevelEventListener {
                 lights.remove(light);
             }
             lightsToRemove.clear();
+            
+            // update play time
+            if(tmrPlayTime.isActivated()) {
+                player.getStats().setTimeSeconds(player.getStats().getTimeSeconds() + 1);
+                tmrPlayTime.restart();
+            }
+            tmrPlayTime.update();
         }
         
         // update score

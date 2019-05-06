@@ -16,7 +16,9 @@ import better.scenes.SelectablePlanet.PlanetState;
 import better.ui.UIButton;
 import better.ui.UIControl;
 import better.ui.UILabel;
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -116,6 +118,8 @@ public class LevelSelectScreen extends Screen {
     private String funFactPlanet;
     private int funFactIndex;
     private final String[] planets = { "Sun", "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"};
+    private boolean showStats;
+    private ArrayList<UIControl> statsControls;
     
     @Override
     public void init() {
@@ -147,6 +151,10 @@ public class LevelSelectScreen extends Screen {
         });
         
         UIButton btnSave = new UIButton(58, 478, 188, 51, Assets.images.get("LevelSelectSave"));
+        btnSave.setOnClickListener(() -> {
+            showStats = true;
+        });
+        
         UIButton btnMainMenu = new UIButton(58, 539, 188, 51, Assets.images.get("LevelSelectMainMenu"));
         
         UILabel lblSelectedPlanet = new UILabel(0, 45, "NEPTUNE", new Color(255f / 255f, 237f / 255f, 211f / 255f, 1f), UILabel.DEFAULT_FONT);
@@ -257,6 +265,26 @@ public class LevelSelectScreen extends Screen {
         
         // music
         Assets.playMusic(Assets.mainMenu);
+        
+        // Stats Window
+        UIButton btnClose = new UIButton(306, 368, 188, 51, Assets.images.get("GameStatsClose"));
+        btnClose.setOnClickListener(() -> {
+            showStats = false;
+        });
+        
+        UILabel lblPlayTime = new UILabel(449, 219, player.getStats().getTimePlayed(), Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblDeaths = new UILabel(449, 247, String.valueOf(player.getStats().getDeaths()), Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblEnemiesKilled = new UILabel(449, 276, String.valueOf(player.getStats().getEnemiesKilled()), Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblBulletsShot = new UILabel(449, 304, String.valueOf(player.getStats().getShots()), Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblCoinsCollected = new UILabel(449, 332, String.valueOf(player.getStats().getCoins()), Color.WHITE, UILabel.DEFAULT_FONT);
+        
+        statsControls = new ArrayList<>();
+        statsControls.add(btnClose);
+        statsControls.add(lblPlayTime);
+        statsControls.add(lblDeaths);
+        statsControls.add(lblEnemiesKilled);
+        statsControls.add(lblBulletsShot);
+        statsControls.add(lblCoinsCollected);
     }
 
     @Override
@@ -356,6 +384,21 @@ public class LevelSelectScreen extends Screen {
         for(SelectablePlanet planet : selectablePlanets) {
             planet.render(g);
         }
+        
+        // render stats
+        if(showStats) {
+            g.setColor(new Color(0, 0, 0, 200));
+            g.fillRect(0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight());
+            
+            Composite orig = g.getComposite();
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
+            g.drawImage(Assets.images.get("GameStatsWindow"), 220, 165, 360, 270, null);
+            for(UIControl control : statsControls) {
+                control.render(g);
+            }
+            
+            g.setComposite(orig);
+        }
     }
 
     @Override
@@ -367,6 +410,13 @@ public class LevelSelectScreen extends Screen {
         // update objects
         for(SelectablePlanet planet : selectablePlanets) {
             planet.update();
+        }
+        
+        // update stat controls
+        if(showStats) {
+            for(UIControl control : statsControls) {
+                control.update();
+            }
         }
     }
     

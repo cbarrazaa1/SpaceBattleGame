@@ -20,6 +20,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashSet;
+
 /**
  *
  * @author rogel
@@ -37,6 +38,7 @@ public class Player extends GameObject {
     private int currBullet;
     private int selectedPal;
     private String bulletTypes;
+    private Stats stats;
     
     // In-Game Data //
     private double theta;
@@ -81,6 +83,8 @@ public class Player extends GameObject {
         bulletTypes = "";
         selectedBullet = -1;
         canAct = true;
+        
+        stats = new Stats(-1, 0, 0, 0, 0, 0, 0);
     }
 
     @Override
@@ -90,7 +94,7 @@ public class Player extends GameObject {
         g.rotate(theta, getWidth() / 2, getHeight() / 2);
         if (!isDashing()){
             g.drawImage(getSkinImg(skin), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
-        }else{
+        } else{
             // Should be a dashing image
             g.drawImage(getSkinImg(skin), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         }
@@ -181,6 +185,7 @@ public class Player extends GameObject {
             if(didShoot) {
                 Assets.playerShoot.play();
                 setShooting(true);   
+                stats.setShots(stats.getShots() + 1);
             }
             if(autoRestart) {
                 shotTimer.restart(0.2);
@@ -503,6 +508,10 @@ public class Player extends GameObject {
         for(Integer i : set) {
             bulletTypes += String.valueOf(i) + ",";
         }
+    }
+    
+    public Stats getStats() {
+        return stats;
     }
     
     public BufferedImage getSkinImg(int skin) {
