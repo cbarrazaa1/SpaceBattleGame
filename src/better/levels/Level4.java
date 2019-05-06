@@ -47,13 +47,15 @@ public class Level4 extends Level {
         eventListener = this;
         enemyCounter = 0;
     }
-    
+    /**
+     * update the level
+     */
     @Override
     public void update() {
         super.update();
         if(spawnTimer.isActivated() && enemyCounter < 10) {
             //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
-            enemies.add(new Enemy1(64, 64, 100, 10, 50, player, bullets, lights));
+            enemies.add(new Enemy1(64, 64, 35, 80, 50, player, bullets, lights));
             enemyCounter++;
             
             spawnTimer.restart(Util.randNumF(0.5f, 2f));
@@ -62,7 +64,7 @@ public class Level4 extends Level {
         spawnTimer.update();
         if(spawnTimer2.isActivated() && enemyCounter < 10) {
             //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
-            enemies.add(new Enemy2(64, 64, 100, 10, 40, player, bullets, lights));
+            enemies.add(new Enemy2(64, 64, 50, 40, 40, player, bullets, lights));
             enemyCounter++;
             
             spawnTimer2.restart(Util.randNumF(1.5f, 3f));
@@ -85,7 +87,10 @@ public class Level4 extends Level {
         }
         
     }
-    
+    /**
+     * on asteroid death
+     * @param enemy 
+     */
     private void asteroidDeath(Enemy enemy){
         if (enemy instanceof Asteroid1){
             Enemy e = enemy;
@@ -97,7 +102,10 @@ public class Level4 extends Level {
             }
         }
     }
-    
+    /**
+     * on enemy death
+     * @param enemy 
+     */
     @Override
     public void onEnemyDead(Enemy enemy) {
         defeated++;
@@ -109,7 +117,7 @@ public class Level4 extends Level {
 
         // spawn powerup
         if (endTimer.isActivated()){
-            collectedCoins += 45;
+            collectedCoins += 450;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));

@@ -48,7 +48,9 @@ public class Level7 extends Level {
         eventListener = this;
         deadBosses = 0;
     }
-    
+    /**
+     * updates the level
+     */
     @Override
     public void update() {
         super.update();

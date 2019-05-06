@@ -156,8 +156,7 @@ public class TwinBoss1 extends Enemy {
         // for when the diference in angles is more the 180 degrees
         if (theta + Math.PI/2 - Math.atan2(deltaY, deltaX) > Math.PI){
             theta -= 2*Math.PI;
-        }
-        if (theta + Math.PI/2 - Math.atan2(deltaY, deltaX) < -Math.PI){
+        }if (theta + Math.PI/2 - Math.atan2(deltaY, deltaX) < -Math.PI){
             theta += 2*Math.PI;
         }
     }
@@ -232,7 +231,7 @@ public class TwinBoss1 extends Enemy {
             }
             shootTimer2.update();
             if (shootTimer3.isActivated()){
-                shootTimer3.restart(Util.randNumF(5, 10));
+                shootTimer3.restart(Util.randNumF(1, 7));
                 shoot3();
             }
             shootTimer3.update();
@@ -253,10 +252,10 @@ public class TwinBoss1 extends Enemy {
         }
         
     }  
-  /**
-   * crates hitbox
-   * @return rect
-   */
+    /**
+     * crates hitbox
+     * @return rect
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 32, y + 32, 64, 64);

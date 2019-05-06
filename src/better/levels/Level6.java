@@ -47,13 +47,15 @@ public class Level6 extends Level {
         eventListener = this;
         shouldSpawnBoss = false;
     }
-    
+    /**
+     * update the level
+     */
     @Override
     public void update() {
         super.update();
         if(spawnTimer.isActivated() && defeated <= TO_DEFEAT) {
             
-            enemies.add(new EnemyTurret1(32, 32, 100, 10, 30, player, bullets, lights));
+            enemies.add(new EnemyTurret1(32, 32, 100, 60, 30, player, bullets, lights));
             
             spawnTimer.restart(Util.randNumF(3f, 3.5f));
             
@@ -62,7 +64,7 @@ public class Level6 extends Level {
         
         if(spawnTimer2.isActivated() && defeated <= TO_DEFEAT) {
             
-            enemies.add(new EnemyTurret2(32, 32, 100, 10, 30, player, bullets, lights));
+            enemies.add(new EnemyTurret2(32, 32, 130, 100, 30, player, bullets, lights));
             
             spawnTimer2.restart(Util.randNumF(1.5f, 3.5f));
             
@@ -74,18 +76,21 @@ public class Level6 extends Level {
         }
         
         if (bossSpawn.isActivated()){
-            enemies.add(new BossTurret1(128, 128, 100, 10, 1500, player, bullets, lights));
+            enemies.add(new BossTurret1(128, 128, 700, 0, 1500, player, bullets, lights));
             bossSpawn.restart();
             shouldSpawnBoss = false;
         }
     }
-    
+    /**
+     * on enemy death
+     * @param enemy 
+     */
     @Override
     public void onEnemyDead(Enemy enemy) {
         defeated++;
         
         if (enemy instanceof BossTurret1){
-            collectedCoins += 100;
+            collectedCoins += 800;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));
