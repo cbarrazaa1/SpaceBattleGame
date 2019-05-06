@@ -115,8 +115,8 @@ public class Boss3 extends Enemy {
             shootTimer.restart(health > 300 ? Util.randNumF(0.2f, 2) : (health > 100 ? Util.randNumF(0.2f, 1) : Util.randNumF(0.1f, 0.5f)));
             float xF = (float)Math.cos(theta) * 30;
             float yF = (float)Math.sin(theta) * 30;
-            bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 12, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-            bullets.add(new Bullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 12, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+            bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 12, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+            bullets.add(new Bullet(xMID - xF, yMID - yF, 8, 17, 10, theta, 12, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
         } else {
             shootTimer.update();
         }
@@ -179,7 +179,7 @@ public class Boss3 extends Enemy {
         if (shootTimer2.isActivated()){
             shootTimer2.restart(Util.randNumF(0.2f, 0.4f));
             bullets.add(new GuidedBullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 12, 12, 8,
-                            playerTheta, 5, Assets.images.get("ProtonShot"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+                            playerTheta, 5, Assets.images.get("ProtonShot"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights, player));
                 
         }
         shootTimer2.update();
