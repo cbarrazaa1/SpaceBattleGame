@@ -143,6 +143,7 @@ public abstract class Level implements LevelEventListener {
             armorBar.setValue(player.getArmor());
             energyBar.setValue(player.getEnergy());
             if(player.getArmor() <= 0) {
+                eventListener.onGameOver();
                 LevelScreen.getInstance().setGameOver();
             }   
 

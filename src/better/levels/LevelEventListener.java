@@ -13,4 +13,5 @@ import better.enemies.Enemy;
  */
 public interface LevelEventListener {
     public void onEnemyDead(Enemy enemy);
+    public void onGameOver();
 }

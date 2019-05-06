@@ -26,6 +26,7 @@ public class EnemyTutorial extends Enemy {
     public static int STATE_ENEMY2 = 3;
     public static int STATE_ENEMY2_FINISHED = 4;
     public static int STATE_ENEMY2_FIGHT = 5;
+    public static int STATE_ENEMY2_END = 6;
     
     private ArrayList<Bullet> bullets;
     private int state;
@@ -118,6 +119,24 @@ public class EnemyTutorial extends Enemy {
             // theta is calculated
             theta = this.getThetaTo(player);
             theta -= Math.PI / 2;
+        } else if(state == STATE_ENEMY2) {
+            y++;
+            
+            if(y >= 20) {
+                state = STATE_ENEMY2_FINISHED;
+            }
+        } else if(state == STATE_ENEMY2_FIGHT) {
+            if(shootTimer <= 0) {
+                bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 8, 17, 120,
+                            theta, 7, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
+                shootTimer = 8;
+            }
+            shootTimer--;
+            
+            x += 3;
+            if(x >= Game.getDisplay().getWidth() + 20) {
+                state = STATE_ENEMY2_END;
+            }
         }
     }
     

@@ -8,10 +8,14 @@ package better.levels;
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
+import better.core.Util;
 import better.enemies.Enemy;
+import better.enemies.Enemy1;
 import better.enemies.EnemyTutorial;
 import better.game.Player;
+import better.scenes.LevelScreen;
 import better.ui.UIButton;
+import better.ui.UILabel;
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Graphics2D;
@@ -65,9 +69,13 @@ public class LevelTutorial extends Level {
     private boolean startAimingTimer;
     private Timer tmrDashing;
     private boolean startDashingTimer;
+    private Timer spawnTimer;
+    private boolean spawnEnemies;
+    private int defeated;
     
     // Enemy References //
     private EnemyTutorial enemy1;
+    private EnemyTutorial enemy2;
     
     public LevelTutorial(Player player) {
         super(player);
@@ -77,7 +85,7 @@ public class LevelTutorial extends Level {
         
         btnNext = new UIButton(154 + 314, 0, 160, 46, Assets.images.get("TutorialNext"));
         btnNext.setOnClickListener(() -> {
-            if(State == TutorialState.Movement || State == TutorialState.Aiming || State == TutorialState.FirstEnemy || State == TutorialState.Dashing) {
+            if(State == TutorialState.Movement || State == TutorialState.Aiming || State == TutorialState.FirstEnemy || State == TutorialState.Dashing || State == TutorialState.SecondEnemy || State == TutorialState.End || State == TutorialState.Victory) {
                 nextState(false);
             } else {
                 nextState(true);
@@ -155,9 +163,9 @@ public class LevelTutorial extends Level {
             if(startDashingTimer) {
                 if(tmrDashing.isActivated()) {
                     player.setAct(false);
-                    shouldShow = true;
-                    nextState(true);
                     tmrDashing = null;
+                    enemy2 = new EnemyTutorial(40, -100, 64, 64, 0, 10, 100, player, bullets, lights, EnemyTutorial.STATE_ENEMY2);
+                    enemies.add(enemy2);
                 }
                 if(tmrDashing != null) {
                     tmrDashing.update();
@@ -167,6 +175,37 @@ public class LevelTutorial extends Level {
                     startDashingTimer = true;
                 }
             }
+        }
+        
+        // Enemy2 Timer //
+        if(enemy2 != null) {
+            if(enemy2.getState() == EnemyTutorial.STATE_ENEMY2_FINISHED) {
+                enemy2.setState(EnemyTutorial.STATE_ENEMY2_FIGHT);
+                shouldShow = true;
+                nextState(true);     
+                enemy2.setAct(false);
+            } else if(enemy2.getState() == EnemyTutorial.STATE_ENEMY2_FIGHT) {
+                if(!enemy2.isAlive()) {
+                    enemy2 = null;
+                    shouldShow = true;
+                    nextState(true);
+                    player.setAct(false);
+                }
+            } else if(enemy2.getState() == EnemyTutorial.STATE_ENEMY2_END) {
+                enemy2 = null;
+                shouldShow = true;
+                nextState(true);
+                player.setAct(false);
+            }
+        }
+        
+        // Spawn Enemies
+        if(spawnEnemies) {
+            if(spawnTimer.isActivated()) {
+                enemies.add(new Enemy1(64, 64, 25, 10, 50, player, bullets, lights));
+                spawnTimer.restart(Util.randNumF(1.5f, 3f));
+            }
+            spawnTimer.update();
         }
     }
 
@@ -209,7 +248,15 @@ public class LevelTutorial extends Level {
     
     @Override
     public void onEnemyDead(Enemy enemy) {
+        defeated++;
         
+        if(defeated == 7) {
+            enemies.clear();
+            spawnEnemies = false;
+            shouldShow = true;
+            nextState(true);
+            player.setAct(false);            
+        }
     }
     
     private void nextState(boolean change) {
@@ -227,6 +274,20 @@ public class LevelTutorial extends Level {
             } else if(State == TutorialState.Dashing) {
                 tmrDashing = new Timer(3d);
                 startDashingTimer = false;
+            } else if(State == TutorialState.SecondEnemy) {
+                enemy2.setAct(true);
+            } else if(State == TutorialState.End) {
+                spawnTimer = new Timer(0.5d);
+                spawnEnemies = true;
+            } else if(State == TutorialState.Victory) {
+                LevelScreen.getInstance().setVictory();
+                UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
+                lblScore.setText(String.valueOf(score));
+
+                UILabel lblCoins = (UILabel)LevelScreen.getInstance().getUIControl("lblCoins");
+                lblCoins.setText(String.valueOf(collectedCoins));
+                player.setCoins(player.getCoins() + collectedCoins);
+                State = TutorialState.Dummy;
             }
             return;
         }
@@ -282,6 +343,16 @@ public class LevelTutorial extends Level {
             case Victory:
                 btnNext.setY(imgY + 122);
                 break;
+        }
+    }
+    
+    @Override
+    public void onGameOver() {
+        System.out.println(State);
+        if(State == TutorialState.FirstEnemy) {
+             State = TutorialState.Movement;
+        } else if(State == TutorialState.SecondEnemy || State == TutorialState.End) {
+            State = TutorialState.Coins;
         }
     }
 }
