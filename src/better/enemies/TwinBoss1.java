@@ -9,6 +9,7 @@ import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
 import better.bullets.Bullet;
+import better.core.Util;
 import better.game.Light2D;
 import better.game.Player;
 import better.game.StatusBar;
@@ -31,6 +32,8 @@ public class TwinBoss1 extends Enemy {
     private Timer shootTimer;
     private boolean hasSpawned;
     private UILabel lblName; 
+    private boolean angry;
+    private boolean healthfull;
     
     // Level Bullets //
     private ArrayList<Bullet> bullets;
@@ -45,6 +48,8 @@ public class TwinBoss1 extends Enemy {
         img = Assets.images.get("EnemyShip1");
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
         lblName = new UILabel(10, 4, "WTC", Color.WHITE, UILabel.DEFAULT_FONT);
+        angry = false;
+        healthfull = false;
     }
     
     @Override
@@ -74,7 +79,7 @@ public class TwinBoss1 extends Enemy {
             }
 
             if((getX() < xPos - 10 || getX() > xPos + 10) && (getY() < yPos - 10 || getY() > yPos + 10)){
-                float speed = (health > 350 ? 2 : (health > 100 ? 4.5f : 5.5f));
+                float speed = (health > 350 ? 4 : (health > 100 ? 5.5f : 6.5f));
                 setX(getX() + ((float)(Math.cos(movTheta+Math.PI))*speed));
                 setY(getY() + ((float)(Math.sin(movTheta+Math.PI))*speed));
             }
@@ -96,7 +101,7 @@ public class TwinBoss1 extends Enemy {
         float yMID = getY() + getHeight()/2;
         
         if (shootTimer.isActivated()) {
-            shootTimer.restart(health > 350 ? Math.random()*2 : (health > 100 ? 0.2d : 0.1d));
+            shootTimer.restart(health > 350 ? Util.randNumF(0.3f, 1) : (health > 100 ? 0.2d : 0.1d));
             float xF = (float)Math.cos(theta) * 30;
             float yF = (float)Math.sin(theta) * 30;
             bullets.add(new Bullet(xMID + xF, yMID + yF, 8, 17, 10, theta, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
@@ -104,6 +109,10 @@ public class TwinBoss1 extends Enemy {
         } else {
             shootTimer.update();
         }
+    }
+    
+    public void angry(){
+        angry = true;
     }
     
     @Override
@@ -132,7 +141,14 @@ public class TwinBoss1 extends Enemy {
         
         // shooting function
         shoot();
-
+        
+        if (angry && !healthfull){
+            health += 2;
+            if (health == maxHealth){
+                healthfull = true;
+            }
+        }
+        
         // update healtbar
         healthBar.setValue(health);
         

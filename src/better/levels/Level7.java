@@ -37,6 +37,7 @@ public class Level7 extends Level {
     private int defeated;
     private Timer spawnTimer;
     private Timer spawnTimer2;
+    private int deadBosses;
     
     
     public Level7(Player player) {
@@ -45,6 +46,7 @@ public class Level7 extends Level {
         spawnTimer = new Timer(1f);
         spawnTimer2 = new Timer(3);
         eventListener = this;
+        deadBosses = 0;
     }
     
     @Override
@@ -52,7 +54,7 @@ public class Level7 extends Level {
         super.update();
         if(spawnTimer.isActivated() && defeated <= TO_DEFEAT) {
             
-            enemies.add(new Enemy1(32, 32, 100, 10, 30, player, bullets, lights));
+            enemies.add(new Enemy1(64, 64, 100, 10, 1, player, bullets, lights));
             
             spawnTimer.restart(Util.randNumF(3f, 3.5f));
             
@@ -74,7 +76,26 @@ public class Level7 extends Level {
     public void onEnemyDead(Enemy enemy) {
         defeated++;
         
-        if (enemy instanceof BossTurret1){
+        if (enemy instanceof TwinBoss1){
+            deadBosses++;
+            for (Enemy e : enemies){
+                if (e instanceof TwinBoss2){
+                    TwinBoss2 T2 = (TwinBoss2)e;
+                    T2.angry();
+                }
+            }
+        }
+        if (enemy instanceof TwinBoss2){
+            deadBosses++;
+            for (Enemy e : enemies){
+                if (e instanceof TwinBoss1){
+                    TwinBoss1 T1 = (TwinBoss1)e;
+                    T1.angry();
+                }
+            }
+        }
+        
+        if ((enemy instanceof TwinBoss1 || enemy instanceof TwinBoss2) && deadBosses == 2){
             collectedCoins += 100;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
@@ -87,8 +108,7 @@ public class Level7 extends Level {
         
         if(defeated == TO_DEFEAT) {
             enemies.add(new TwinBoss1(Game.getDisplay().getWidth() / 4 - 75, -300, 128, 128, 150, 0, 750, player, bullets, lights));
-            enemies.add(new TwinBoss2(Game.getDisplay().getWidth() * 3 / 4 - 75, -300, 128, 128, 150, 0, 750, player, bullets, lights));
-
+            enemies.add(new TwinBoss2(Game.getDisplay().getWidth() * 3 / 4 - 75, -300, 128, 128, 150, 0, 50, player, bullets, lights));
         }
         
         
