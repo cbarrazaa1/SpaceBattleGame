@@ -193,18 +193,20 @@ public class TwinBoss1 extends Enemy {
         // shooting function
         if (!angry){
             if (shootTimer.isActivated()) {
-                shootTimer.restart(health > 350 ? Util.randNumF(0.5f,2.5f) : (health > 100 ? Util.randNumF(0.5f,2) : Util.randNumF(0.5f, 1)));
+                shootTimer.restart(health > 350 ? Util.randNumF(0.5f,2f) : (health > 100 ? Util.randNumF(0.5f,1) : Util.randNumF(0.5f, 0.7f)));
                 shoot();
             }
             shootTimer.update();
         }else{
             if (shootTimer.isActivated()) {
-                shootTimer.restart(0.3);
+                int num = Util.randNum(1, 5);
+                if (num == 1) shootTimer.restart(2);
+                else shootTimer.restart(0.3);
                 shoot();
             }
             shootTimer.update();
             if (shootTimer2.isActivated()) {
-                shootTimer2.restart(Util.randNumF(0.3f, 1));
+                shootTimer2.restart(Util.randNumF(0.3f, 3));
                 shoot2();
             }
             shootTimer2.update();

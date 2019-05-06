@@ -107,8 +107,8 @@ public class Level7 extends Level {
         }
         
         if(defeated == TO_DEFEAT) {
-            enemies.add(new TwinBoss1(Game.getDisplay().getWidth() / 4 - 75, -300, 128, 128, 150, 0, 750, player, bullets, lights));
-            enemies.add(new TwinBoss2(Game.getDisplay().getWidth() * 3 / 4 - 75, -300, 128, 128, 150, 0, 50, player, bullets, lights));
+            enemies.add(new TwinBoss1(Game.getDisplay().getWidth() / 4 - 75, -300, 128, 128, 150, 0, 500, player, bullets, lights));
+            enemies.add(new TwinBoss2(Game.getDisplay().getWidth() * 3 / 4 - 75, -300, 128, 128, 150, 0, 500, player, bullets, lights));
         }
         
         
