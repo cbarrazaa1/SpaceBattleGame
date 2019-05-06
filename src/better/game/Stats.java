@@ -42,9 +42,9 @@ public class Stats {
 
     public void setTimeSeconds(int timeSeconds) {
         this.timeSeconds = timeSeconds;
-        if(timeSeconds == 60) {
+        if(this.timeSeconds == 60) {
             timeMinutes++;
-            timeSeconds = 0;
+            this.timeSeconds = 0;
         }
         
     }
