@@ -307,11 +307,11 @@ public class LevelScreen extends Screen {
                 level = new Level5(player);
                 break;
             case 7:
-                Assets.playMusic(Assets.level8);
+                Assets.playMusic(Assets.level7);
                 level = new Level6(player);
                 break;
             case 8:
-                Assets.playMusic(Assets.level8);
+                Assets.playMusic(Assets.level9);
                 level = new Level7(player);
                 break;
             case 9:

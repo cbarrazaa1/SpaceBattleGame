@@ -56,7 +56,7 @@ public class OGBoss extends Enemy {
         stop = new Timer(6);
         move = new Timer(0);
         guidedTimer = new Timer(0.3);
-        lblName = new UILabel(10, 4, "Pointiff Sulivhan", Color.WHITE, UILabel.DEFAULT_FONT);
+        lblName = new UILabel(10, 4, "Emperor Bob", Color.WHITE, UILabel.DEFAULT_FONT);
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 1.0f);
     }
     /**

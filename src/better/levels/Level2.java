@@ -44,6 +44,10 @@ public class Level2 extends Level {
      */
     @Override
     public void update() {
+        if(LevelScreen.getInstance().isPaused()) {
+            return;
+        }
+        
         super.update();
         if(spawnTimer.isActivated()) {
             enemies.add(new Enemy2(64, 64, 50, 50, 30, player, bullets, lights));

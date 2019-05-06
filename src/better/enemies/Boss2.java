@@ -47,7 +47,7 @@ public class Boss2 extends Enemy {
         hasSpawned = false;
         img = Assets.images.get("Rotor");
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
-        lblName = new UILabel(10, 4, "Pinweel", Color.WHITE, UILabel.DEFAULT_FONT);
+        lblName = new UILabel(10, 4, "Pinwheel", Color.WHITE, UILabel.DEFAULT_FONT);
         lightColor = new Color(219, 219, 23);
     }
     /**
