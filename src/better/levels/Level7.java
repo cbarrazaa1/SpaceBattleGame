@@ -33,10 +33,11 @@ import better.ui.UILabel;
  * @author Rogelio Martinez
  */
 public class Level7 extends Level {
-    private static final int TO_DEFEAT = 1;
+    private static final int TO_DEFEAT = 25;
     private int defeated;
     private Timer spawnTimer;
     private Timer spawnTimer2;
+    private Timer spawnTimer3;
     private int deadBosses;
     
     
@@ -45,6 +46,7 @@ public class Level7 extends Level {
         defeated = 0;
         spawnTimer = new Timer(1f);
         spawnTimer2 = new Timer(3);
+        spawnTimer3 = new Timer(5);
         eventListener = this;
         deadBosses = 0;
     }
@@ -60,22 +62,31 @@ public class Level7 extends Level {
         super.update();
         if(spawnTimer.isActivated() && defeated <= TO_DEFEAT) {
             
-            enemies.add(new Enemy1(64, 64, 100, 10, 1, player, bullets, lights));
+            enemies.add(new Enemy1(64, 64, 100, 80, 40, player, bullets, lights));
             
-            spawnTimer.restart(Util.randNumF(3f, 3.5f));
+            spawnTimer.restart(Util.randNumF(7f, 8.5f));
             
         }
         spawnTimer.update();
-        /*
+        
         if(spawnTimer2.isActivated() && defeated <= TO_DEFEAT) {
             
-            enemies.add(new EnemyTurret2(32, 32, 100, 10, 30, player, bullets, lights));
+            enemies.add(new Enemy4(64, 64, 200, 120, 30, player, bullets, lights));
             
-            spawnTimer2.restart(Util.randNumF(1.5f, 3.5f));
+            spawnTimer2.restart(Util.randNumF(3.5f, 4.5f));
             
         }
         spawnTimer2.update();
-*/
+        
+        if(spawnTimer3.isActivated() && defeated <= TO_DEFEAT) {
+            
+            enemies.add(new Enemy2(64, 64, 150, 100, 30, player, bullets, lights));
+            
+            spawnTimer3.restart(Util.randNumF(8.5f, 9.5f));
+            
+        }
+        spawnTimer3.update();
+
     }
     
     @Override

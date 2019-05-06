@@ -43,7 +43,7 @@ public class Enemy4 extends Enemy {
         shootTimer = (int)(Math.random()*200);
         moveTimer = 0;
         spawning = true;
-        img = Assets.images.get("EnemyShip1");
+        img = Assets.images.get("EnemyShip1Blue");
         spawnEnemy();
     }
     /**
@@ -157,7 +157,7 @@ public class Enemy4 extends Enemy {
             // checks when its time for the next shot
             if (shootTimer <= 0){
                 bullets.add(new GuidedBullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 10, 10, 5,
-                            theta, 6, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+                            theta, 6, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.WHITE, lights, player));
                 shootTimer = (int)(Math.random() * 170);
             }
             shootTimer--;
