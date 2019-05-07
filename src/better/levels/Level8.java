@@ -49,7 +49,7 @@ public class Level8 extends Level {
         spawnTimer2 = new Timer(3);
         spawnTimer3 = new Timer(5);
         eventListener = this;
-        enemies.add(new Singularity(140, 140, 150, 0, 1500, player, bullets, lights, enemies));
+        enemies.add(new Singularity(140, 140, 1000, 1000, 1500, player, bullets, lights, enemies));
     }
     /**
      * updates the level
@@ -66,10 +66,10 @@ public class Level8 extends Level {
     @Override
     public void onEnemyDead(Enemy enemy) {
         if (enemy instanceof Singularity){
-            enemies.add(new TrueSingularity(100, 100, 150, 0, 1500, player, bullets, lights));
+            enemies.add(new TrueSingularity(100, 100, 2000, 0, 1500, player, bullets, lights));
         }
         if (enemy instanceof TrueSingularity){
-            collectedCoins += 100;
+            collectedCoins += 5000;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));
