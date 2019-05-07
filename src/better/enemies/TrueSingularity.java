@@ -210,8 +210,8 @@ public class TrueSingularity extends Enemy {
             shootTimer.restart(0.15);
             float xF = (float)Math.cos(theta) * 15;
             float yF = (float)Math.sin(theta) * 15;
-            double num = Math.PI/16;
-            double num2 = Math.PI/4;
+            double num = Math.PI/12;
+            double num2 = Math.PI/3;
             bullets.add(new Bullet(xMID + xF, yMID + yF, 10, 20, 10, theta-Math.PI + num, 8, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
             bullets.add(new Bullet(xMID - xF, yMID - yF, 10, 20, 10, theta-Math.PI - num, 8, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
             bullets.add(new GuidedBullet(xMID + xF, yMID + yF, 10, 20, 10, theta-Math.PI + num2, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
