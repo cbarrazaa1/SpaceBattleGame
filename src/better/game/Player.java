@@ -23,7 +23,8 @@ import java.util.HashSet;
 
 /**
  *
- * @author rogel
+ * @author Rogelio Martinez
+ * @author Cesar Barraza
  */
 
 public class Player extends GameObject {    
