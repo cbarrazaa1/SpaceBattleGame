@@ -20,6 +20,7 @@ import better.levels.Level5;
 import better.levels.LevelTutorial;
 import better.levels.Level6;
 import better.levels.Level7;
+import better.levels.Level8;
 import better.ui.UIControl;
 import better.ui.UILabel;
 import java.awt.AlphaComposite;
@@ -311,11 +312,12 @@ public class LevelScreen extends Screen {
                 level = new Level6(player);
                 break;
             case 8:
-                Assets.playMusic(Assets.level9);
+                Assets.playMusic(Assets.level8);
                 level = new Level7(player);
                 break;
             case 9:
                 Assets.playMusic(Assets.level9);
+                level = new Level8(player);
                 break;
         }
     }
