@@ -39,6 +39,7 @@ public class Player extends GameObject {
     private int selectedPal;
     private String bulletTypes;
     private Stats stats;
+    private ArrayList<HighscoreData> highscoreData;
     
     // In-Game Data //
     private double theta;
@@ -85,6 +86,9 @@ public class Player extends GameObject {
         canAct = true;
         
         stats = new Stats(-1, 0, 0, 0, 0, 0, 0);
+        for(int i = 0; i < 9; i++) {
+            highscoreData.add(new HighscoreData(0, 0));
+        }
     }
 
     @Override
@@ -512,6 +516,10 @@ public class Player extends GameObject {
     
     public Stats getStats() {
         return stats;
+    }
+    
+    public ArrayList<HighscoreData> getHighscoreData() {
+        return highscoreData;
     }
     
     public BufferedImage getSkinImg(int skin) {
