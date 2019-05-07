@@ -355,7 +355,7 @@ public class TrueSingularity extends Enemy {
     public void update(){
         // regen health when the boss is spawning
         if (isSpawning){
-            health += 4;
+            health += 6;
             if (health >= maxHealth){
                 isSpawning = false;
             }
