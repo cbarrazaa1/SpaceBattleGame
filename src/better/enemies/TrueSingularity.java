@@ -28,7 +28,7 @@ import java.util.ArrayList;
  *
  * @author Cesar Barraza
  * @author Rogelio Martinez
- * Boss that moves fast and shoots faster
+ * Final Boss of the game
  */
 public class TrueSingularity extends Enemy {
     private Timer moveTimer;
@@ -66,7 +66,7 @@ public class TrueSingularity extends Enemy {
         isSpawning = true;
     }
     /**
-     * render the heelthbar
+     * render the healthbar
      * @param g 
      */
     @Override
@@ -76,6 +76,9 @@ public class TrueSingularity extends Enemy {
         lblName.render(g);
         healthBar.render(g);
     }
+    /**
+     * spawns the boss in the center of the display 
+     */
     private void spawn(){
         x = Game.getDisplay().getWidth()/2 - width/2;
         y = Game.getDisplay().getHeight()/2 - height/2;
@@ -100,6 +103,7 @@ public class TrueSingularity extends Enemy {
         hasSpawned = true;
         
     }
+    
     /**
      * moves to a random position
      */
@@ -153,6 +157,10 @@ public class TrueSingularity extends Enemy {
         shootTimer.update();
         
     }
+    /**
+     * shoots normal and guided bullets
+     * moves slowly randomly
+     */
     private void attackP1(){
         float xMID = getX() + getWidth()/2;
         float yMID = getY() + getHeight()/2;
@@ -189,7 +197,10 @@ public class TrueSingularity extends Enemy {
         }
         moveTimer.update();
     }
-    
+    /**
+     * shoots all types of bullets
+     * and does not move
+     */
     private void attackP2(){
         float xMID = getX() + getWidth()/2;
         float yMID = getY() + getHeight()/2;
@@ -219,7 +230,9 @@ public class TrueSingularity extends Enemy {
         shootTimer3.update();
         
     }
-    
+    /**
+     * shoots bullets in all directions
+     */
     private void attackP3(){
         float xMID = getX() + getWidth()/2;
         float yMID = getY() + getHeight()/2;
@@ -234,7 +247,9 @@ public class TrueSingularity extends Enemy {
         }
         shootTimer.update();
     }
-    
+    /**
+     * shoots a heavy bullet randomly
+     */
     private void attackP4(){
         float xMID = getX() + getWidth()/2;
         float yMID = getY() + getHeight()/2;
@@ -248,8 +263,10 @@ public class TrueSingularity extends Enemy {
         }
         shootTimer3.update();
     }
+    
     /**
      * shoots in all directions
+     * bullets have different speeds
      */
     private void explode(){
         float xMID = getX() + getWidth()/2;
@@ -336,6 +353,7 @@ public class TrueSingularity extends Enemy {
     float rotation = 0;
     @Override
     public void update(){
+        // regen health when the boss is spawning
         if (isSpawning){
             health += 4;
             if (health >= maxHealth){
@@ -346,30 +364,30 @@ public class TrueSingularity extends Enemy {
             turn();
             return;
         }
-        
+        // shoot at health 1500 to 1300
         if(health > 1300){
             shoot();
             turn();
             move();
-        }else if (health > 1000){
+        }else if (health > 1000){ // attack pattern 1 at health 1300 to 1000
             x += xSpeed;
             y += ySpeed;
             attackP1();
             turn();
-        }else if(health > 800){
+        }else if(health > 800){ // shoot at helath 1000 to 800
             shoot();
             turn();
             move();
-        }else if (health > 500){
+        }else if (health > 500){ // attack pattern 2 al heath 800 to 500
             attackP2();
             turn();
-        }else if (health > 200){
+        }else if (health > 200){ // attack pattern 3 at health 500 to 200
             attackP3();
             theta += Math.PI/160;
             isDying = true;
             moveTimer.restart(0.1);
             
-        }else{
+        }else{ // attack pattern 4 at health 200 to 0
             attackP4();
             if (moveTimer.isActivated()){
                 moveTimer.restart(Util.randNumF(0.5f, 1.5f));
@@ -384,7 +402,7 @@ public class TrueSingularity extends Enemy {
             theta += rotation;
         }
         this.bounceOnColision();
-        
+        // shoot in all directions randomly
         if (explodeTimer.isActivated() && !isDying){
             explode();
             explodeTimer.restart(Util.randNum(8, 15));
