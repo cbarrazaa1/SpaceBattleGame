@@ -170,7 +170,7 @@ public class TwinBoss1 extends Enemy {
         float yMID = getY() + getHeight()/2;
         angry = true;
         maxHealth = 1000;
-        healthBar = new StatusBar(10, 53, 6, 11, Assets.images.get("ArmorBar"), health, maxHealth, 0.40f);
+        healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), health, maxHealth, 0.40f);
         Color c = new Color(167, 20, 173);
         for (int i = 1; i <= 12; i++){
             bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + Math.PI*i/12, 7, Assets.images.get("TripleShot"), Bullet.BULLET_TYPE_ENEMY, c, lights));
