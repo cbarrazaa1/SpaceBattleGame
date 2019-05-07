@@ -34,6 +34,11 @@ public class Game implements Runnable {
     private static Thread thread; // the main game running thread
     private static boolean isRunning; // denotes whether the game is running or not
     
+    private int fps;
+    private int maxFps = 0;
+    private int minFps = 60;
+    private int fpsCounter = 0;
+    private static Timer fpsTimer; // timer for fps
     private Timer screenTimer; // timer for screen fading
     private static boolean isChangingScreen; // flag to determine if screen is fading or not
     private static Screen nextScreen; // determines screen that will appear after fading
@@ -52,6 +57,7 @@ public class Game implements Runnable {
         keyManager = new KeyManager();
         mouseManager = new MouseManager();
         init(title, width, height);
+        fpsTimer = new Timer(1d);
     }
     /**
      * @return the keyManager
@@ -199,6 +205,20 @@ public class Game implements Runnable {
             // actually render the whole scene
             bs.show();
             g.dispose();
+            
+            fps++;
+            if(fpsTimer.isActivated()) {
+                if(fps > maxFps) {
+                    maxFps = fps;
+                }
+                if(fps < minFps) {
+                    minFps = fps;
+                }
+                System.out.println("[" + fpsCounter++ + "] FPS: " + fps + ", Max: " + maxFps + ", Min: " + minFps);
+                fps = 0;
+                fpsTimer.restart();
+            }
+            fpsTimer.update();
         }
     }
     
