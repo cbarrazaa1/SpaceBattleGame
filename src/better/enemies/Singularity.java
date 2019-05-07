@@ -48,7 +48,7 @@ public class Singularity extends Enemy {
         shootTimer = new Timer(1);
         hasSpawned = false;
         img = Assets.images.get("TheSingularity");
-        healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
+        healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.51f);
         lblName = new UILabel(10, 4, "The Black Hole", Color.WHITE, UILabel.DEFAULT_FONT);
         lightColor = new Color(219, 219, 23);
         spawn();
