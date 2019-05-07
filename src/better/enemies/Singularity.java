@@ -163,7 +163,7 @@ public class Singularity extends Enemy {
         light.setX(x + width/2);
         light.setY(y + height/2);
         spawnTimer.update();
-        
+        /*
         if (spawnTimer.isActivated()){
             spawnTimer.restart(15);
             Enemy1 e = new Enemy1(64, 64, 100, 80, 40, player, bullets, lights);
@@ -171,7 +171,7 @@ public class Singularity extends Enemy {
             e.setY(y+64);
             enemies.add(e);
         }
-
+        */
         // shooting function
         if (health > 1300){
             //rotate

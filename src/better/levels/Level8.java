@@ -22,6 +22,7 @@ import better.enemies.Enemy4;
 import better.enemies.EnemyTurret1;
 import better.enemies.EnemyTurret2;
 import better.enemies.Singularity;
+import better.enemies.TrueSingularity;
 import better.enemies.TwinBoss1;
 import better.enemies.TwinBoss2;
 import better.game.Powerup;
@@ -64,8 +65,10 @@ public class Level8 extends Level {
     
     @Override
     public void onEnemyDead(Enemy enemy) {
-
         if (enemy instanceof Singularity){
+            enemies.add(new TrueSingularity(100, 100, 150, 0, 1000, player, bullets, lights));
+        }
+        if (enemy instanceof TrueSingularity){
             collectedCoins += 100;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
