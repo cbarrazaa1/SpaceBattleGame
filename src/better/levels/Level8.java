@@ -66,7 +66,7 @@ public class Level8 extends Level {
     @Override
     public void onEnemyDead(Enemy enemy) {
         if (enemy instanceof Singularity){
-            enemies.add(new TrueSingularity(100, 100, 150, 0, 1000, player, bullets, lights));
+            enemies.add(new TrueSingularity(100, 100, 150, 0, 1500, player, bullets, lights));
         }
         if (enemy instanceof TrueSingularity){
             collectedCoins += 100;
