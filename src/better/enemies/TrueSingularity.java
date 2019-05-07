@@ -41,6 +41,7 @@ public class TrueSingularity extends Enemy {
     float xSpeed;
     float ySpeed;
     boolean isDying;
+    boolean isSpawning;
     
     // Level Bullets //
     private ArrayList<Bullet> bullets;
@@ -49,7 +50,7 @@ public class TrueSingularity extends Enemy {
         super(0, 0, width, height, score, coins, maxHealth, player, lights);
         this.bullets = bullets;
         theta = 0;
-        moveTimer = new Timer(0);
+        moveTimer = new Timer(1);
         shootTimer = new Timer(1);
         shootTimer2 = new Timer(1);
         shootTimer3 = new Timer(0.3);
@@ -57,11 +58,12 @@ public class TrueSingularity extends Enemy {
         hasSpawned = false;
         img = Assets.images.get("TheHedgeShip");
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.40f);
-        lblName = new UILabel(10, 4, "The Abyss Watcher", Color.WHITE, UILabel.DEFAULT_FONT);
+        lblName = new UILabel(10, 4, "The Singularity", Color.WHITE, UILabel.DEFAULT_FONT);
         xSpeed = 0;
         ySpeed = 0;
         spawn();
         isDying = false;
+        isSpawning = true;
     }
     /**
      * render the heelthbar
@@ -81,6 +83,8 @@ public class TrueSingularity extends Enemy {
         float xMID = getX() + getWidth()/2;
         float yMID = getY() + getHeight()/2;
         
+        this.health = 20;
+        
         for (int i = 1; i <= 12; i++){
             bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta + i*Math.PI/8, 4, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
         }
@@ -94,7 +98,7 @@ public class TrueSingularity extends Enemy {
             bullets.add(new Bullet(xMID, yMID, 10, 21, 10, theta - i*Math.PI/7, 3, Assets.images.get("Boss2Shot"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
         }
         hasSpawned = true;
-        moveTimer.restart(3);
+        
     }
     /**
      * moves to a random position
@@ -196,9 +200,11 @@ public class TrueSingularity extends Enemy {
             float xF = (float)Math.cos(theta) * 15;
             float yF = (float)Math.sin(theta) * 15;
             double num = Math.PI/16;
-            
+            double num2 = Math.PI/4;
             bullets.add(new Bullet(xMID + xF, yMID + yF, 10, 20, 10, theta-Math.PI + num, 8, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
             bullets.add(new Bullet(xMID - xF, yMID - yF, 10, 20, 10, theta-Math.PI - num, 8, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+            bullets.add(new GuidedBullet(xMID + xF, yMID + yF, 10, 20, 10, theta-Math.PI + num2, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+            bullets.add(new GuidedBullet(xMID - xF, yMID - yF, 10, 20, 10, theta-Math.PI - num2, 8, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
             
         }
         shootTimer.update();
@@ -330,20 +336,34 @@ public class TrueSingularity extends Enemy {
     float rotation = 0;
     @Override
     public void update(){
+        if (isSpawning){
+            health += 4;
+            if (health >= maxHealth){
+                isSpawning = false;
+            }
+            // update healtbar
+            healthBar.setValue(health);
+            turn();
+            return;
+        }
         
-        if(health > 800){
+        if(health > 1300){
             shoot();
             turn();
             move();
-        }else if (health > 600){
+        }else if (health > 1000){
             x += xSpeed;
             y += ySpeed;
             attackP1();
             turn();
-        }else if (health > 400){
+        }else if(health > 800){
+            shoot();
+            turn();
+            move();
+        }else if (health > 500){
             attackP2();
             turn();
-        }else if (health > 300){
+        }else if (health > 200){
             attackP3();
             theta += Math.PI/160;
             isDying = true;
@@ -367,7 +387,7 @@ public class TrueSingularity extends Enemy {
         
         if (explodeTimer.isActivated() && !isDying){
             explode();
-            explodeTimer.restart(15);
+            explodeTimer.restart(Util.randNum(8, 15));
         }
         explodeTimer.update();
         
