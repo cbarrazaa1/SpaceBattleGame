@@ -172,6 +172,9 @@ public class LevelSelectScreen extends Screen {
         UILabel lblEnergy = new UILabel(0, 440, "Energy Level: " + player.getEnergyLvl(), Color.WHITE, UILabel.DEFAULT_FONT);
         lblEnergy.setFontSize(13);
         
+        UILabel lblName = new UILabel(0, 384, player.getName(), Color.WHITE, UILabel.DEFAULT_FONT);
+        lblName.setFontSize(11);
+        
         uiControls.put("btnPlayLevel", btnPlayLevel);
         uiControls.put("btnHighscores", btnHighscores);
         uiControls.put("btnCustomize", btnCustomize);
@@ -183,6 +186,7 @@ public class LevelSelectScreen extends Screen {
         uiControls.put("lblCoins", lblCoins);
         uiControls.put("lblArmor", lblArmor);
         uiControls.put("lblEnergy", lblEnergy);
+        uiControls.put("lblName", lblName);
         
         // Objects
         selectablePlanets = new ArrayList<>();
@@ -322,7 +326,7 @@ public class LevelSelectScreen extends Screen {
         g.drawImage(Assets.images.get(s + "Fact" + funFactIndex), 336, 524, 346, 61, null);
         
         // render ship 
-        g.drawImage(player.getSkinImg(player.getSkin()), 29, 318, 64, 64, null);
+        g.drawImage(player.getSkinImg(player.getSkin()), 29, 306, 64, 64, null);
         
         // render coin icon
         g.drawImage(Assets.images.get("coin"), 64, 411, 7, 7, null);
@@ -383,6 +387,12 @@ public class LevelSelectScreen extends Screen {
                 lbl.calculateDimensions(g);
                 lbl.setX(120 + (92 - lbl.getWidth() / 2));
             }   
+            
+            if(key.equals("lblName")) {
+                UILabel lbl = (UILabel)val;
+                lbl.calculateDimensions(g);
+                lbl.setX(60 - lbl.getWidth() / 2);
+            }
         } 
         
         // render objects

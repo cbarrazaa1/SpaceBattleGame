@@ -8,14 +8,17 @@ package better.scenes;
 import better.assets.Assets;
 import better.core.Game;
 import better.game.GameObject;
+import better.game.MessageBox;
 import better.game.Player;
 import better.game.StarBackground;
 import better.ui.UIButton;
 import better.ui.UIControl;
 import better.ui.UILabel;
+import better.ui.UITextbox;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
@@ -79,6 +82,8 @@ public class ChoosePalScreen extends Screen {
     private SelectablePal adaPal;
     
     private StarBackground sb;
+    private UITextbox txtBox;
+    private MessageBox msgBox;
     
     @Override
     public void init() {
@@ -91,24 +96,28 @@ public class ChoosePalScreen extends Screen {
         UIButton btnConfirm = new UIButton(578, 503, 205, 56, Assets.images.get("PalScreenConfirm"));
         btnConfirm.setEnabled(false);
         btnConfirm.setOnClickListener(() -> {
-            Player player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 64, 64, 1, 1);
-            player.setName("");
-            int selectedPal = 0;
-            if(yothPal.isSelected()) {
-                selectedPal = 0;
+            if(txtBox.getText().length() < 4) {
+                msgBox = new MessageBox("Your name must be at least 4 characters long!", MessageBox.MSG_TYPE_OK, null, null);
+            } else {
+                Player player = new Player(Game.getDisplay().getWidth() / 2, Game.getDisplay().getHeight() / 2, 64, 64, 1, 1);
+                player.setName(txtBox.getText());
+                int selectedPal = 0;
+                if(yothPal.isSelected()) {
+                    selectedPal = 0;
+                }
+
+                if(lakPal.isSelected()) {
+                    selectedPal = 1;
+                }
+
+                if(adaPal.isSelected()) {
+                    selectedPal = 2;
+                }
+                player.setSelectedPal(selectedPal);
+                Game.setCurrentScreen(LevelSelectScreen.getInstance());
+                LevelSelectScreen.getInstance().setPlayer(player);
+                LevelSelectScreen.getInstance().init(); 
             }
-            
-            if(lakPal.isSelected()) {
-                selectedPal = 1;
-            }
-            
-            if(adaPal.isSelected()) {
-                selectedPal = 2;
-            }
-            player.setSelectedPal(selectedPal);
-            Game.setCurrentScreen(LevelSelectScreen.getInstance());
-            LevelSelectScreen.getInstance().setPlayer(player);
-            LevelSelectScreen.getInstance().init();
         });
         
         UILabel lblSelectedPal = new UILabel(0, 504, "", Color.WHITE, UILabel.DEFAULT_FONT);
@@ -157,6 +166,7 @@ public class ChoosePalScreen extends Screen {
         });
         
         sb = new StarBackground(0, 0.5f);
+        txtBox = new UITextbox(316, 451);
     }
 
     @Override
@@ -186,20 +196,31 @@ public class ChoosePalScreen extends Screen {
         yothPal.render(g);
         lakPal.render(g);
         adaPal.render(g);
+        
+        txtBox.render(g);
+        
+        if(msgBox != null && msgBox.isVisible()) {
+            msgBox.render(g);
+        }
     }
 
     @Override
     public void update() {
-        for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
-            entry.getValue().update();
+        if(msgBox != null && msgBox.isVisible()) {
+            msgBox.update();
+        } else {
+            for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
+                entry.getValue().update();
+            }
+
+            // update objects
+            yothPal.update();
+            lakPal.update();
+            adaPal.update();
+
+            sb.update();
+            txtBox.update();  
         }
-         
-        // update objects
-        yothPal.update();
-        lakPal.update();
-        adaPal.update();
-        
-        sb.update();
     }
     
 }
