@@ -118,7 +118,7 @@ public class LevelSelectScreen extends Screen {
     private int selectedPlanet;
     private String funFactPlanet;
     private int funFactIndex;
-    private final String[] planets = { "Sun", "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"};
+    public final String[] planets = { "Sun", "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"};
     private boolean showStats;
     private ArrayList<UIControl> statsControls;
     private StarBackground sb;
