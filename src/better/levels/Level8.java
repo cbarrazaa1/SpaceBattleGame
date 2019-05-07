@@ -33,6 +33,7 @@ import better.ui.UILabel;
  *
  * @author Cesar Barraza
  * @author Rogelio Martinez
+ * Last level, contains final boss
  */
 public class Level8 extends Level {
     private static final int TO_DEFEAT = 25;
@@ -62,7 +63,10 @@ public class Level8 extends Level {
         
         super.update();
     }
-    
+    /**
+     * called when an enemy dies
+     * @param enemy 
+     */
     @Override
     public void onEnemyDead(Enemy enemy) {
         if (enemy instanceof Singularity){

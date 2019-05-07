@@ -82,7 +82,10 @@ public abstract class Level implements LevelEventListener {
         
         tmrPlayTime = new Timer(1d);
     }
-    
+    /**
+     * render objects in level
+     * @param g 
+     */
     public void render(Graphics2D g) {
         // render background
         g.drawImage(Assets.images.get("ExpBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
@@ -151,6 +154,9 @@ public abstract class Level implements LevelEventListener {
         }  
     }
     
+    /**
+     * update the objects in the level
+     */
     public void update() {
         if(!(LevelScreen.getInstance().isGameOver() || LevelScreen.getInstance().hasVictory() || LevelScreen.getInstance().isPaused())) {
             sb.update();
