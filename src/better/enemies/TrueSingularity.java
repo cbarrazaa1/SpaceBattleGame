@@ -56,7 +56,7 @@ public class TrueSingularity extends Enemy {
         shootTimer3 = new Timer(0.3);
         explodeTimer = new Timer(15);
         hasSpawned = false;
-        img = Assets.images.get("TheHedgeShip");
+        img = Assets.images.get("TheRealSingularity");
         healthBar = new StatusBar(10, 23, 6, 11, Assets.images.get("ArmorBar"), maxHealth, maxHealth, 0.51f);
         lblName = new UILabel(10, 4, "The Singularity", Color.WHITE, UILabel.DEFAULT_FONT);
         xSpeed = 0;

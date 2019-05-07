@@ -151,7 +151,7 @@ public class Player extends GameObject {
                     didShoot = false;
                 }
             } else if(selectedBullet == Bullet.BULLET_HEAVY_SHOT) {
-                bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 7, 19, 25 + (energy / 3),
+                bullets.add(new Bullet(getX() + getWidth() / 2, getY() + getHeight() / 2, 7, 19, 35 + (energy / 6),
                         theta - Math.PI, 5, Assets.images.get("HeavyShot"), Bullet.BULLET_TYPE_PLAYER, new Color(170, 67, 10), lights)); 
                 autoRestart = false;
                 shotTimer.restart(0.7);
