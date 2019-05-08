@@ -48,7 +48,8 @@ public class MainMenuScreen extends Screen {
         });
         UIButton btnLoadGame = new UIButton(302, 232, 205, 56, Assets.images.get("LoadGameButton"));
         btnLoadGame.setOnClickListener(() -> {
-
+            Player player = SQLManager.selectPlayer(1);
+            System.out.println(player.getCoins());
         });
         
         UIButton btnOptions = new UIButton(302, 304, 205, 56, Assets.images.get("OptionsButton"));

@@ -159,7 +159,9 @@ public class LevelSelectScreen extends Screen {
         UIButton btnHighscores = new UIButton(48, 154, 205, 56, Assets.images.get("LevelSelectHighscores"));
         btnHighscores.setOnClickListener(() -> {
             player.setId(1);
-            SQLManager.updatePlayer(player);
+            SQLManager.selectHighscores(player);
+            System.out.println(player.getHighscoreData().get(1).getPersonalBest());
+            System.out.println(player.getHighscoreData().get(1).getTimesPlayed());
         });
         
         UIButton btnCustomize = new UIButton(132, 294, 160, 46, Assets.images.get("LevelSelectCustomize"));

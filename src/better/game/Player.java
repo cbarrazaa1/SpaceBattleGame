@@ -649,6 +649,7 @@ public class Player extends GameObject {
     public ArrayList<HighscoreData> getHighscoreData() {
         return highscoreData;
     }
+    
     /**
      * returns the player image
      * @param skin

@@ -30,8 +30,143 @@ public class SQLManager {
         return DriverManager.getConnection(url, user, password);
     }
     /**
+     * 
+     * @param statsID
+     * @return 
+     */
+    public static Stats selectStats(int statsID) {
+        String SQL = "SELECT * FROM stats WHERE statsID = " + statsID;
+        Stats stats = null;
+        int deaths = 0;
+        int coinsCollected = 0;
+        int enemiesKilled = 0;
+        int bulletsShot = 0;
+        int playTimeMin = 0;
+        int playTimeSec = 0;
+            
+        try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
+                        
+            ResultSet rs = stmt.executeQuery(SQL);
+            
+            while (rs.next()) {
+                deaths = rs.getInt(2);
+                coinsCollected = rs.getInt(3);
+                enemiesKilled = rs.getInt(4);
+                bulletsShot = rs.getInt(5);
+                playTimeMin = rs.getInt(6);
+                playTimeSec = rs.getInt(7);
+            }
+            
+            rs.close();
+            stmt.close();
+            
+            stats = new Stats(statsID, 0, 0, 0, 0, 0, 0);
+            stats.setDeaths(deaths);
+            stats.setCoins(coinsCollected);
+            stats.setEnemiesKilled(enemiesKilled);
+            stats.setShots(bulletsShot);
+            stats.setTimeMinutes(playTimeMin);
+            stats.setTimeSeconds(playTimeSec);
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        return stats;
+    }
+    /**
+     * 
+     * @param userID
+     * @return 
+     */
+    public static Player selectPlayer(int userID){
+        String SQL = "SELECT * FROM players WHERE userID = " + userID;
+        Player player = null;
+                
+        try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
+                        
+            ResultSet rs = stmt.executeQuery(SQL);
+            
+            int statsID = 0;
+            String username = "";
+            int lvl = 0;
+            int armorLvl = 0;
+            int energyLvl = 0;
+            int coins = 0;
+            int skin = 0;
+            int currBullet = 0;
+            int palID = 0;
+            String bulletType = "";
+            
+            while (rs.next()) {
+                statsID = rs.getInt(2);
+                username = rs.getString(3);
+                lvl = rs.getInt(4);
+                armorLvl = rs.getInt(5);
+                energyLvl = rs.getInt(6);
+                coins = rs.getInt(7);
+                skin = rs.getInt(8);
+                currBullet = rs.getInt(9);
+                palID = rs.getInt(10);
+                bulletType = rs.getString(11);
+            }
+            
+            rs.close();
+            stmt.close();
+            
+            player = new Player (0, 0, 64, 64, armorLvl, energyLvl);
+            player.setStats(selectStats(statsID));
+            player.setName(username);
+            player.setCoins(coins);
+            player.setLevel(lvl);
+            player.setSkin(skin);
+            player.setCurrBullet(currBullet);
+            player.setSelectedPal(palID);
+            player.setBulletTypes(bulletType);
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return player;
+    }
+    /**
+     * Select highscore data
+     * @param levelID
+     * @param userID
+     * @return highscoreData
+     */
+    public static HighscoreData selectHighscores(Player player) {
+        int levelID = player.getLevel();
+        int userID = player.getId();
+        String SQL = "SELECT * FROM highscores WHERE levelID = " + levelID + " AND userID = " + userID;
+        HighscoreData highscoreData = null;
+        
+        try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
+            
+            ResultSet rs = stmt.executeQuery(SQL);
+            
+            int personalBest = 0;
+            int timesPlayed = 0;
+            
+            while (rs.next()) {
+                personalBest = rs.getInt(3);
+                timesPlayed = rs.getInt(4);
+            }
+            
+            rs.close();
+            stmt.close();
+            
+            player.getHighscoreData().get(1).setPersonalBest(personalBest);
+            player.getHighscoreData().get(1).setTimesPlayed(timesPlayed);
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return highscoreData;
+    }
+    /**
      * Insert statistics elements into table stats
-     * @param stat
+     * @param player
      * @return player id
      */
     public static int insertStats(Player player) {
@@ -152,7 +287,7 @@ public class SQLManager {
     public static int insertHighScore(Player player) {
         int id = 0;
         int levelID = player.getLevel();
-        String SQL = "INSERT INTO highScores"
+        String SQL = "INSERT INTO highscores "
                + "VALUES (?, ?, ?, ?)";
         
         try (Connection conn = connect();
@@ -161,10 +296,10 @@ public class SQLManager {
             
             pstmt.setInt(1, levelID);
             pstmt.setInt(2, player.getId());
-            pstmt.setInt(3, 0); // personal best
-            pstmt.setInt(4, 0); // times played
+            pstmt.setInt(3, player.getHighscoreData().get(levelID).getPersonalBest()); // personal best
+            pstmt.setInt(4, player.getHighscoreData().get(levelID).getTimesPlayed()); // times played
          
-            int affectedRows = 0;
+            int affectedRows = pstmt.executeUpdate();
             
             if (affectedRows > 0) {
                 try (ResultSet rs = pstmt.getGeneratedKeys()) {
@@ -266,10 +401,10 @@ public class SQLManager {
     public static int updateHighScore(Player player) {
         String SQL = "UPDATE highScores "
                 + "SET "
-                + "personalBest = ?"
-                + "timesPlayed = ?"
-                + "WHERE levelID = ?"
-                + "WHERE userID = ?";
+                + "personalBest = ?,"
+                + "timesPlayed = ? "
+                + "WHERE levelID = ? AND "
+                + "userID = ?";
         
         int affectedRows = 0;
         int levelID = player.getLevel();
