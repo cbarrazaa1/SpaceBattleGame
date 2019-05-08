@@ -58,7 +58,6 @@ public class MainMenuScreen extends Screen {
             showLoad = true;
         });
         
-        UIButton btnOptions = new UIButton(302, 304, 205, 56, Assets.images.get("OptionsButton"));
         UIButton btnExit = new UIButton(302, 386, 205, 56, Assets.images.get("ExitButton"));
         btnExit.setOnClickListener(() -> {
             System.exit(0);
@@ -69,7 +68,6 @@ public class MainMenuScreen extends Screen {
         
         uiControls.put("btnNewGame", btnNewGame);
         uiControls.put("btnLoadGame", btnLoadGame);
-        uiControls.put("btnOptions", btnOptions);
         uiControls.put("btnExitGame", btnExit);
         
         txtName = new UITextbox(318, 250);
