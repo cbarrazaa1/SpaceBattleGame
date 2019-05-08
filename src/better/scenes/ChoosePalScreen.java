@@ -10,6 +10,7 @@ import better.core.Game;
 import better.game.GameObject;
 import better.game.MessageBox;
 import better.game.Player;
+import better.game.SQLManager;
 import better.game.StarBackground;
 import better.ui.UIButton;
 import better.ui.UIControl;
@@ -125,6 +126,7 @@ public class ChoosePalScreen extends Screen {
                     selectedPal = 2;
                 }
                 player.setSelectedPal(selectedPal);
+                SQLManager.insertPlayer(player);
                 Game.setCurrentScreen(LevelSelectScreen.getInstance());
                 LevelSelectScreen.getInstance().setPlayer(player);
                 LevelSelectScreen.getInstance().init(); 

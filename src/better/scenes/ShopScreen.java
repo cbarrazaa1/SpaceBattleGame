@@ -10,6 +10,7 @@ import better.bullets.Bullet;
 import better.core.Game;
 import better.game.MessageBox;
 import better.game.Player;
+import better.game.SQLManager;
 import better.input.MouseManager;
 import better.ui.UIButton;
 import better.ui.UILabel;
@@ -58,6 +59,7 @@ public class ShopScreen extends Screen {
         
         UIButton btnGoBack = new UIButton(573, 515, 205, 56, Assets.images.get("ShopGoBack"));
         btnGoBack.setOnClickListener(() -> {
+            SQLManager.updatePlayer(player);
             Game.setCurrentScreen(LevelSelectScreen.getInstance());
         });
         

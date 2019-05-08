@@ -76,7 +76,7 @@ public class Player extends GameObject {
         energyTimer = new Timer(0.1);
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
-        coins = 15000;
+        coins = 0;
         level = 1;
         currLevel = 0;
         skin = 0;

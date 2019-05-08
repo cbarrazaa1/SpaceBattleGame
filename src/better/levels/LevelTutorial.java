@@ -288,7 +288,8 @@ public class LevelTutorial extends Level {
                 LevelScreen.getInstance().setVictory();
                 UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
                 lblScore.setText(String.valueOf(score));
-
+                LevelScreen.getInstance().score = score;
+                
                 UILabel lblCoins = (UILabel)LevelScreen.getInstance().getUIControl("lblCoins");
                 lblCoins.setText(String.valueOf(collectedCoins));
                 player.setCoins(player.getCoins() + collectedCoins);

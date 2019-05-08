@@ -11,6 +11,7 @@ import better.core.Game;
 import better.game.GameObject;
 import better.game.MessageBox;
 import better.game.Player;
+import better.game.SQLManager;
 import better.ui.UIButton;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -142,6 +143,7 @@ public class CustomizeScreen extends Screen {
                     msgBox.hide();
                     player.setSkin(selectedShip);
                     player.setCurrBullet(selectedBullet);
+                    SQLManager.updatePlayer(player);
                     Game.setCurrentScreen(LevelSelectScreen.getInstance());
                 }, () -> {
                     msgBox.hide();
