@@ -25,7 +25,10 @@ public class Coin extends GameObject {
         img = Assets.images.get("coin");
         theta = 0.0d;
     }
-
+    /**
+     * renders the coin
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         AffineTransform orig = g.getTransform();
@@ -33,7 +36,9 @@ public class Coin extends GameObject {
         g.drawImage(img, 0, 0, (int)getWidth(), (int)getHeight(), null);
         g.setTransform(orig);
     }
-
+    /**
+     * updates the coin
+     */
     @Override
     public void update() {
         double distX = getDistXTo(player);

@@ -12,7 +12,8 @@ import java.awt.geom.AffineTransform;
 
 /**
  *
- * @author rogel
+ * @author Rogelio Martinez
+ * @author Cesar Barraza
  */
 public class BossOneShot extends GameObject {
 
@@ -22,7 +23,10 @@ public class BossOneShot extends GameObject {
         super(x, y, width, height);
         this.theta = theta;
     }
-
+    /**
+     * render the bullet
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         AffineTransform orig = g.getTransform();
@@ -31,7 +35,9 @@ public class BossOneShot extends GameObject {
         g.drawImage(Assets.images.get("BulletRed"), 0, 0, (int)(getWidth()), (int)(getHeight()), null);
         g.setTransform(orig);
     }
-    
+    /**
+     * updates de bullet
+     */
     @Override
     public void update() {
         // The bullet moves depending on the rotation of the player

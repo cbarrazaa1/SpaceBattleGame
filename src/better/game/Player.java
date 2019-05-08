@@ -23,7 +23,8 @@ import java.util.HashSet;
 
 /**
  *
- * @author rogel
+ * @author Rogelio Martinez
+ * @author Cesar Barraza
  */
 
 public class Player extends GameObject {    
@@ -91,7 +92,10 @@ public class Player extends GameObject {
             highscoreData.add(new HighscoreData(0, 0));
         }
     }
-
+    /**
+     * renders the player
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         AffineTransform orig = g.getTransform();
@@ -105,7 +109,9 @@ public class Player extends GameObject {
         }
         g.setTransform(orig);    
     }
-    
+    /**
+     * updates the player
+     */
     @Override
     public void update() {
         if(!canAct || getArmor() <= 0) {
@@ -233,7 +239,9 @@ public class Player extends GameObject {
         
         checkColision();
     }
-    
+    /**
+     * checks for out of bounds collision
+     */
     private void checkColision(){
         //check for out of bounds collision
         if (getX() >= Game.getDisplay().getWidth() - width){
@@ -254,96 +262,165 @@ public class Player extends GameObject {
         }
     }
     
+    /**
+     * the id
+     * @return id 
+     */
    public int getId() {
         return id;
     }
-
+   /**
+    * new id
+    * @param id 
+    */
     public void setId(int id) {
         this.id = id;
     }
-
+    /**
+     * the name
+     * @return name
+     */
     public String getName() {
         return name;
     }
-
+    /**
+     * new name
+     * @param name 
+     */
     public void setName(String name) {
         this.name = name;
     }
-
+    /**
+     * the maximum armor
+     * @return maxArmor
+     */
     public int getMaxArmor() {
         return maxArmor;
     }
-    
+    /**
+     * the armor level
+     * @return armorLvl
+     */
     public int getArmorLvl() {
         return armorLvl;
     }
-
+    /**
+     * sets new armor level
+     * @param armorLvl 
+     */
     public void setArmorLvl(int armorLvl) {
         this.armorLvl = armorLvl;
         calculateMaxArmor();
     }
-
+    /**
+     * the maximum enemrgy
+     * @return maxEnergy
+     */
     public int getMaxEnergy() {
         return maxEnergy;
     }
-    
+    /**
+     * the energy level
+     * @return energyLvl
+     */
     public int getEnergyLvl() {
         return energyLvl;
     }
-
+    /**
+     * new energy level
+     * @param energyLvl 
+     */
     public void setEnergyLvl(int energyLvl) {
         this.energyLvl = energyLvl;
         calculateMaxEnergy();
     }
-
+    /**
+     * the coins
+     * @return coins
+     */
     public int getCoins() {
         return coins;
     }
-
+    /**
+     * new coins
+     * @param coins 
+     */
     public void setCoins(int coins) {
         this.coins = coins;
     }
-
+    /**
+     * the level
+     * @return level
+     */
     public int getLevel() {
         return level;
     }
-
+    /**
+     * new level
+     * @param level 
+     */
     public void setLevel(int level) {
         this.level = level;
     }
-    
+    /**
+     * the current level
+     * @return currLevel
+     */
     public int getCurrLevel() {
         return currLevel;
     }
-
+    /**
+     * new current level
+     * @param currLevel 
+     */
     public void setCurrLevel(int currLevel) {
         this.currLevel = currLevel;
     }
-    
+    /**
+     * the skin
+     * @return skin
+     */
     public int getSkin() {
         return skin;
     }
-
+    /**
+     * new skin
+     * @param skin 
+     */
     public void setSkin(int skin) {
         this.skin = skin;
     }
-
+    /**
+     * the current bullet
+     * @return currbullet
+     */
     public int getCurrBullet() {
         return currBullet;
     }
-
+    /**
+     * new current bullet
+     * @param currBullet 
+     */
     public void setCurrBullet(int currBullet) {
         this.currBullet = currBullet;
     }
-    
+    /**
+     * the selected bullet
+     * @return selectedBullet
+     */
     public int getSelectedBullet() {
         return selectedBullet;
     }
-    
+    /**
+     * new selected bullet
+     * @param selected 
+     */
     public void setSelectedBullet(int selected) {
         this.selectedBullet = selected;
     }
-    
+    /**
+     * switch for the selected bullet
+     */
     public void switchSelectedBullet() {
         if(currBullet == -1) {
             return;
@@ -355,27 +432,45 @@ public class Player extends GameObject {
             selectedBullet = -1;
         }
     }
-
+    /**
+     * the selected pal
+     * @return selectedPal
+     */
     public int getSelectedPal() {
         return selectedPal;
     }
-
+    /**
+     * new selected pal
+     * @param selectedPal 
+     */
     public void setSelectedPal(int selectedPal) {
         this.selectedPal = selectedPal;
     }
-
+    /**
+     * the bylet types
+     * @return bulletTypes
+     */
     public String getBulletTypes() {
         return bulletTypes;
     }
-
+    /**
+     * new bulletTypes
+     * @param bulletTypes 
+     */
     public void setBulletTypes(String bulletTypes) {
         this.bulletTypes = bulletTypes;
     }
-    
+    /**
+     * new bullets
+     * @param bullets 
+     */
     public void setBullets(ArrayList<Bullet> bullets) {
         this.bullets = bullets;
     }
-    
+    /**
+     * new lights
+     * @param lights 
+     */
     public void setLights(ArrayList<Light2D> lights) {
         this.lights = lights;
     }
@@ -465,27 +560,39 @@ public class Player extends GameObject {
     public int getEnergy(){
         return energy;
     }
-    
+    /**
+     * recovers the stats
+     */
     public void recoverStats() {
         armor = maxArmor;
         energy = maxEnergy;
     }
-    
+    /**
+     * claculates armor based on level
+     */
     public void calculateMaxArmor() {
         maxArmor = 80 + armorLvl * 20;
         armor = maxArmor;
     }
-    
+    /**
+     * calculates energy based on level
+     */
     public void calculateMaxEnergy() {
         maxEnergy = 30 + energyLvl * 20;
         energy = maxEnergy;
     }
-    
+    /**
+     * creates hitbox
+     * @return rect
+     */
     @Override
     public Rectangle2D.Float getRect() {
         return new Rectangle2D.Float(x + 16, y + 16, 32, 32);
     }
-    
+    /**
+     * buts bullets in hash set
+     * @return res
+     */
     public HashSet<Integer> bulletsToHashSet() {
         if(bulletTypes.length() == 0) {
             return new HashSet<>();
@@ -499,22 +606,34 @@ public class Player extends GameObject {
         
         return res;
     }
-    
+    /**
+     * determines if player can act
+     * @param canAct 
+     */
     public void setAct(boolean canAct) {
         this.canAct = canAct;
     }
-    
+    /**
+     * checks if player can act
+     * @return canAct
+     */
     public boolean canAct() {
         return canAct;
     }
-    
+    /**
+     * lodes the bullet types from the hash set
+     * @param set 
+     */
     public void hashSetToBullets(HashSet<Integer> set) {
         bulletTypes = "";
         for(Integer i : set) {
             bulletTypes += String.valueOf(i) + ",";
         }
     }
-    
+    /**
+     * player stats
+     * @return stats
+     */
     public Stats getStats() {
         return stats;
     }
@@ -522,10 +641,19 @@ public class Player extends GameObject {
     public void setStats(Stats stats) {
         this.stats = stats;
     }
+    
+    /**
+     * high score data
+     * @return highscoreData
+     */
     public ArrayList<HighscoreData> getHighscoreData() {
         return highscoreData;
     }
-    
+    /**
+     * returns the player image
+     * @param skin
+     * @return img
+     */
     public BufferedImage getSkinImg(int skin) {
         if(skin == -1) {
             skin = this.skin;
