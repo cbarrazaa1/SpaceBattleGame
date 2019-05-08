@@ -142,7 +142,7 @@ public abstract class Enemy extends GameObject {
     public void mouseUp() { }
     
     /**
-     * changeds vulnerability to ceirtain bullets
+     * changes vulnerability to ceirtain bullets
      * @param bullet 
      */
     public void addInvulnerableTo(Bullet bullet) {
