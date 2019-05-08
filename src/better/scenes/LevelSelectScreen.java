@@ -47,23 +47,38 @@ class SelectablePlanet extends GameObject {
         selectedImg = img.getSubimage((int)(width * 2), 0, (int)width, (int)height);
         this.name = name;
     }
-
+    /**
+     * returns the planet name
+     * @return name
+     */
     public String getName() {
         return name;
     }
-    
+    /**
+     * new planet name
+     * @param name 
+     */
     public void setName(String name) {
         this.name = name;
     }
-    
+    /**
+     * new state
+     * @param state 
+     */
     public void setState(PlanetState state) {
         this.state = state;
     }
-    
+    /**
+     * returns planet state
+     * @return state
+     */
     public PlanetState getState() {
         return state;
     }
-    
+    /**
+     * renders the planet depending on its state
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) { 
         BufferedImage toRender = normalImg;
@@ -123,7 +138,9 @@ public class LevelSelectScreen extends Screen {
     private boolean showStats;
     private ArrayList<UIControl> statsControls;
     private StarBackground sb;
-    
+    /**
+     * initializes screen and its assets
+     */
     @Override
     public void init() {
         sb = new StarBackground(0, 0.5f);
@@ -299,7 +316,10 @@ public class LevelSelectScreen extends Screen {
         statsControls.add(lblBulletsShot);
         statsControls.add(lblCoinsCollected);
     }
-
+    /**
+     * render screen and its objects
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         g.drawImage(Assets.images.get("ExpBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
@@ -421,7 +441,9 @@ public class LevelSelectScreen extends Screen {
             g.setComposite(orig);
         }
     }
-
+    /**
+     * updates screen and its objects
+     */
     @Override
     public void update() {
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {
@@ -442,15 +464,24 @@ public class LevelSelectScreen extends Screen {
         
         sb.update();
     }
-    
+    /**
+     * new player
+     * @param player 
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
-  
+    /**
+     * returns the planet string
+     * @return selected planet string
+     */
     private String getPlanetString() {
         return planets[8 - selectedPlanet + 1];
     }
-    
+    /**
+     * sets planet as selected
+     * @param planet 
+     */
     private void selectPlanet(String planet) {
         for(int i = 0; i < selectablePlanets.size(); i++) {
             SelectablePlanet p = selectablePlanets.get(i);

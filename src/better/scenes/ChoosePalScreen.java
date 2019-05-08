@@ -31,15 +31,24 @@ class SelectablePal extends GameObject {
         selected = false;
         this.img = img;
     }
-    
+    /**
+     * returns if pal is selected
+     * @return selected
+     */
     public boolean isSelected() {
         return selected;
     }
-    
+    /**
+     * sets if selected
+     * @param selected 
+     */
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
-    
+    /**
+     * renders the pal
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         if(isSelected()) {
@@ -84,7 +93,9 @@ public class ChoosePalScreen extends Screen {
     private StarBackground sb;
     private UITextbox txtBox;
     private MessageBox msgBox;
-    
+    /**
+     * initializes the screen
+     */
     @Override
     public void init() {
         // UI
@@ -168,7 +179,10 @@ public class ChoosePalScreen extends Screen {
         sb = new StarBackground(0, 0.5f);
         txtBox = new UITextbox(316, 451);
     }
-
+    /**
+     * renders the screen and assets
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         g.drawImage(Assets.images.get("ExpBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
@@ -203,7 +217,9 @@ public class ChoosePalScreen extends Screen {
             msgBox.render(g);
         }
     }
-
+    /**
+     * updates the screen and its assets
+     */
     @Override
     public void update() {
         if(msgBox != null && msgBox.isVisible()) {

@@ -32,7 +32,10 @@ class SelectableRectangle extends GameObject {
         super(x, y, width, height);
         this.state = state;
     }
-
+    /**
+     * renders rectangle
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         Color color = new Color(255, 255, 255, 0);
@@ -50,12 +53,16 @@ class SelectableRectangle extends GameObject {
 
     @Override
     public void onClick() { }
-
+    /**
+     * checks if mouse is over the object
+     */
     @Override
     public void mouseEnter() { 
         hovering = true;
     }
-
+    /**
+     * checks if mouse is not over the object
+     */
     @Override
     public void mouseLeave() {
         hovering = false;
@@ -66,15 +73,24 @@ class SelectableRectangle extends GameObject {
 
     @Override
     public void mouseUp() { }
-    
+    /**
+     * returns state
+     * @return state
+     */
     public int getState() {
         return state;
     }
-    
+    /**
+     * sets new state
+     * @param state 
+     */
     public void setState(int state) {
         this.state = state;
     }
-    
+    /**
+     * checks is mouse is over object
+     * @return 
+     */
     public boolean isHovering() {
         return hovering;
     }
@@ -103,7 +119,9 @@ public class CustomizeScreen extends Screen {
     private ArrayList<SelectableRectangle> bulletRects;
     private HashSet<Integer> bullets;
     private BufferedImage descImg;
-    
+    /**
+     * initializes screen and its assets
+     */
     @Override
     public void init() {
         shipRects = new ArrayList<>();
@@ -231,7 +249,10 @@ public class CustomizeScreen extends Screen {
             bulletRects.get(selectedBullet).setState(SelectableRectangle.RECT_STATE_SELECTED);
         }  
     }
-
+    /**
+     * render screen and its assets
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         // draw screen
@@ -283,7 +304,9 @@ public class CustomizeScreen extends Screen {
             msgBox.render(g);
         }
     }
-
+    /**
+     * updates screen and its assets
+     */
     @Override
     public void update() {
         if(msgBox != null && msgBox.isVisible()) {
@@ -325,11 +348,17 @@ public class CustomizeScreen extends Screen {
             }
         }
     } 
-    
+    /**
+     * sets new player
+     * @param player 
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
-    
+    /**
+     * sets selected ship
+     * @param selected 
+     */
     private void changeShipSelection(int selected) {
         if(shipRects.get(selected).getState() == SelectableRectangle.RECT_STATE_LOCKED) {
             msgBox = new MessageBox("You have not unlocked this skin!", MessageBox.MSG_TYPE_OK, null, null);
@@ -345,7 +374,10 @@ public class CustomizeScreen extends Screen {
             selectedShip = selected;  
         }
     }
-    
+    /**
+     * sets selected bullet
+     * @param selected 
+     */
     private void changeBulletSelection(int selected) {
         if(selected == -1) {
             for(int i = 0; i < bulletRects.size(); i++) {

@@ -48,7 +48,9 @@ public class ShopScreen extends Screen {
     private Rectangle2D.Float rect4;
     private Rectangle2D.Float rect5;
     private Rectangle2D.Float rect6;
-    
+    /**
+     * initializes screen and its objects
+     */
     @Override
     public void init() {
         calculateCosts();
@@ -103,7 +105,10 @@ public class ShopScreen extends Screen {
         rect5 = new Rectangle2D.Float(269, 365, 80, 80);
         rect6 = new Rectangle2D.Float(452, 365, 80, 80);
     }
-
+    /**
+     * render screen and its objects
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         BufferedImage coin = Assets.images.get("coin");
@@ -218,7 +223,9 @@ public class ShopScreen extends Screen {
             msgBox.render(g);
         }
     }
-
+    /**
+     * updates screen and its objects
+     */
     @Override
     public void update() {
         int coins = player.getCoins();
@@ -338,16 +345,23 @@ public class ShopScreen extends Screen {
             }        
         }
     }
-    
+    /**
+     * new player
+     * @param player 
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
-    
+    /**
+     * set cost for armor and energy levels
+     */
     private void calculateCosts() {
         armorCost = 350 + (player.getArmorLvl() * 150);
         energyCost = 350 + (player.getEnergyLvl() * 150);
     }
-    
+    /**
+     * update costs, levels and coins
+     */
     private void updateLabels() {
         UILabel lblArmorCost = (UILabel)uiControls.get("lblArmorCost");
         lblArmorCost.setText(String.valueOf(armorCost));
