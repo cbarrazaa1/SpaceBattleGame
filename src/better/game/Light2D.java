@@ -39,7 +39,10 @@ public class Light2D extends GameObject {
             g2d.drawOval(radius - i, radius - i, i * 2, i * 2);
         }
     }
-
+    /**
+     * renders the lights
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         g.drawImage(lightMap, (int)x - lightMap.getWidth() / 2, (int)y - lightMap.getHeight() / 2, lightMap.getWidth(), lightMap.getHeight(), null);

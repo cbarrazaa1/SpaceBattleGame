@@ -31,15 +31,24 @@ public class Powerup extends GameObject {
                 break;
         }
     }
-
+    /**
+     * the powerup type
+     * @return type
+     */
     public int getType() {
         return type;
     }
-    
+    /**
+     * new powerup type
+     * @param type 
+     */
     public void setType(int type) {
         this.type = type;
     }
-    
+    /**
+     * render the powerup
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         AffineTransform orig = g.getTransform();
@@ -47,7 +56,9 @@ public class Powerup extends GameObject {
         g.drawImage(img, 0, 0, (int)getWidth(), (int)getHeight(), null);
         g.setTransform(orig);
     }
-
+    /**
+     * update the powerup
+     */
     @Override
     public void update() {
         float distX = (player.getX() + player.getWidth() / 2) - (x + getWidth() / 2);
