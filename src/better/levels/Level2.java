@@ -50,7 +50,7 @@ public class Level2 extends Level {
         
         super.update();
         if(spawnTimer.isActivated()) {
-            enemies.add(new Enemy2(64, 64, 50, 50, 30, player, bullets, lights));
+            enemies.add(new Enemy2(64, 64, 50, 70, 30, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(2.5f, 5.5f));
             } else {
@@ -59,7 +59,7 @@ public class Level2 extends Level {
         }
         spawnTimer.update();
         if(spawnTimer2.isActivated()) {
-            enemies.add(new Enemy1(64, 64, 25, 30, 40, player, bullets, lights));
+            enemies.add(new Enemy1(64, 64, 25, 50, 40, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer2.restart(Util.randNumF(1.5f, 4.5f));
             }else{
@@ -77,7 +77,7 @@ public class Level2 extends Level {
         defeated++;
         
         if (enemy instanceof Boss2){
-            collectedCoins += 200;
+            collectedCoins += 800;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));

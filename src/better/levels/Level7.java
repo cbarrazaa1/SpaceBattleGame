@@ -71,7 +71,7 @@ public class Level7 extends Level {
         
         if(spawnTimer2.isActivated() && defeated <= TO_DEFEAT) {
             
-            enemies.add(new Enemy4(64, 64, 200, 120, 30, player, bullets, lights));
+            enemies.add(new Enemy4(64, 64, 200, 160, 30, player, bullets, lights));
             
             spawnTimer2.restart(Util.randNumF(3.5f, 4.5f));
             
@@ -80,7 +80,7 @@ public class Level7 extends Level {
         
         if(spawnTimer3.isActivated() && defeated <= TO_DEFEAT) {
             
-            enemies.add(new Enemy2(64, 64, 150, 100, 30, player, bullets, lights));
+            enemies.add(new Enemy2(64, 64, 150, 120, 30, player, bullets, lights));
             
             spawnTimer3.restart(Util.randNumF(8.5f, 9.5f));
             
@@ -113,7 +113,7 @@ public class Level7 extends Level {
         }
         
         if ((enemy instanceof TwinBoss1 || enemy instanceof TwinBoss2) && deadBosses == 2){
-            collectedCoins += 100;
+            collectedCoins += 2000;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));

@@ -53,7 +53,7 @@ public class Level3 extends Level {
         super.update();
         if(spawnTimer.isActivated()) {
             
-            enemies.add(new OGEnemy1(64, 64, 50, 20, 40, player, bullets, lights));
+            enemies.add(new OGEnemy1(64, 64, 50, 40, 40, player, bullets, lights));
             
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(0.5f, 2f));
@@ -64,7 +64,7 @@ public class Level3 extends Level {
         spawnTimer.update();
         if(spawnTimer2.isActivated()) {
             
-            enemies.add(new OGEnemy2(64, 64, 65, 50, 20, player, bullets, lights));
+            enemies.add(new OGEnemy2(64, 64, 65, 60, 20, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer2.restart(Util.randNumF(1.5f, 2.5f));
             } else {
@@ -88,7 +88,7 @@ public class Level3 extends Level {
         }
         
         if (enemy instanceof OGBoss){
-            collectedCoins += 350;
+            collectedCoins += 750;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));

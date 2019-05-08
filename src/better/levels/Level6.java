@@ -59,7 +59,7 @@ public class Level6 extends Level {
         super.update();
         if(spawnTimer.isActivated() && defeated <= TO_DEFEAT) {
             
-            enemies.add(new EnemyTurret1(32, 32, 100, 60, 30, player, bullets, lights));
+            enemies.add(new EnemyTurret1(32, 32, 100, 80, 30, player, bullets, lights));
             
             spawnTimer.restart(Util.randNumF(3f, 3.5f));
             
@@ -68,7 +68,7 @@ public class Level6 extends Level {
         
         if(spawnTimer2.isActivated() && defeated <= TO_DEFEAT) {
             
-            enemies.add(new EnemyTurret2(32, 32, 130, 100, 30, player, bullets, lights));
+            enemies.add(new EnemyTurret2(32, 32, 130, 120, 30, player, bullets, lights));
             
             spawnTimer2.restart(Util.randNumF(1.5f, 3.5f));
             
@@ -94,7 +94,7 @@ public class Level6 extends Level {
         defeated++;
         
         if (enemy instanceof BossTurret1){
-            collectedCoins += 800;
+            collectedCoins += 1200;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));

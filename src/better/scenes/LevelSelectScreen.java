@@ -184,6 +184,10 @@ public class LevelSelectScreen extends Screen {
         });
         
         UIButton btnMainMenu = new UIButton(58, 539, 188, 51, Assets.images.get("LevelSelectMainMenu"));
+        btnMainMenu.setOnClickListener(() -> {
+            MainMenuScreen.getInstance().init();
+            Game.setCurrentScreen(MainMenuScreen.getInstance());
+        });
         
         UILabel lblSelectedPlanet = new UILabel(0, 45, "NEPTUNE", new Color(255f / 255f, 237f / 255f, 211f / 255f, 1f), UILabel.DEFAULT_FONT);
         lblSelectedPlanet.setFontSize(29);
@@ -291,10 +295,14 @@ public class LevelSelectScreen extends Screen {
         
         // get unlocked planets
         for(int i = 0; i < player.getLevel(); i++) {
+            if (i >= 9) break;
             selectablePlanets.get(8 - i).setState(PlanetState.NORMAL);
         }
-        selectPlanet(selectablePlanets.get(8 - player.getLevel() + 1).getName());
-        
+        if (player.getLevel() >= 9){
+            selectPlanet("Sun");
+        }else{
+            selectPlanet(selectablePlanets.get(8 - player.getLevel() + 1).getName());
+        }
         // music
         Assets.playMusic(Assets.mainMenu);
         

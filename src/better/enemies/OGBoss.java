@@ -74,10 +74,10 @@ public class OGBoss extends Enemy {
     private void shoot(){
         bullets.add(new Bullet(getX() + getWidth()*1 / 5, getY() + getHeight() / 2, 8, 17, 5,
                     theta, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
-        bullets.add(new GuidedBullet(getX() + getWidth()*2 / 5, getY() + getHeight() / 2, 8, 17, 5,
-                    theta, 7, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
-        bullets.add(new GuidedBullet(getX() + getWidth()*3 / 5, getY() + getHeight() / 2, 8, 17, 5,
-                    theta, 7, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+        bullets.add(new Bullet(getX() + getWidth()*2 / 5, getY() + getHeight() / 2, 8, 17, 5,
+                    theta, 8, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
+        bullets.add(new Bullet(getX() + getWidth()*3 / 5, getY() + getHeight() / 2, 8, 17, 5,
+                    theta, 8, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights));
         bullets.add(new Bullet(getX() + getWidth()*4 / 5, getY() + getHeight() / 2, 8, 17, 5,
                     theta, 5, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights));
     }
@@ -124,9 +124,9 @@ public class OGBoss extends Enemy {
      */
     private void shootGuided(){
         bullets.add(new GuidedBullet(getX() + getWidth()*1 / 5, getY() + getHeight() / 2, 8, 17, 5,
-                    theta, 10, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+                    theta, 10, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights, player));
         bullets.add(new GuidedBullet(getX() + getWidth()*4 / 5, getY() + getHeight() / 2, 8, 17, 5,
-                    theta, 10, Assets.images.get("BulletEnemyRed"), Bullet.BULLET_TYPE_ENEMY, Color.RED, lights, player));
+                    theta, 10, Assets.images.get("BulletEnemyBlue"), Bullet.BULLET_TYPE_ENEMY, Color.BLUE, lights, player));
     }
     /**
      * updates the object
