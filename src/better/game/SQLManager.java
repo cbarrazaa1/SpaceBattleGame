@@ -35,7 +35,7 @@ public class SQLManager {
      * @return 
      */
     public static Stats selectStats(int statsID) {
-        String SQL = "SELECT * FROM stats WHERE statsID = ?";
+        String SQL = "SELECT * FROM stats WHERE statsID = " + statsID;
         Stats stats = null;
         int deaths = 0;
         int coinsCollected = 0;
@@ -44,11 +44,9 @@ public class SQLManager {
         int playTimeMin = 0;
         int playTimeSec = 0;
             
-        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
-            
-            pstmt.setInt(1, statsID);
-            
-            ResultSet rs = pstmt.executeQuery(SQL);
+        try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
+                        
+            ResultSet rs = stmt.executeQuery(SQL);
             
             while (rs.next()) {
                 deaths = rs.getInt(1);
@@ -60,7 +58,7 @@ public class SQLManager {
             }
             
             rs.close();
-            pstmt.close();
+            stmt.close();
             
             stats = new Stats(statsID, 0, 0, 0, 0, 0, 0);
             stats.setDeaths(deaths);
@@ -82,14 +80,12 @@ public class SQLManager {
      * @return 
      */
     public static Player selectPlayer(int userID){
-        String SQL = "SELECT * FROM players WHERE userID = ?";
+        String SQL = "SELECT * FROM players WHERE userID = " + userID;
         Player player = null;
                 
-        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
-            
-            pstmt.setInt(1, userID);
-            
-            ResultSet rs = pstmt.executeQuery(SQL);
+        try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
+                        
+            ResultSet rs = stmt.executeQuery(SQL);
             
             int statsID = 0;
             String username = "";
@@ -114,6 +110,10 @@ public class SQLManager {
                 palID = rs.getInt(9);
                 bulletType = rs.getString(10);
             }
+            
+            rs.close();
+            stmt.close();
+            
             player = new Player (0, 0, 64, 64, armorLvl, energyLvl);
             player.setStats(selectStats(statsID));
             player.setName(username);
