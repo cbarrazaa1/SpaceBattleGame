@@ -28,31 +28,52 @@ public class StatusBar extends GameObject {
         this.img = img.getSubimage(0, 0, (int)width, (int)height);
         this.backImg = img.getSubimage((int)width, 0, (int)width, (int)height);
     }
-
+    /**
+     * returns current value
+     * @return value
+     */
     public int getValue() {
         return value;
     }
-    
+    /**
+     * new value
+     * @param value 
+     */
     public void setValue(int value) {
         this.value = value;
     }
-    
+    /**
+     * gets max value
+     * @return maxValue
+     */
     public int getMaxValue() {
         return maxValue;
     }
-    
+    /**
+     * new max value
+     * @param maxValue 
+     */
     public void setMaxValue(int maxValue) {
         this.maxValue = maxValue;
     }
-    
+    /**
+     * the factor
+     * @return factor
+     */
     public float getFactor() {
         return factor;
     }
-    
+    /**
+     * new factor
+     * @param factor 
+     */
     public void setFactor(float factor) {
         this.factor = factor;
     }
-    
+    /**
+     * render the bar
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) { 
         // Bar Background //

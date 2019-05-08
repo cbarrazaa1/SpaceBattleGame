@@ -42,7 +42,11 @@ public class StarBackground extends GameObject {
     private float velX;
     private float velY;
     private ArrayList<Star> stars;
-    
+    /**
+     * creates the background
+     * @param velX
+     * @param velY 
+     */
     public StarBackground(float velX, float velY) {
         super(0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight());
         this.velX = velX;
@@ -57,7 +61,10 @@ public class StarBackground extends GameObject {
             }
         }
     }
-
+    /**
+     * render the background
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         for(Star star : stars) {
@@ -67,7 +74,9 @@ public class StarBackground extends GameObject {
             g.setTransform(orig);
         }
     }
-
+    /**
+     * updates the background
+     */
     @Override
     public void update() {
         for(Star star : stars) {

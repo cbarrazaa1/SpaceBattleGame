@@ -52,15 +52,23 @@ public class MessageBox extends GameObject {
             }
         }
     }
-    
+    /**
+     * hides the message box
+     */
     public void hide() {
         visible = false;
     }
-    
+    /**
+     * checks if visible
+     * @return visible
+     */
     public boolean isVisible() {
         return visible;
     }
-    
+    /**
+     * renders the box
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         g.setColor(new Color(0, 0, 0, 0.5f));
@@ -80,7 +88,9 @@ public class MessageBox extends GameObject {
             btnCancel.render(g);
         }
     }
-    
+    /**
+     * updates the box
+     */
     @Override
     public void update() {
         super.update();
