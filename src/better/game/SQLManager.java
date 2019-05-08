@@ -130,8 +130,42 @@ public class SQLManager {
         return player;
     }
     /**
+     * Select highscore data
+     * @param levelID
+     * @param userID
+     * @return highscoreData
+     */
+    public static HighscoreData selectHighscores(int levelID, int userID) {
+        String SQL = "SELECT * FROM highscores WHERE levelID = " + levelID + " WHERE userID = " + userID;
+        HighscoreData highscoreData = null;
+        
+        try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
+            
+            ResultSet rs = stmt.executeQuery(SQL);
+            
+            int personalBest = 0;
+            int timesPlayed = 0;
+            
+            while (rs.next()) {
+                personalBest = rs.getInt(3);
+                timesPlayed = rs.getInt(4);
+            }
+            
+            rs.close();
+            stmt.close();
+            
+            highscoreData = new HighscoreData (personalBest, timesPlayed);
+            highscoreData.setPersonalBest(personalBest);
+            highscoreData.setTimesPlayed(timesPlayed);
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return highscoreData;
+    }
+    /**
      * Insert statistics elements into table stats
-     * @param stat
+     * @param player
      * @return player id
      */
     public static int insertStats(Player player) {
