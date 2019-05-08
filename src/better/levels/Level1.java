@@ -45,7 +45,7 @@ public class Level1 extends Level {
         
         super.update();
         if(spawnTimer.isActivated()) {
-            enemies.add(new Enemy1(64, 64, 25, 30, 40, player, bullets, lights));
+            enemies.add(new Enemy1(64, 64, 25, 50, 40, player, bullets, lights));
             if(defeated < TO_DEFEAT) {
                 spawnTimer.restart(Util.randNumF(2.3f, 3.3f));
             } else {
@@ -61,7 +61,7 @@ public class Level1 extends Level {
     @Override
     public void onEnemyDead(Enemy enemy) {
         if(enemy instanceof Boss1) {
-            collectedCoins += 200;
+            collectedCoins += 500;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));

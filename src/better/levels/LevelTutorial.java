@@ -257,6 +257,7 @@ public class LevelTutorial extends Level {
         if(defeated == 7) {
             enemies.clear();
             bullets.clear();
+            lights.clear();
             spawnEnemies = false;
             shouldShow = true;
             nextState(true);

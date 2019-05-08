@@ -68,7 +68,7 @@ public class Level4 extends Level {
         spawnTimer.update();
         if(spawnTimer2.isActivated() && enemyCounter < 10) {
             //enemies.add(new Asteroid1(0, 0, 128, 128, 100, 0, 10, player, bullets, lights));
-            enemies.add(new Enemy2(64, 64, 50, 40, 40, player, bullets, lights));
+            enemies.add(new Enemy2(64, 64, 50, 80, 40, player, bullets, lights));
             enemyCounter++;
             
             spawnTimer2.restart(Util.randNumF(1.5f, 3f));
@@ -121,7 +121,7 @@ public class Level4 extends Level {
 
         // spawn powerup
         if (endTimer.isActivated()){
-            collectedCoins += 450;
+            collectedCoins += 750;
             LevelScreen.getInstance().setVictory();
             UILabel lblScore = (UILabel)LevelScreen.getInstance().getUIControl("lblVictoryScore");
             lblScore.setText(String.valueOf(score));

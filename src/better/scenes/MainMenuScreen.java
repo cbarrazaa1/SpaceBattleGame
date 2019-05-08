@@ -63,7 +63,10 @@ public class MainMenuScreen extends Screen {
         btnExit.setOnClickListener(() -> {
             System.exit(0);
         });
- 
+        
+        showLoad = false;
+        msgBox = null;
+        
         uiControls.put("btnNewGame", btnNewGame);
         uiControls.put("btnLoadGame", btnLoadGame);
         uiControls.put("btnOptions", btnOptions);
