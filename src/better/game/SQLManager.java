@@ -7,6 +7,7 @@ package better.game;
 
 import better.scenes.LevelSelectScreen;
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -196,6 +197,56 @@ public class SQLManager {
         }
         return highscoreData;
     }
+    
+            // SELECT * FROM highscores ORDER BY personalBest DESC;
+
+    public static ArrayList<HighscoreStruct> getLevelHighscores(int levelID) {
+        String SQL = "SELECT * FROM highscores WHERE levelID = " + levelID + " ORDER BY personalBest DESC";
+        ArrayList<HighscoreStruct> res = new ArrayList<>();
+        
+        try (Connection conn = connect(); Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+            ResultSet rs = stmt.executeQuery(SQL);
+            
+            while(rs.next()) {
+                String name = "";
+                String SQL2 = "SELECT username FROM players WHERE userID = " + rs.getInt(2);
+                try (Statement stmt2 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+                    ResultSet rs2 = stmt2.executeQuery(SQL2);
+                    rs2.next();
+                    name = rs2.getString(1);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                
+                res.add(new HighscoreStruct(name, rs.getInt(3)));
+            }
+            
+//            int count = 0;
+//            String name = "";
+//            String SQL2 = "SELECT username FROM players WHERE userID = " + rs.getInt(2);
+//            System.out.println(SQL2);
+//            try (Statement stmt2 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+//                ResultSet rs2 = stmt2.executeQuery(SQL2);
+//                rs2.next();
+//                name = rs2.getString(1);
+//            } catch (SQLException ex) {
+//                ex.printStackTrace();
+//            }
+//            
+//            rs.beforeFirst();
+//            while(rs.next()) {
+//                res.add(new HighscoreStruct(name, rs.getInt(3)));
+//            }
+            
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        return res;
+    }
+    
     /**
      * Insert statistics elements into table stats
      * @param player

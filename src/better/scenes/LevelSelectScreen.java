@@ -10,6 +10,7 @@ import better.bullets.Bullet;
 import better.core.Game;
 import better.core.Util;
 import better.game.GameObject;
+import better.game.HighscoreStruct;
 import better.game.Player;
 import better.game.SQLManager;
 import better.game.StarBackground;
@@ -138,6 +139,9 @@ public class LevelSelectScreen extends Screen {
     private boolean showStats;
     private ArrayList<UIControl> statsControls;
     private StarBackground sb;
+    private boolean showHighscores;
+    private ArrayList<UIControl> hsControls;
+    
     /**
      * initializes screen and its assets
      */
@@ -156,12 +160,82 @@ public class LevelSelectScreen extends Screen {
             LevelScreen.getInstance().init();
         });
         
+        
+         // Highscore Window
+        UILabel lblHSPlanet = new UILabel(382, 110, "LEADERBOARDS", Color.WHITE, UILabel.DEFAULT_FONT);
+        lblHSPlanet.setFontSize(10);
+        UILabel lblPB = new UILabel(470, 156, String.valueOf(Util.randNum(50, 100)), Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblTimesPlayed = new UILabel(468, 204, "1", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblName1 = new UILabel(262, 262, "", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblScore1 = new UILabel(422, 262, "", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblName2 = new UILabel(262, 291, "", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblScore2 = new UILabel(422, 291, "", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblName3 = new UILabel(262, 318, "", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblScore3 = new UILabel(422, 318, "", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblName4 = new UILabel(262, 345, "", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblScore4 = new UILabel(422, 345, "", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblName5 = new UILabel(262, 372, "", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblScore5 = new UILabel(422, 372, "", Color.WHITE, UILabel.DEFAULT_FONT);
+                
+        
+        UIButton btnCloseHS = new UIButton(326, 402, 188, 51, Assets.images.get("HighscoreClose"));
+        btnCloseHS.setOnClickListener(() -> {
+            showHighscores = false;
+        });
+        
+        hsControls = new ArrayList<>();
+        hsControls.add(lblHSPlanet);
+        hsControls.add(lblPB);
+        hsControls.add(lblTimesPlayed);
+        hsControls.add(lblName1);
+        hsControls.add(lblScore1);
+        hsControls.add(lblName2);
+        hsControls.add(lblScore2);
+        hsControls.add(lblName3);
+        hsControls.add(lblScore3);
+        hsControls.add(lblName4);
+        hsControls.add(lblScore4);
+        hsControls.add(lblName5);
+        hsControls.add(lblScore5);
+        hsControls.add(btnCloseHS);
+        
         UIButton btnHighscores = new UIButton(48, 154, 205, 56, Assets.images.get("LevelSelectHighscores"));
         btnHighscores.setOnClickListener(() -> {
-            player.setId(1);
-            SQLManager.selectHighscores(player);
-            System.out.println(player.getHighscoreData().get(1).getPersonalBest());
-            System.out.println(player.getHighscoreData().get(1).getTimesPlayed());
+            lblName1.setText("");
+            lblScore1.setText("");
+            lblName2.setText("");
+            lblScore2.setText("");
+            lblName3.setText("");
+            lblScore3.setText("");
+            lblName4.setText("");
+            lblScore4.setText("");
+            lblName5.setText("");
+            lblScore5.setText("");
+            showHighscores = true;
+            ArrayList<HighscoreStruct> hs = SQLManager.getLevelHighscores(selectedPlanet);
+            
+            for(int i = 0; i < hs.size(); i++) {
+                HighscoreStruct h = hs.get(i);
+                if(i == 0) {
+                    lblName1.setText(h.name);
+                    lblScore1.setText(String.valueOf(h.hs));
+                } else if(i == 1) {
+                    lblName2.setText(h.name);
+                    lblScore2.setText(String.valueOf(h.hs));
+                } else if(i == 2) {
+                     lblName3.setText(h.name);
+                    lblScore3.setText(String.valueOf(h.hs));
+                } else if(i == 3) {
+                    lblName4.setText(h.name);
+                    lblScore4.setText(String.valueOf(h.hs));
+                } else if(i == 4) {
+                    lblName5.setText(h.name);
+                    lblScore5.setText(String.valueOf(h.hs));
+                } else {
+                    break;
+                }
+                System.out.println(hs.get(i).name + ": " + hs.get(i).hs);
+            }
         });
         
         UIButton btnCustomize = new UIButton(132, 294, 160, 46, Assets.images.get("LevelSelectCustomize"));
@@ -317,6 +391,7 @@ public class LevelSelectScreen extends Screen {
         statsControls.add(lblEnemiesKilled);
         statsControls.add(lblBulletsShot);
         statsControls.add(lblCoinsCollected);
+        
     }
     /**
      * render screen and its objects
@@ -442,6 +517,29 @@ public class LevelSelectScreen extends Screen {
             
             g.setComposite(orig);
         }
+        
+        // render hs
+        if(showHighscores) {
+            g.setColor(new Color(0, 0, 0, 200));
+            g.fillRect(0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight());
+            
+            Composite orig = g.getComposite();
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
+            g.drawImage(Assets.images.get("HighscoreWindow"), 228, 85, 384, 384, null);
+            
+            BufferedImage p = Assets.images.get("trophu");
+            g.drawImage(p, 253, 111, p.getWidth(), p.getHeight(), null);
+            
+            for(UIControl control : hsControls) {
+                if(control instanceof UILabel) {
+                    UILabel lbl = (UILabel)control;
+                    lbl.calculateDimensions(g);
+                    
+                }
+                control.render(g);
+            }
+            g.setComposite(orig);
+        }
     }
     /**
      * updates screen and its objects
@@ -460,6 +558,13 @@ public class LevelSelectScreen extends Screen {
         // update stat controls
         if(showStats) {
             for(UIControl control : statsControls) {
+                control.update();
+            }
+        }
+        
+        // update hs controls
+        if(showHighscores) {
+            for(UIControl control : hsControls) {
                 control.update();
             }
         }
