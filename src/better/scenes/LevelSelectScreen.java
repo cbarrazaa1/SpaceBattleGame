@@ -11,6 +11,7 @@ import better.core.Game;
 import better.core.Util;
 import better.game.GameObject;
 import better.game.Player;
+import better.game.SQLManager;
 import better.game.StarBackground;
 import better.game.StatusBar;
 import better.scenes.SelectablePlanet.PlanetState;
@@ -139,6 +140,11 @@ public class LevelSelectScreen extends Screen {
         });
         
         UIButton btnHighscores = new UIButton(48, 154, 205, 56, Assets.images.get("LevelSelectHighscores"));
+        btnHighscores.setOnClickListener(() -> {
+            player.setId(1);
+            SQLManager.updatePlayer(player);
+        });
+        
         UIButton btnCustomize = new UIButton(132, 294, 160, 46, Assets.images.get("LevelSelectCustomize"));
         btnCustomize.setOnClickListener(() -> {
             Game.setCurrentScreen(CustomizeScreen.getInstance());

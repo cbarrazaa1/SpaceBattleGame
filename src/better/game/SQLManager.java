@@ -7,8 +7,6 @@ package better.game;
 
 import better.scenes.LevelSelectScreen;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -19,45 +17,45 @@ public class SQLManager {
     /**+
      * Heroku Credentials.
      */
-    private final String url = "jdbc:postgresql://ec2-54-225-116-36.compute-1.amazonaws.com:5432/dbg7b89dpc9ssc";
-    private final String user = "qnsswjmuzcxgri";
-    private final String password = "45fbc7fe0c89842304bd511360a7fc22ee5f9c2ee140d8cf431d6bf3bc83cd31";
+    private static final String url = "jdbc:postgresql://ec2-54-225-116-36.compute-1.amazonaws.com:5432/dbg7b89dpc9ssc";
+    private static final String user = "qnsswjmuzcxgri";
+    private static final String password = "45fbc7fe0c89842304bd511360a7fc22ee5f9c2ee140d8cf431d6bf3bc83cd31";
         
     /**
      * Connect to PostgreSQL database
      * @return a Connection object
      * @throws java.sql.SQLException
      */
-    public Connection connect() throws SQLException {
+    private static Connection connect() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
     /**
      * Insert statistics elements into table stats
      * @param stat
-     * @return stats id
+     * @return player id
      */
-    public int insertStat(Stats stat) {
+    public static int insertStats(Player player) {
         int id = 0;
-        String SQL = "INSERT INTO stats(statsID, deaths, coinsCollected, enemiesKilled, bulletsShot, playTimeMin, playTimeSec)"
-                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        Stats stat = player.getStats();
+        String SQL = "INSERT INTO stats(deaths, coinsCollected, enemiesKilled, bulletsShot, playTimeMin, playTimeSec)"
+                   + "VALUES (?, ?, ?, ?, ?, ?)";
         
-        try (Connection conn = connect();
-                PreparedStatement pstmt = conn.prepareStatement(SQL,
-                Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setInt(1, stat.getId());
-            pstmt.setInt(2, stat.getDeaths());
-            pstmt.setInt(3, stat.getCoins());
-            pstmt.setInt(4, stat.getEnemiesKilled());
-            pstmt.setInt(5, stat.getShots());
-            pstmt.setInt(6, stat.getTimeMinutes());
-            pstmt.setInt(7, stat.getTimeSeconds());
-            
+        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setInt(1, stat.getDeaths());
+            pstmt.setInt(2, stat.getCoins());
+            pstmt.setInt(3, stat.getEnemiesKilled());
+            pstmt.setInt(4, stat.getShots());
+            pstmt.setInt(5, stat.getTimeMinutes());
+            pstmt.setInt(6, stat.getTimeSeconds());
+
             int affectedRows = pstmt.executeUpdate();
-            
+
             if (affectedRows > 0) {
                 try(ResultSet rs = pstmt.getGeneratedKeys()) {
                     if (rs.next()) {
                         id = rs.getInt(1);
+                        stat.setId(id);
+                        player.setStats(stat);
                     }
                 } catch (SQLException ex) {
                     System.out.println(ex.getMessage());
@@ -66,6 +64,7 @@ public class SQLManager {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+        
         return id;       
     }
     /**
@@ -73,25 +72,23 @@ public class SQLManager {
      * @param player
      * @return player id
      */
-    public int insertPlayer(Player player) {
+    public static int insertPlayer(Player player) {
         int playerID = 0;
-        String SQL = "INSERT INTO players(userID, statsID, username, level, armorLvl, energyLvl, coins, skin, currBullet, palID, bulletTypes) "
-                + "VALUES(?, (SELECT statsID FROM stats WHERE stats.statsID = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO players(statsID, username, lvl, armorLvl, energyLvl, coins, skin, currBullet, palID, bulletTypes) "
+                   + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
-        try (Connection conn = connect();
-               PreparedStatement pstmt = conn.prepareStatement(SQL,
-               Statement.RETURN_GENERATED_KEYS)) {      
-            pstmt.setInt(1, player.getId());
-            pstmt.setInt(2, player.getStats().getId());
-            pstmt.setString(3, player.getName());
-            pstmt.setInt(4, player.getLevel());
-            pstmt.setInt(6, player.getArmor());
-            pstmt.setInt(7, player.getEnergyLvl());
-            pstmt.setInt(8, player.getCoins());
-            pstmt.setInt(9, player.getSkin());
-            pstmt.setInt(10, player.getCurrBullet());
-            pstmt.setInt(11, player.getSelectedPal());
-            pstmt.setString(12, player.getBulletTypes());
+        insertStats(player);
+        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {      
+            pstmt.setInt(1, player.getStats().getId());
+            pstmt.setString(2, player.getName());
+            pstmt.setInt(3, player.getLevel());
+            pstmt.setInt(4, player.getArmorLvl());
+            pstmt.setInt(5, player.getEnergyLvl());
+            pstmt.setInt(6, player.getCoins());
+            pstmt.setInt(7, player.getSkin());
+            pstmt.setInt(8, player.getCurrBullet());
+            pstmt.setInt(9, player.getSelectedPal());
+            pstmt.setString(10, player.getBulletTypes());
             
             int affectedRows = pstmt.executeUpdate();
             
@@ -102,6 +99,7 @@ public class SQLManager {
                     // moves one row from the current position
                     if(rs.next()) {
                         playerID = rs.getInt(1);
+                        player.setId(playerID);
                     }
                 } catch (SQLException ex) {
                     System.out.println(ex.getMessage());
@@ -114,22 +112,20 @@ public class SQLManager {
     }
     /**
      * Insert level elements into table level
-     * @param planet
+     * @param levelID
      * @return level id
      */
-    public int insertLevel() {
+    public static int insertLevels(int levelID) {
         int id = 0;
-        String SQL = "INSERT INTO levels"
-                + "VALUES (?, ?)";
+        String SQL = "INSERT INTO levels(levelID, planetName)"
+                + "VALUES(?, ?)";
         
         try (Connection conn = connect();
                 PreparedStatement pstmt = conn.prepareStatement(SQL,
                 Statement.RETURN_GENERATED_KEYS)) {
             
-            for (int i = 1; i <= 9; i++) {
-                pstmt.setInt(1, i);
-                pstmt.setString(2, LevelSelectScreen.getInstance().planets[i - 1]);
-            }
+            pstmt.setInt(1, levelID);
+            pstmt.setString(2, LevelSelectScreen.getInstance().planets[levelID - 1]);
             
             int affectedRows = pstmt.executeUpdate();
             
@@ -153,8 +149,9 @@ public class SQLManager {
      * @param player
      * @return highScore id
      */
-    public int insertHighScore(int levelID, Player player) {
+    public static int insertHighScore(Player player) {
         int id = 0;
+        int levelID = player.getLevel();
         String SQL = "INSERT INTO highScores"
                + "VALUES (?, ?, ?, ?)";
         
@@ -185,10 +182,11 @@ public class SQLManager {
     }
     /**
      * Update statistics elements.
-     * @param stat
+     * @param player
      * @return affected rows
      */
-    public int updateStats(Stats stat) {
+    public static int updateStats(Player player) {
+        Stats stat = player.getStats();
         String SQL = "UPDATE stats "
                 + "SET "
                 + "deaths = ?"
@@ -224,17 +222,17 @@ public class SQLManager {
      * @param player
      * @return affected rows after update
      */
-    public int updatePlayer(Player player) {
+    public static int updatePlayer(Player player) {
         String SQL = "UPDATE players "
                 + "SET "
-                + "level = ?"
-                + "armorLvl = ?"     
-                + "energyLvl = ?"
-                + "coins = ?"
-                + "skin = ?"
-                + "currBullet = ?"
-                + "palID = ?"
-                + "bulletTypes = ?"
+                + "lvl = ?,"
+                + "armorLvl = ?,"     
+                + "energyLvl = ?,"
+                + "coins = ?,"
+                + "skin = ?,"
+                + "currBullet = ?,"
+                + "palID = ?,"
+                + "bulletTypes = ? "
                 + "WHERE userID = ?";
         
         int affectedRows = 0;
@@ -244,7 +242,7 @@ public class SQLManager {
                Statement.RETURN_GENERATED_KEYS)) {      
             
             pstmt.setInt(1, player.getLevel());
-            pstmt.setInt(2, player.getArmor());
+            pstmt.setInt(2, player.getArmorLvl());
             pstmt.setInt(3, player.getEnergyLvl());
             pstmt.setInt(4, player.getCoins());
             pstmt.setInt(5, player.getSkin());
@@ -265,7 +263,7 @@ public class SQLManager {
      * @param player
      * @return affected rows
      */
-    public int updateHighScore(Player player) {
+    public static int updateHighScore(Player player) {
         String SQL = "UPDATE highScores "
                 + "SET "
                 + "personalBest = ?"
@@ -274,13 +272,14 @@ public class SQLManager {
                 + "WHERE userID = ?";
         
         int affectedRows = 0;
+        int levelID = player.getLevel();
         
         try (Connection conn = connect();
                PreparedStatement pstmt = conn.prepareStatement(SQL,
                Statement.RETURN_GENERATED_KEYS)) {      
             
-            pstmt.setInt(1, 0);
-            pstmt.setInt(2, 0);
+            pstmt.setInt(1, player.getHighscoreData().get(levelID).getPersonalBest());
+            pstmt.setInt(2, player.getHighscoreData().get(levelID).getTimesPlayed());
             pstmt.setInt(3, player.getLevel());
             pstmt.setInt(4, player.getId());
             

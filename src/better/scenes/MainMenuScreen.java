@@ -8,6 +8,7 @@ package better.scenes;
 import better.assets.Assets;
 import better.core.Game;
 import better.game.Player;
+import better.game.SQLManager;
 import better.game.StarBackground;
 import better.ui.UIButton;
 import better.ui.UIControl;
@@ -44,6 +45,10 @@ public class MainMenuScreen extends Screen {
             Game.setCurrentScreen(ChoosePalScreen.getInstance());
         });
         UIButton btnLoadGame = new UIButton(302, 232, 205, 56, Assets.images.get("LoadGameButton"));
+        btnLoadGame.setOnClickListener(() -> {
+
+        });
+        
         UIButton btnOptions = new UIButton(302, 304, 205, 56, Assets.images.get("OptionsButton"));
         UIButton btnExit = new UIButton(302, 386, 205, 56, Assets.images.get("ExitButton"));
         btnExit.setOnClickListener(() -> {

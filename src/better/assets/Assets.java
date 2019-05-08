@@ -97,17 +97,17 @@ public class Assets {
         dash = TinySound.loadSound("dash.wav");
         buy = TinySound.loadSound("buy.wav");
         mainMenu = TinySound.loadMusic("MainMenu.ogg");
-        victory = TinySound.loadMusic("Victory.ogg");
-        gameOver = TinySound.loadMusic("GameOver.ogg");
-        level1 = TinySound.loadMusic("Level1.ogg", true);
-        level2 = TinySound.loadMusic("Level2.ogg", true);
-        level3 = TinySound.loadMusic("Level3.ogg", true);
-        level4 = TinySound.loadMusic("Level4.ogg", true);
-        level5 = TinySound.loadMusic("Level5.ogg", true);
-        level6 = level2;
-        level7 = TinySound.loadMusic("Level7.ogg", true);
-        level8 = TinySound.loadMusic("Level8.ogg", true);
-        level9 = TinySound.loadMusic("Level9.ogg", true);
+//        victory = TinySound.loadMusic("Victory.ogg");
+//        gameOver = TinySound.loadMusic("GameOver.ogg");
+//        level1 = TinySound.loadMusic("Level1.ogg", true);
+//        level2 = TinySound.loadMusic("Level2.ogg", true);
+//        level3 = TinySound.loadMusic("Level3.ogg", true);
+//        level4 = TinySound.loadMusic("Level4.ogg", true);
+//        level5 = TinySound.loadMusic("Level5.ogg", true);
+//        level6 = level2;
+//        level7 = TinySound.loadMusic("Level7.ogg", true);
+//        level8 = TinySound.loadMusic("Level8.ogg", true);
+//        level9 = TinySound.loadMusic("Level9.ogg", true);
     }
     
     public static void playMusic(Music music) {

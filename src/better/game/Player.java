@@ -76,7 +76,7 @@ public class Player extends GameObject {
         shotTimer = new Timer(0.2);
         dashTimer = new Timer(0.1);   
         coins = 15000;
-        level = 9;
+        level = 1;
         currLevel = 0;
         skin = 0;
         currBullet = -1;
@@ -85,7 +85,8 @@ public class Player extends GameObject {
         selectedBullet = -1;
         canAct = true;
         
-        stats = new Stats(-1, 0, 0, 0, 0, 0, 0);
+        stats = new Stats(0, 0, 0, 0, 0, 0, 0);
+        highscoreData = new ArrayList<>();
         for(int i = 0; i < 9; i++) {
             highscoreData.add(new HighscoreData(0, 0));
         }
@@ -518,6 +519,9 @@ public class Player extends GameObject {
         return stats;
     }
     
+    public void setStats(Stats stats) {
+        this.stats = stats;
+    }
     public ArrayList<HighscoreData> getHighscoreData() {
         return highscoreData;
     }
