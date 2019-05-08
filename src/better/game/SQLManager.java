@@ -30,6 +30,106 @@ public class SQLManager {
         return DriverManager.getConnection(url, user, password);
     }
     /**
+     * 
+     * @param statsID
+     * @return 
+     */
+    public static Stats selectStats(int statsID) {
+        String SQL = "SELECT * FROM stats WHERE statsID = ?";
+        Stats stats = null;
+        int deaths = 0;
+        int coinsCollected = 0;
+        int enemiesKilled = 0;
+        int bulletsShot = 0;
+        int playTimeMin = 0;
+        int playTimeSec = 0;
+            
+        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
+            
+            pstmt.setInt(1, statsID);
+            
+            ResultSet rs = pstmt.executeQuery(SQL);
+            
+            while (rs.next()) {
+                deaths = rs.getInt(1);
+                coinsCollected = rs.getInt(2);
+                enemiesKilled = rs.getInt(3);
+                bulletsShot = rs.getInt(4);
+                playTimeMin = rs.getInt(5);
+                playTimeSec = rs.getInt(6);
+            }
+            
+            rs.close();
+            pstmt.close();
+            
+            stats = new Stats(statsID, 0, 0, 0, 0, 0, 0);
+            stats.setDeaths(deaths);
+            stats.setCoins(coinsCollected);
+            stats.setEnemiesKilled(enemiesKilled);
+            stats.setShots(bulletsShot);
+            stats.setTimeMinutes(playTimeMin);
+            stats.setTimeSeconds(playTimeSec);
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        return stats;
+    }
+    /**
+     * 
+     * @param userID
+     * @return 
+     */
+    public static Player selectPlayer(int userID){
+        String SQL = "SELECT * FROM players WHERE userID = ?";
+        Player player = null;
+                
+        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
+            
+            pstmt.setInt(1, userID);
+            
+            ResultSet rs = pstmt.executeQuery(SQL);
+            
+            int statsID = 0;
+            String username = "";
+            int lvl = 0;
+            int armorLvl = 0;
+            int energyLvl = 0;
+            int coins = 0;
+            int skin = 0;
+            int currBullet = 0;
+            int palID = 0;
+            String bulletType = "";
+            
+            while (rs.next()) {
+                statsID = rs.getInt(1);
+                username = rs.getString(2);
+                lvl = rs.getInt(3);
+                armorLvl = rs.getInt(4);
+                energyLvl = rs.getInt(5);
+                coins = rs.getInt(6);
+                skin = rs.getInt(7);
+                currBullet = rs.getInt(8);
+                palID = rs.getInt(9);
+                bulletType = rs.getString(10);
+            }
+            player = new Player (0, 0, 64, 64, armorLvl, energyLvl);
+            player.setStats(selectStats(statsID));
+            player.setName(username);
+            player.setCoins(coins);
+            player.setLevel(lvl);
+            player.setSkin(skin);
+            player.setCurrBullet(currBullet);
+            player.setSelectedPal(palID);
+            player.setBulletTypes(bulletType);
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return player;
+    }
+    /**
      * Insert statistics elements into table stats
      * @param stat
      * @return player id
