@@ -86,6 +86,11 @@ public class LevelScreen extends Screen {
 
         UIButton btnLevelSelect = new UIButton(297, 306, 205, 56, Assets.images.get("GameOverLevelSelect"));
         btnLevelSelect.setOnClickListener(() -> {
+            HighscoreData playerData = player.getHighscoreData().get(player.getCurrLevel() - 1);
+            
+            playerData.setTimesPlayed(playerData.getTimesPlayed() + 1);
+            SQLManager.updatePlayer(player);
+            SQLManager.updateStats(player);
             Game.setCurrentScreen(LevelSelectScreen.getInstance());
         });
         
