@@ -37,7 +37,9 @@ public class MainMenuScreen extends Screen {
     }
     
     private StarBackground sb;
-    
+    /**
+     * initializes the screen and its objects
+     */
     @Override
     public void init() {
         UIButton btnNewGame = new UIButton(302, 160, 205, 56, Assets.images.get("NewGameButton"));
@@ -63,7 +65,10 @@ public class MainMenuScreen extends Screen {
         Assets.playMusic(Assets.mainMenu);
         sb = new StarBackground(0, 0.6f);
     }
-
+    /**
+     * renders the screen and its objects
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         g.drawImage(Assets.images.get("ExpBackground"), 0, 0, Game.getDisplay().getWidth(), Game.getDisplay().getHeight(), null);
@@ -77,7 +82,9 @@ public class MainMenuScreen extends Screen {
             val.render(g);
         }
     }
-
+    /**
+     * updates the screen
+     */
     @Override
     public void update() {
         for(Map.Entry<String, UIControl> entry : uiControls.entrySet()) {

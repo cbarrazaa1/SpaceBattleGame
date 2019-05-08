@@ -50,7 +50,9 @@ public class LevelScreen extends Screen {
     private Timer fadeTimer;
     private float fadeAlpha;
     private Player player;
-    
+    /**
+     * initializes screen and its assets
+     */
     @Override
     public void init() {
         player.setX(Game.getDisplay().getWidth() / 2 - player.getWidth() / 2);
@@ -143,7 +145,10 @@ public class LevelScreen extends Screen {
         uiControls.put("btnRestart", btnRestart);
         uiControls.put("btnExitLevel", btnExitLevel);
     }
-
+    /**
+     * render the level and its assets
+     * @param g 
+     */
     @Override
     public void render(Graphics2D g) {
         level.render(g);
@@ -208,7 +213,9 @@ public class LevelScreen extends Screen {
             uiControls.get("btnExitLevel").render(g);
         }
     }
-
+    /**
+     * updates level
+     */
     @Override
     public void update() {        
         level.update();
@@ -243,11 +250,16 @@ public class LevelScreen extends Screen {
             paused = !paused;
         }
     } 
-    
+    /**
+     * checks if game is ended
+     * @return gameOver
+     */
     public boolean isGameOver() {
         return gameOver;
     }
-    
+    /**
+     * sets game as over
+     */
     public void setGameOver() {
         if(!this.gameOver) {
             this.gameOver = true;
@@ -255,11 +267,16 @@ public class LevelScreen extends Screen {
         }
         Assets.playMusic(Assets.gameOver);
     }
-    
+    /**
+     * checks for victory conditon
+     * @return victory
+     */
     public boolean hasVictory() {
         return victory;
     }
-    
+    /**
+     * sets victory as true
+     */
     public void setVictory() {
         if(!this.victory) {
             this.victory = true;
@@ -267,19 +284,30 @@ public class LevelScreen extends Screen {
         }
         Assets.playMusic(Assets.victory);
     }
-    
+    /**
+     * check if paused
+     * @return 
+     */
     public boolean isPaused() {
         return paused;
     }
-    
+    /**
+     * new player
+     * @param player 
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
-    
+    /**
+     * new selected level
+     * @param selectedLevel 
+     */
     public void setSelectedLevel(int selectedLevel) {
         this.selectedLevel = selectedLevel;
     }
-    
+    /**
+     * to start the selected level
+     */
     public void chooseLevel() {
         switch(selectedLevel) {
             case 1:
