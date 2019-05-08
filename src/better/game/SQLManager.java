@@ -44,10 +44,14 @@ public class SQLManager {
         int playTimeMin = 0;
         int playTimeSec = 0;
             
-        try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
-                        
+        try (Connection conn = connect(); Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {  
             ResultSet rs = stmt.executeQuery(SQL);
             
+            if(!rs.next()) {
+                return null;
+            }
+            
+            rs.beforeFirst();
             while (rs.next()) {
                 deaths = rs.getInt(2);
                 coinsCollected = rs.getInt(3);
@@ -79,11 +83,11 @@ public class SQLManager {
      * @param userID
      * @return 
      */
-    public static Player selectPlayer(int userID){
+    public static Player selectPlayer(int userID) {
         String SQL = "SELECT * FROM players WHERE userID = " + userID;
         Player player = null;
                 
-        try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
+        try (Connection conn = connect(); Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
                         
             ResultSet rs = stmt.executeQuery(SQL);
             
@@ -98,6 +102,11 @@ public class SQLManager {
             int palID = 0;
             String bulletType = "";
             
+            if(!rs.next()) {
+                return null;
+            }
+            
+            rs.beforeFirst();
             while (rs.next()) {
                 statsID = rs.getInt(2);
                 username = rs.getString(3);
@@ -129,6 +138,27 @@ public class SQLManager {
         }
         return player;
     }
+    
+    public static int playerExists(String name) {
+        String SQL = "SELECT * FROM players WHERE username = '" + name + "'";
+                
+        try (Connection conn = connect(); Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+                        
+            ResultSet rs = stmt.executeQuery(SQL);
+            
+            if(rs.next()) {
+                rs.beforeFirst();
+                rs.next();
+                return rs.getInt(1);
+            } else {
+                return -1;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return -1;
+    }
+    
     /**
      * Select highscore data
      * @param levelID
@@ -136,29 +166,31 @@ public class SQLManager {
      * @return highscoreData
      */
     public static HighscoreData selectHighscores(Player player) {
-        int levelID = player.getLevel();
+        int levelID = player.getCurrLevel();
         int userID = player.getId();
         String SQL = "SELECT * FROM highscores WHERE levelID = " + levelID + " AND userID = " + userID;
         HighscoreData highscoreData = null;
         
-        try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
-            
+        try (Connection conn = connect(); Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
             ResultSet rs = stmt.executeQuery(SQL);
             
             int personalBest = 0;
             int timesPlayed = 0;
             
+            if(!rs.next()) {
+                return null;
+            }
+            
+            rs.beforeFirst();
             while (rs.next()) {
                 personalBest = rs.getInt(3);
                 timesPlayed = rs.getInt(4);
             }
             
+            highscoreData = new HighscoreData(personalBest, timesPlayed);
+            
             rs.close();
             stmt.close();
-            
-            player.getHighscoreData().get(1).setPersonalBest(personalBest);
-            player.getHighscoreData().get(1).setTimesPlayed(timesPlayed);
-            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -235,6 +267,7 @@ public class SQLManager {
                     if(rs.next()) {
                         playerID = rs.getInt(1);
                         player.setId(playerID);
+                        System.out.println(playerID);
                     }
                 } catch (SQLException ex) {
                     System.out.println(ex.getMessage());
@@ -296,8 +329,8 @@ public class SQLManager {
             
             pstmt.setInt(1, levelID);
             pstmt.setInt(2, player.getId());
-            pstmt.setInt(3, player.getHighscoreData().get(levelID).getPersonalBest()); // personal best
-            pstmt.setInt(4, player.getHighscoreData().get(levelID).getTimesPlayed()); // times played
+            pstmt.setInt(3, player.getHighscoreData().get(levelID - 1).getPersonalBest()); // personal best
+            pstmt.setInt(4, player.getHighscoreData().get(levelID - 1).getTimesPlayed()); // times played
          
             int affectedRows = pstmt.executeUpdate();
             
@@ -324,12 +357,12 @@ public class SQLManager {
         Stats stat = player.getStats();
         String SQL = "UPDATE stats "
                 + "SET "
-                + "deaths = ?"
-                + "coinsCollected = ?"
-                + "enemiesKilled = ?"
-                + "bulletsShot = ?"
-                + "playTimeMin = ?"
-                + "playTimeSec = ?"
+                + "deaths = ?, "
+                + "coinsCollected = ?, "
+                + "enemiesKilled = ?, "
+                + "bulletsShot = ?, "
+                + "playTimeMin = ?, "
+                + "playTimeSec = ? "
                 + "WHERE statsID = ?";
         
         int affectedRows = 0;
@@ -402,19 +435,19 @@ public class SQLManager {
         String SQL = "UPDATE highScores "
                 + "SET "
                 + "personalBest = ?,"
-                + "timesPlayed = ? "
+                + "timesPlayer = ? "
                 + "WHERE levelID = ? AND "
                 + "userID = ?";
         
         int affectedRows = 0;
-        int levelID = player.getLevel();
+        int levelID = player.getCurrLevel();
         
         try (Connection conn = connect();
                PreparedStatement pstmt = conn.prepareStatement(SQL,
                Statement.RETURN_GENERATED_KEYS)) {      
             
-            pstmt.setInt(1, player.getHighscoreData().get(levelID).getPersonalBest());
-            pstmt.setInt(2, player.getHighscoreData().get(levelID).getTimesPlayed());
+            pstmt.setInt(1, player.getHighscoreData().get(levelID - 1).getPersonalBest());
+            pstmt.setInt(2, player.getHighscoreData().get(levelID - 1).getTimesPlayed());
             pstmt.setInt(3, player.getLevel());
             pstmt.setInt(4, player.getId());
             

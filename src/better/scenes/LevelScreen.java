@@ -9,7 +9,9 @@ package better.scenes;
 import better.assets.Assets;
 import better.core.Game;
 import better.core.Timer;
+import better.game.HighscoreData;
 import better.game.Player;
+import better.game.SQLManager;
 import better.levels.Level;
 import better.levels.Level1;
 import better.ui.UIButton;
@@ -50,6 +52,9 @@ public class LevelScreen extends Screen {
     private Timer fadeTimer;
     private float fadeAlpha;
     private Player player;
+    
+    public int score;
+    
     /**
      * initializes screen and its assets
      */
@@ -98,6 +103,26 @@ public class LevelScreen extends Screen {
         
         UIButton btnContinue = new UIButton(429, 321, 205, 56, Assets.images.get("VictoryContinue"));
         btnContinue.setOnClickListener(() -> {
+            HighscoreData hsData = SQLManager.selectHighscores(player);
+            HighscoreData playerData = player.getHighscoreData().get(player.getCurrLevel() - 1);
+            
+            playerData.setTimesPlayed(playerData.getTimesPlayed() + 1);
+            if(hsData == null) {
+                playerData.setPersonalBest(score);
+                SQLManager.insertHighScore(player);
+            } else {
+                System.out.println(score + ", pb: " + hsData.getPersonalBest());
+               if(score > hsData.getPersonalBest()) {
+                   playerData.setPersonalBest(score);         
+               }
+               SQLManager.updateHighScore(player);
+            }
+            
+            if(player.getLevel() == player.getCurrLevel()) {
+                player.setLevel(player.getLevel() + 1);
+            }
+            SQLManager.updatePlayer(player);
+            SQLManager.updateStats(player);
             Game.setCurrentScreen(LevelSelectScreen.getInstance());
         });
         
@@ -199,8 +224,10 @@ public class LevelScreen extends Screen {
             lblCoins.setX(coinX + w + 10);
             
             // render skin reward
-            g.drawImage(Assets.images.get("PlayerBlue"), 185, 320, 64, 64, null);
-            uiControls.get("lblNewSkin").render(g);
+            if(player.getLevel() == player.getCurrLevel()) { 
+                g.drawImage(player.getSkinImg(player.getLevel()), 185, 320, 64, 64, null);
+                uiControls.get("lblNewSkin").render(g);
+            }
             
             // set back composite to original
             g.setComposite(orig);
