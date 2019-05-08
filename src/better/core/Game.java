@@ -214,7 +214,7 @@ public class Game implements Runnable {
                 if(fps < minFps) {
                     minFps = fps;
                 }
-                System.out.println("[" + fpsCounter++ + "] FPS: " + fps + ", Max: " + maxFps + ", Min: " + minFps);
+               // System.out.println("[" + fpsCounter++ + "] FPS: " + fps + ", Max: " + maxFps + ", Min: " + minFps);
                 fps = 0;
                 fpsTimer.restart();
             }

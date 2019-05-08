@@ -49,12 +49,12 @@ public class SQLManager {
             ResultSet rs = stmt.executeQuery(SQL);
             
             while (rs.next()) {
-                deaths = rs.getInt(1);
-                coinsCollected = rs.getInt(2);
-                enemiesKilled = rs.getInt(3);
-                bulletsShot = rs.getInt(4);
-                playTimeMin = rs.getInt(5);
-                playTimeSec = rs.getInt(6);
+                deaths = rs.getInt(2);
+                coinsCollected = rs.getInt(3);
+                enemiesKilled = rs.getInt(4);
+                bulletsShot = rs.getInt(5);
+                playTimeMin = rs.getInt(6);
+                playTimeSec = rs.getInt(7);
             }
             
             rs.close();
@@ -99,16 +99,16 @@ public class SQLManager {
             String bulletType = "";
             
             while (rs.next()) {
-                statsID = rs.getInt(1);
-                username = rs.getString(2);
-                lvl = rs.getInt(3);
-                armorLvl = rs.getInt(4);
-                energyLvl = rs.getInt(5);
-                coins = rs.getInt(6);
-                skin = rs.getInt(7);
-                currBullet = rs.getInt(8);
-                palID = rs.getInt(9);
-                bulletType = rs.getString(10);
+                statsID = rs.getInt(2);
+                username = rs.getString(3);
+                lvl = rs.getInt(4);
+                armorLvl = rs.getInt(5);
+                energyLvl = rs.getInt(6);
+                coins = rs.getInt(7);
+                skin = rs.getInt(8);
+                currBullet = rs.getInt(9);
+                palID = rs.getInt(10);
+                bulletType = rs.getString(11);
             }
             
             rs.close();
@@ -135,8 +135,10 @@ public class SQLManager {
      * @param userID
      * @return highscoreData
      */
-    public static HighscoreData selectHighscores(int levelID, int userID) {
-        String SQL = "SELECT * FROM highscores WHERE levelID = " + levelID + " WHERE userID = " + userID;
+    public static HighscoreData selectHighscores(Player player) {
+        int levelID = player.getLevel();
+        int userID = player.getId();
+        String SQL = "SELECT * FROM highscores WHERE levelID = " + levelID + " AND userID = " + userID;
         HighscoreData highscoreData = null;
         
         try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
@@ -154,9 +156,8 @@ public class SQLManager {
             rs.close();
             stmt.close();
             
-            highscoreData = new HighscoreData (personalBest, timesPlayed);
-            highscoreData.setPersonalBest(personalBest);
-            highscoreData.setTimesPlayed(timesPlayed);
+            player.getHighscoreData().get(1).setPersonalBest(personalBest);
+            player.getHighscoreData().get(1).setTimesPlayed(timesPlayed);
             
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -286,7 +287,7 @@ public class SQLManager {
     public static int insertHighScore(Player player) {
         int id = 0;
         int levelID = player.getLevel();
-        String SQL = "INSERT INTO highScores"
+        String SQL = "INSERT INTO highscores "
                + "VALUES (?, ?, ?, ?)";
         
         try (Connection conn = connect();
@@ -295,10 +296,10 @@ public class SQLManager {
             
             pstmt.setInt(1, levelID);
             pstmt.setInt(2, player.getId());
-            pstmt.setInt(3, 0); // personal best
-            pstmt.setInt(4, 0); // times played
+            pstmt.setInt(3, player.getHighscoreData().get(levelID).getPersonalBest()); // personal best
+            pstmt.setInt(4, player.getHighscoreData().get(levelID).getTimesPlayed()); // times played
          
-            int affectedRows = 0;
+            int affectedRows = pstmt.executeUpdate();
             
             if (affectedRows > 0) {
                 try (ResultSet rs = pstmt.getGeneratedKeys()) {
@@ -400,10 +401,10 @@ public class SQLManager {
     public static int updateHighScore(Player player) {
         String SQL = "UPDATE highScores "
                 + "SET "
-                + "personalBest = ?"
-                + "timesPlayed = ?"
-                + "WHERE levelID = ?"
-                + "WHERE userID = ?";
+                + "personalBest = ?,"
+                + "timesPlayed = ? "
+                + "WHERE levelID = ? AND "
+                + "userID = ?";
         
         int affectedRows = 0;
         int levelID = player.getLevel();
