@@ -295,10 +295,14 @@ public class LevelSelectScreen extends Screen {
         
         // get unlocked planets
         for(int i = 0; i < player.getLevel(); i++) {
+            if (i >= 9) break;
             selectablePlanets.get(8 - i).setState(PlanetState.NORMAL);
         }
-        selectPlanet(selectablePlanets.get(8 - player.getLevel() + 1).getName());
-        
+        if (player.getLevel() >= 9){
+            selectPlanet("Sun");
+        }else{
+            selectPlanet(selectablePlanets.get(8 - player.getLevel() + 1).getName());
+        }
         // music
         Assets.playMusic(Assets.mainMenu);
         
