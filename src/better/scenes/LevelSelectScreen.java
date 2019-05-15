@@ -165,7 +165,7 @@ public class LevelSelectScreen extends Screen {
         UILabel lblHSPlanet = new UILabel(382, 110, "LEADERBOARDS", Color.WHITE, UILabel.DEFAULT_FONT);
         lblHSPlanet.setFontSize(10);
         UILabel lblPB = new UILabel(470, 156, String.valueOf(Util.randNum(50, 100)), Color.WHITE, UILabel.DEFAULT_FONT);
-        UILabel lblTimesPlayed = new UILabel(468, 204, "1", Color.WHITE, UILabel.DEFAULT_FONT);
+        UILabel lblTimesPlayed = new UILabel(476, 204, "1", Color.WHITE, UILabel.DEFAULT_FONT);
         UILabel lblName1 = new UILabel(262, 262, "", Color.WHITE, UILabel.DEFAULT_FONT);
         UILabel lblScore1 = new UILabel(422, 262, "", Color.WHITE, UILabel.DEFAULT_FONT);
         UILabel lblName2 = new UILabel(262, 291, "", Color.WHITE, UILabel.DEFAULT_FONT);

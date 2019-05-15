@@ -98,7 +98,7 @@ public class LevelScreen extends Screen {
         uiControls.put("btnLevelSelect", btnLevelSelect);
         
         // Victory UI
-        UIButton btnPlayAgain = new UIButton(429, 252, 205, 56, Assets.images.get("VictoryPlayAgain"));
+        UIButton btnPlayAgain = new UIButton(429, 220, 205, 56, Assets.images.get("VictoryPlayAgain"));
         btnPlayAgain.setOnClickListener(() -> {
             chooseLevel();
             victory = false;
@@ -106,7 +106,7 @@ public class LevelScreen extends Screen {
             fadeTimer = new Timer(0.1d);
         });
         
-        UIButton btnContinue = new UIButton(429, 321, 205, 56, Assets.images.get("VictoryContinue"));
+        UIButton btnContinue = new UIButton(429, 289, 205, 56, Assets.images.get("VictoryContinue"));
         btnContinue.setOnClickListener(() -> {
             HighscoreData hsData = SQLManager.selectHighscores(player);
             HighscoreData playerData = player.getHighscoreData().get(player.getCurrLevel() - 1);
@@ -132,13 +132,7 @@ public class LevelScreen extends Screen {
         });
         
         UILabel lblVictoryScore = new UILabel(236, 214, "0", Color.WHITE, UILabel.DEFAULT_FONT);
-        lblVictoryScore.setFontSize(24);
-        
-        UILabel lblHighscore = new UILabel(437, 198, "Highscore: 0 by NULL", Color.WHITE, UILabel.DEFAULT_FONT);
-        lblHighscore.setFontSize(16);
-        
-        UILabel lblPB = new UILabel(437, 220, "Your Personal Best: 0", Color.WHITE, UILabel.DEFAULT_FONT);
-        lblPB.setFontSize(16);
+        lblVictoryScore.setFontSize(24);     
         
         UILabel lblCoins = new UILabel(139, 285, "2000", Color.WHITE, UILabel.DEFAULT_FONT);
         lblCoins.setFontSize(16);
@@ -149,8 +143,6 @@ public class LevelScreen extends Screen {
         uiControls.put("btnPlayAgain", btnPlayAgain);
         uiControls.put("btnContinue", btnContinue);
         uiControls.put("lblVictoryScore", lblVictoryScore);
-        uiControls.put("lblHighscore", lblHighscore);
-        uiControls.put("lblPB", lblPB);
         uiControls.put("lblCoins", lblCoins);
         uiControls.put("lblNewSkin", lblNewSkin);
         
@@ -205,18 +197,7 @@ public class LevelScreen extends Screen {
             lblVictoryScore.calculateDimensions(g);
             lblVictoryScore.setX(139 + (129 - lblVictoryScore.getWidth() / 2));
             
-            // update highscore label
-            UILabel lblHighscore = (UILabel)uiControls.get("lblHighscore");
-            lblHighscore.render(g);
-            lblHighscore.calculateDimensions(g);
-            lblHighscore.setX(404 + (128 - lblHighscore.getWidth() / 2));
-            
-            // update PB label
-            UILabel lblPB = (UILabel)uiControls.get("lblPB");
-            lblPB.render(g);
-            lblPB.calculateDimensions(g);
-            lblPB.setX(404 + (128 - lblPB.getWidth() / 2));
-            
+          
             // render coin image and coins
             UILabel lblCoins = (UILabel)uiControls.get("lblCoins");
             lblCoins.render(g);
